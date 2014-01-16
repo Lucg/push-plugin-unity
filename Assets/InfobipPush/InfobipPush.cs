@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 public class InfobipPush
 {
 	[DllImport ("__Internal")]
-	private static extern void IBSetLogModeEnabled(bool isEnabled);	
+	private static extern void IBSetLogModeEnabled(bool isEnabled, int lLevel = 0);	
 	[DllImport ("__Internal")]
 	private static extern bool IBIsLogModeEnabled();
 
@@ -25,5 +25,9 @@ public class InfobipPush
 				IBSetLogModeEnabled(value);
 			}
 		}
+	}
+
+	public void SetLogModeEnabled(bool isEnabled, int logLevel) {
+		IBSetLogModeEnabled (isEnabled, logLevel);
 	}
 }
