@@ -31,3 +31,4 @@ public class InfobipPush
 		IBSetLogModeEnabled (isEnabled, logLevel);
 	}
 }
+	
