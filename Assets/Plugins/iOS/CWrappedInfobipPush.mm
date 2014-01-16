@@ -1,7 +1,8 @@
 #import "CWrappedInfobipPush.h"
 #import "InfobipPush.h"
 
-void IBSetLogModeEnabled(bool isEnabled, int lLevel = 0) {
+void IBSetLogModeEnabled(bool isEnabled, int lLevel) {
+    NSLog(@"IBSetLogModeEnabled method");
     InfobipPushLogLevel logLevel = IPPushLogLevelDebug;
     switch (lLevel) {
         case 0: break;
@@ -16,5 +17,13 @@ void IBSetLogModeEnabled(bool isEnabled, int lLevel = 0) {
 
 bool IBIsLogModeEnabled() {
     return [InfobipPush isLogModeEnabled];
+}
+void IBSetTimezoneOffsetInMinutes(int offsetMinutes){
+ NSLog(@"IBSetTimezoneOffsetInMinutes method");
+    [InfobipPush setTimezoneOffsetInMinutes:offsetMinutes];
+}
+void IBSetTimezoneOffsetAutomaticUpdateEnabled (bool isEnabled){
+ NSLog(@"IBSetTimezoneOffsetAutomaticUpdateEnabled method");
+    [InfobipPush setTimezoneOffsetAutomaticUpdateEnabled:isEnabled];
 }
 
