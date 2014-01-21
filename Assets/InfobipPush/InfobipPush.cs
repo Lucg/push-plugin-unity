@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 public class InfobipPush
 {
 	[DllImport ("__Internal")]
-	private static extern void IBSetLogModeEnabled(bool isEnabled);	
+	private static extern void IBSetLogModeEnabled(bool isEnabled, int lLevel = 0);	
 	[DllImport ("__Internal")]
 	private static extern bool IBIsLogModeEnabled();
 
-	public bool LogMode {
+	public bool LogModeEnabled {
 		get
 		{
 			if (Application.platform == RuntimePlatform.IPhonePlayer)
@@ -22,8 +22,13 @@ public class InfobipPush
 		{
 			if (Application.platform == RuntimePlatform.IPhonePlayer)
 			{
-				IBSetLogModeEnabled(value);
+				thisl.setDebugMode(value, 3);
 			}
 		}
+	}
+
+	public void setDebugMode(bool enable, int level = 0)
+	{
+		IBSetLogModeEnabled(enable, level);
 	}
 }
