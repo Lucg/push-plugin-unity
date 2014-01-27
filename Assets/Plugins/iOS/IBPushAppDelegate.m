@@ -10,7 +10,7 @@
 #import <objc/runtime.h>
 
 
-extern const NSString *PUSH_SINGLETON;
+//const NSString *PUSH_SINGLETON = @"InfobipPushNotifications";
 
 @implementation UIApplication(IBPush)
 
@@ -93,20 +93,23 @@ void IBPushDidRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, i
     [InfobipPush registerWithDeviceToken:devToken toChannels:@[@"ROOT"] usingBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             NSLog(@"Register succeeded!");
-            
         }
     }];
     
 }
 
 void IBPushDidFailToRegisterForRemoteNotificationsWithError(id self, SEL _cmd, id application, id error) {
-    NSLog(@"%s",__FUNCTION__);
+    NSString * functionName =  [NSString stringWithFormat:@"%s", __FUNCTION__];
+    NSLog(@"%@",functionName);
     NSLog(@"%@", error);
     
+    NSString * errorCode = [NSString stringWithFormat:@"%d", [error code]];
+    UnitySendMessage([PUSH_SINGLETON UTF8String], [functionName UTF8String], [errorCode UTF8String]);
 }
 
 void IBPushDidReceiveRemoteNotification(id self, SEL _cmd, id application, id userInfo) {
-    NSLog(@"%s",__FUNCTION__);
+    NSString * functionName =  [NSString stringWithFormat:@"%s", __FUNCTION__];
+    NSLog(@"%@",functionName);
     
     [InfobipPush pushNotificationFromUserInfo:userInfo getAdditionalInfo:^(BOOL succeeded, InfobipPushNotification *notification, NSError *error) {
         NSDictionary * notificationAndoridStyle = [IBPushManager convertNotificationToAndroidFormat:notification];
@@ -114,7 +117,7 @@ void IBPushDidReceiveRemoteNotification(id self, SEL _cmd, id application, id us
         NSData *notificationData = [NSJSONSerialization dataWithJSONObject:notificationAndoridStyle options:0 error:&err];
         NSString *notificationJson = [[NSString alloc] initWithData:notificationData encoding:NSUTF8StringEncoding];
         
-        UnitySendMessage([PUSH_SINGLETON UTF8String], __FUNCTION__, [notificationJson UTF8String]);
+        UnitySendMessage([PUSH_SINGLETON UTF8String], [functionName UTF8String], [notificationJson UTF8String]);
     }];
 }
 
