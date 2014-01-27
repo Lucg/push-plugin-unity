@@ -1,0 +1,5 @@
+Temp
+*.meta
+.DS_Store
+Library/metadata
+

@@ -23,11 +23,22 @@ bool IBIsLogModeEnabled() {
     return [InfobipPush isLogModeEnabled];
 }
 void IBSetTimezoneOffsetInMinutes(int offsetMinutes){
- NSLog(@"IBSetTimezoneOffsetInMinutes method");
+    NSLog(@"IBSetTimezoneOffsetInMinutes method");
     [InfobipPush setTimezoneOffsetInMinutes:offsetMinutes];
 }
 void IBSetTimezoneOffsetAutomaticUpdateEnabled (bool isEnabled){
- NSLog(@"IBSetTimezoneOffsetAutomaticUpdateEnabled method");
+    NSLog(@"IBSetTimezoneOffsetAutomaticUpdateEnabled method");
     [InfobipPush setTimezoneOffsetAutomaticUpdateEnabled:isEnabled];
+}
+
+void IBInitialization(char * appId, char * appSecret){
+    NSString * applicationId = [NSString stringWithFormat:@"%s",appId];
+    NSString * applicationSecret = [NSString stringWithFormat:@"%s",appSecret];
+    
+    [InfobipPush initializeWithAppID:applicationId appSecret:applicationSecret];
+	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                                           UIRemoteNotificationTypeSound |
+                                                                           UIRemoteNotificationTypeAlert)];
+    
 }
 

@@ -63,6 +63,11 @@ public class InfobipPushDemo : MonoBehaviour
 		{
 			infobipPush.SetTimezoneOffsetInMinutes(5);
 		}
+
+        if (GUI.Button(new Rect(centerX +100, 130, 175, 35), "initialize Push"))
+        {
+            infobipPush.Initialize("063bdab564eb", "a5cf819f36e2");
+        }
 	}
 	
 >>>>>>> 3b79a56153ded7775097438b26b9ac5a01c146a4
