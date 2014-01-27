@@ -2,10 +2,11 @@
 using System.Collections;
 using System.Runtime.InteropServices;
 
-public class InfobipPush : MonoBehaviour
+public delegate void DelegateWithArgument(string notification);
+
+public static class InfobipPush
 {
-	
-    #region for declaration of methods
+    #region declaration of methods
     [DllImport ("__Internal")]
     private static extern void IBSetLogModeEnabled(bool isEnabled, int lLevel = 0);
 
@@ -22,35 +23,11 @@ public class InfobipPush : MonoBehaviour
     private static extern void IBInitialization(string appId, string appSecret);
     #endregion
 
-    #region singleton game object
-    private const string SINGLETON_GAME_OBJECT_NAME = "InfobipPushNotifications";
-    
-    public static InfobipPush Instance 
-    {
-        get 
-        {
-            return GetInstance();
-        }
-    }
-    
-    private static InfobipPush _instance = null;
-    
-    private static InfobipPush GetInstance() 
-    {
-        if (_instance == null) 
-        {
-            _instance = FindObjectOfType(typeof(InfobipPush)) as InfobipPush;
-            if (_instance == null)
-            {
-                var gameObject = new GameObject(SINGLETON_GAME_OBJECT_NAME);
-                _instance = gameObject.AddComponent<InfobipPush>();
-            }
-        }
-        return _instance;
-    }
+    #region listeners
+    internal static DelegateWithArgument OnNotificationReceived { get; set; }
     #endregion
 
-    public bool LogMode
+    public static bool LogMode
     {
         get
         {
@@ -73,7 +50,7 @@ public class InfobipPush : MonoBehaviour
         }
     }
 
-    public void SetLogModeEnabled(bool isEnabled, int logLevel)
+    public static void SetLogModeEnabled(bool isEnabled, int logLevel)
     {
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
@@ -83,7 +60,7 @@ public class InfobipPush : MonoBehaviour
         #endif
     }
 
-    public void SetTimezoneOffsetInMinutes(int offsetMinutes)
+    public static void SetTimezoneOffsetInMinutes(int offsetMinutes)
     {
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
@@ -93,7 +70,7 @@ public class InfobipPush : MonoBehaviour
         #endif
     }
 
-    public void SetTimezoneOffsetAutomaticUpdateEnabled(bool isEnabled)
+    public static void SetTimezoneOffsetAutomaticUpdateEnabled(bool isEnabled)
     {
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
@@ -103,22 +80,15 @@ public class InfobipPush : MonoBehaviour
         #endif
     }
 
-    public void Initialize(string applicationId, string applicationSecret)
+    public static void Initialize(string applicationId, string applicationSecret)
     {
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            // invoke singleton instance creation of this object, because we need it
-            GetInstance();
-
+            InfobipPushInternal.GetInstance();
             IBInitialization(applicationId, applicationSecret);
         }
         #endif
-    }
-
-    public void IBPushDidReceiveRemoteNotification(string notification)
-    {
-        print(notification);
     }
 
 }
