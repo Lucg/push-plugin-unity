@@ -8,6 +8,7 @@ extern "C" {
     bool IBIsLogModeEnabled();
     void IBSetTimezoneOffsetInMinutes(int offsetMinutes);
     void IBSetTimezoneOffsetAutomaticUpdateEnabled (bool isEnabled);
+    void IBInitialization(char * appId, char * appSecret);
 }
 
 #endif
