@@ -8,9 +8,13 @@
 
 #import "IBPushAppDelegate.h"
 #import <objc/runtime.h>
-#import "InfobipPush.h"
+
+
+extern const NSString *PUSH_SINGLETON;
 
 @implementation UIApplication(IBPush)
+
+
 
 +(void)load
 {
@@ -89,6 +93,7 @@ void IBPushDidRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, i
     [InfobipPush registerWithDeviceToken:devToken toChannels:@[@"ROOT"] usingBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             NSLog(@"Register succeeded!");
+            
         }
     }];
     
@@ -102,6 +107,15 @@ void IBPushDidFailToRegisterForRemoteNotificationsWithError(id self, SEL _cmd, i
 
 void IBPushDidReceiveRemoteNotification(id self, SEL _cmd, id application, id userInfo) {
     NSLog(@"%s",__FUNCTION__);
+    
+    [InfobipPush pushNotificationFromUserInfo:userInfo getAdditionalInfo:^(BOOL succeeded, InfobipPushNotification *notification, NSError *error) {
+        NSDictionary * notificationAndoridStyle = [IBPushManager convertNotificationToAndroidFormat:notification];
+        NSError * err = 0;
+        NSData *notificationData = [NSJSONSerialization dataWithJSONObject:notificationAndoridStyle options:0 error:&err];
+        NSString *notificationJson = [[NSString alloc] initWithData:notificationData encoding:NSUTF8StringEncoding];
+        
+        UnitySendMessage([PUSH_SINGLETON UTF8String], __FUNCTION__, [notificationJson UTF8String]);
+    }];
 }
 
 

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Runtime.InteropServices;
 
-public class InfobipPush
+public class InfobipPush : MonoBehaviour
 {
     #region for declaration of methods
     [DllImport ("__Internal")]
@@ -20,6 +20,38 @@ public class InfobipPush
     [DllImport ("__Internal")]
     private static extern void IBInitialization(string appId, string appSecret);
     #endregion
+
+
+    #region singleton game object
+    private const string SINGLETON_GAME_OBJECT_NAME = "InfobipPushNotifications";
+    
+    public static InfobipPush Instance 
+    {
+        get 
+        {
+            return GetInstance();
+        }
+    }
+    
+    private static InfobipPush _instance = null;
+    
+    private static InfobipPush GetInstance() 
+    {
+        if (_instance == null) 
+        {
+            _instance = FindObjectOfType(typeof(InfobipPush)) as InfobipPush;
+            if (_instance == null)
+            {
+                var gameObject = new GameObject(SINGLETON_GAME_OBJECT_NAME);
+                _instance = gameObject.AddComponent<InfobipPush>();
+            }
+        }
+        return _instance;
+    }
+    #endregion
+
+
+
     public bool LogMode
     {
         get
@@ -42,6 +74,8 @@ public class InfobipPush
             #endif
         }
     }
+
+
 
     public void SetLogModeEnabled(bool isEnabled, int logLevel)
     {
@@ -78,10 +112,21 @@ public class InfobipPush
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
+            // invoke singleton instance creation of this object, because we need it
+            GetInstance();
+
             IBInitialization(applicationId, applicationSecret);
         }
         #endif
     }
+
+
+    public void IBPushDidReceiveRemoteNotification(string notification)
+    {
+        print(notification);
+    }
+
+
 }
     
 
