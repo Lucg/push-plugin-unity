@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\InfobipPush\InfobipPush.cs" />
+     <Compile Include="Assets\InfobipPush\InfobipPushInternal.cs" />
      <Compile Include="Assets\InfobipPushDemo\InfobipPushDemo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

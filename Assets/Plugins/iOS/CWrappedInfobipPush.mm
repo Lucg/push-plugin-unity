@@ -1,12 +1,8 @@
 #import "CWrappedInfobipPush.h"
 #import "InfobipPush.h"
 
-<<<<<<< HEAD
-void IBSetLogModeEnabled(bool isEnabled, int lLevel ) {
-=======
 void IBSetLogModeEnabled(bool isEnabled, int lLevel) {
     NSLog(@"IBSetLogModeEnabled method");
->>>>>>> 3b79a56153ded7775097438b26b9ac5a01c146a4
     InfobipPushLogLevel logLevel = IPPushLogLevelDebug;
     switch (lLevel) {
         case 0: break;
