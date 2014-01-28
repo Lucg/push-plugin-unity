@@ -9,6 +9,7 @@ extern "C" {
     void IBSetTimezoneOffsetInMinutes(int offsetMinutes);
     void IBSetTimezoneOffsetAutomaticUpdateEnabled (bool isEnabled);
     void IBInitialization(char * appId, char * appSecret);
+    bool IBIsRegistered();
 }
 
 #endif

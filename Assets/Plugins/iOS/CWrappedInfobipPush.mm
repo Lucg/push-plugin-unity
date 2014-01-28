@@ -37,4 +37,7 @@ void IBInitialization(char * appId, char * appSecret){
                                                                            UIRemoteNotificationTypeAlert)];
     
 }
+bool IBIsRegistered(){
+    return [InfobipPush isRegistered()]
+};
 

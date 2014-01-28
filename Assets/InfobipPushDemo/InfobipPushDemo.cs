@@ -57,5 +57,12 @@ public class InfobipPushDemo : MonoBehaviour
         {
             InfobipPush.Initialize("063bdab564eb", "a5cf819f36e2");
         }
+
+        if (GUI.Button(new Rect(centerX -100, 130, 175, 35), "isRegistered"))
+        {
+            bool isRegistered = InfobipPush.IsRegistered();
+            print(isRegistered);
+        }
+        }
+        
 	}
-}

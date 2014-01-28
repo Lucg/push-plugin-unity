@@ -27,6 +27,9 @@ public static class InfobipPush
 
     [DllImport ("__Internal")]
     private static extern void IBInitialization(string appId, string appSecret);
+
+    [DllImport ("__Internal")]
+    private static extern bool IBIsRegistered();
     #endregion
 
     #region listeners
@@ -102,6 +105,16 @@ public static class InfobipPush
             InfobipPushInternal.GetInstance();
             IBInitialization(applicationId, applicationSecret);
         }
+        #endif
+    }
+    public static bool IsRegistered()
+    {
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+           return IBIsRegistered();
+        }
+        return false;
         #endif
     }
 }
