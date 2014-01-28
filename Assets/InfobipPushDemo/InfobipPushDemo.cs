@@ -16,7 +16,13 @@ public class InfobipPushDemo : MonoBehaviour
 
 //		infobipPush = new InfobipPush();
         InfobipPush.OnNotificationReceived = (notif) => {
-            print(notif);
+            print("IBPush - Notification received: " + notif.ToString());
+        };
+        InfobipPush.OnRegistered = () => {
+            print("IBPush - Successfully registered!");
+        };
+        InfobipPush.OnError = (errorCode) => {
+            print("IBPush - ERROR: " + errorCode);
         };
 	}
 	

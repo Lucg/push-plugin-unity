@@ -33,7 +33,7 @@ public class InfobipPushInternal : MonoBehaviour {
 
     public void IBPushDidReceiveRemoteNotification(string notification)
     {
-        InfobipPush.OnNotificationReceived(notification);
+        InfobipPush.OnNotificationReceived(new InfobipPushNotification(notification));
     }
 
     public void IBPushDidRegisterForRemoteNotifications()

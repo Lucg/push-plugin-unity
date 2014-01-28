@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using System;
 
-public delegate void DelegateWithArgument(string notification);
-public delegate void DelegateWithoutArgument();
+public delegate void InfobipPushDelegateWithNotificationArg(InfobipPushNotification notification);
+
+public delegate void InfobipPushDelegateWithStringArg(string argument);
+
+public delegate void InfobipPushDelegate();
 
 public static class InfobipPush
 {
@@ -25,11 +30,15 @@ public static class InfobipPush
     #endregion
 
     #region listeners
-    public static DelegateWithArgument OnNotificationReceived { get; set; }
-    public static DelegateWithArgument OnNotificationOpened { get; set; }
-    public static DelegateWithoutArgument OnRegistered { get; set; }
-    public static DelegateWithoutArgument OnUnregistered { get; set; }
-    public static DelegateWithArgument OnError { get; set; }
+    public static InfobipPushDelegateWithNotificationArg OnNotificationReceived { get; set; }
+
+    public static InfobipPushDelegateWithNotificationArg OnNotificationOpened { get; set; }
+
+    public static InfobipPushDelegate OnRegistered { get; set; }
+
+    public static InfobipPushDelegate OnUnregistered { get; set; }
+
+    public static InfobipPushDelegateWithStringArg OnError { get; set; }
     #endregion
 
     public static bool LogMode
@@ -60,7 +69,7 @@ public static class InfobipPush
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-        	IBSetLogModeEnabled (isEnabled, logLevel);
+            IBSetLogModeEnabled (isEnabled, logLevel);
         }
         #endif
     }
@@ -70,8 +79,8 @@ public static class InfobipPush
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-	        IBSetTimezoneOffsetInMinutes(offsetMinutes);
-	    }
+            IBSetTimezoneOffsetInMinutes(offsetMinutes);
+        }
         #endif
     }
 
@@ -80,7 +89,7 @@ public static class InfobipPush
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-        	IBSetTimezoneOffsetAutomaticUpdateEnabled (isEnabled);
+            IBSetTimezoneOffsetAutomaticUpdateEnabled (isEnabled);
         }
         #endif
     }
@@ -95,5 +104,113 @@ public static class InfobipPush
         }
         #endif
     }
+}
 
+public class InfobipPushNotification
+{
+    public string NotificationId
+    { 
+        get; 
+        set; 
+    }
+
+    public string Sound
+    {
+        get;
+        set;
+    }
+
+    public string Url
+    {
+        get;
+        set;
+    }
+
+    public string AdditionalInfo
+    {
+        get;
+        set;
+    }
+
+    public string MediaData
+    {
+        get;
+        set;
+    }
+
+    public string Title
+    {
+        get;
+        set;
+    }
+
+    public string Message
+    {
+        get;
+        set;
+    }
+
+    public string MimeType
+    {
+        get;
+        set;
+    }
+
+    public int Badge
+    {
+        get;
+        set;
+    }
+
+    public override string ToString()
+    {
+        return string.Format("[InfobipPushNotification: NotificationId={0}, Sound={1}, Url={2}, AdditionalInfo={3}, MediaData={4}, Title={5}, Message={6}, MimeType={7}, Badge={8}]", 
+                             NotificationId, Sound, Url, AdditionalInfo, MediaData, Title, Message, MimeType, Badge);
+    }
+
+    public InfobipPushNotification(string notif)
+    {
+        IDictionary<string, object> dictNotif = MiniJSON.Json.Deserialize(notif) as Dictionary<string,object>;
+        object varObj = null;
+        if (dictNotif.TryGetValue("notificationId", out varObj))
+        {
+            NotificationId = (string)varObj;
+        }
+        if (dictNotif.TryGetValue("title", out varObj))
+        {
+            Title = (string)varObj;
+        }
+        if (dictNotif.TryGetValue("badge", out varObj))
+        {
+            Badge = (int)varObj;
+        }
+        if (dictNotif.TryGetValue("sound", out varObj))
+        {
+            Sound = (string)varObj;
+        }
+        if (dictNotif.TryGetValue("url", out varObj))
+        {
+            Url = (string)varObj;
+        }
+        if (dictNotif.TryGetValue("aditionalInfo", out varObj))
+        {
+            AdditionalInfo = (string)varObj;
+        }
+        if (dictNotif.TryGetValue("mediaData", out varObj))
+        {
+            MediaData = (string)varObj;
+        }
+        if (dictNotif.TryGetValue("message", out varObj))
+        {
+            Message = (string)varObj;
+        }
+        if (dictNotif.TryGetValue("mimeType", out varObj))
+        {
+            MimeType = (string)varObj;
+        }
+    }
+
+    public InfobipPushNotification()
+    {
+    }
 }
