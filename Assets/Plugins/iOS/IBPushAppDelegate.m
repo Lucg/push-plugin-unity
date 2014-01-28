@@ -93,6 +93,8 @@ void IBPushDidRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, i
     [InfobipPush registerWithDeviceToken:devToken toChannels:@[@"ROOT"] usingBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             NSLog(@"Register succeeded!");
+        } else {
+            NSLog(@"IBPush - Register with device token failed.");
         }
     }];
     

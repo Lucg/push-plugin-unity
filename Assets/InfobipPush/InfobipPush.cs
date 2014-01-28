@@ -24,9 +24,12 @@ public static class InfobipPush
 
     [DllImport ("__Internal")]
     private static extern void IBSetTimezoneOffsetAutomaticUpdateEnabled(bool isEnabled);
-
+    
     [DllImport ("__Internal")]
     private static extern void IBInitialization(string appId, string appSecret);
+
+    [DllImport ("__Internal")]
+    private static extern void IBInitializationWithRegistrationData(string appId, string appSecret, string registrationData);
     #endregion
 
     #region listeners
@@ -94,20 +97,30 @@ public static class InfobipPush
         #endif
     }
 
-    public static void Initialize(string applicationId, string applicationSecret)
+    public static void Initialize(string applicationId, string applicationSecret, InfobipPushRegistrationData registrationData = null)
     {
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
             InfobipPushInternal.GetInstance();
-            IBInitialization(applicationId, applicationSecret);
+            if (registrationData == null) 
+            {
+                IBInitialization(applicationId, applicationSecret);
+            } else {
+                var regdata = registrationData.ToString();
+                InfobipPushNotification.printjebise(regdata);
+                IBInitializationWithRegistrationData(applicationId, applicationSecret, regdata);
+            }
         }
         #endif
     }
 }
 
-public class InfobipPushNotification
+public class InfobipPushNotification : MonoBehaviour
 {
+    public static void printjebise(string asdf) {
+        print(asdf);
+    }
     public string NotificationId
     { 
         get; 
@@ -170,27 +183,40 @@ public class InfobipPushNotification
 
     public InfobipPushNotification(string notif)
     {
+        print(notif);
         IDictionary<string, object> dictNotif = MiniJSON.Json.Deserialize(notif) as Dictionary<string,object>;
         object varObj = null;
+        int varInt;
         if (dictNotif.TryGetValue("notificationId", out varObj))
         {
             NotificationId = (string)varObj;
+            print("notificationId " + NotificationId);
         }
         if (dictNotif.TryGetValue("title", out varObj))
         {
             Title = (string)varObj;
+            print("title " + Title);
         }
-        if (dictNotif.TryGetValue("badge", out varObj))
+        IDictionary<string, int> dictNotifInt = dictNotif as Dictionary<string, int>;
+        if (dictNotifInt.TryGetValue("badge", out varInt))
         {
-            Badge = (int)varObj;
+            Badge = varInt;
+            print("badge " + Badge);
         }
         if (dictNotif.TryGetValue("sound", out varObj))
         {
             Sound = (string)varObj;
+            print("sound " + Sound);
+        }
+        if (dictNotif.TryGetValue("mimeType", out varObj))
+        {
+            MimeType = (string)varObj;
+            print("mimeType " + MimeType);
         }
         if (dictNotif.TryGetValue("url", out varObj))
         {
             Url = (string)varObj;
+            print("url " + Url);
         }
         if (dictNotif.TryGetValue("aditionalInfo", out varObj))
         {
@@ -204,13 +230,30 @@ public class InfobipPushNotification
         {
             Message = (string)varObj;
         }
-        if (dictNotif.TryGetValue("mimeType", out varObj))
-        {
-            MimeType = (string)varObj;
-        }
     }
 
     public InfobipPushNotification()
     {
+    }
+}
+
+public class InfobipPushRegistrationData 
+{
+    public string UserId
+    {
+        get;
+        set;
+    }
+    public IList Channels
+    {
+        get;
+        set;
+    }
+    public override string ToString()
+    {
+        IDictionary<string, object> regData = new Dictionary<string, object>(2);
+        regData ["userId"] = UserId;
+        regData ["channels"] = Channels;
+        return MiniJSON.Json.Serialize(regData);
     }
 }

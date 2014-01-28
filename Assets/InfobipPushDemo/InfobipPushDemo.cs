@@ -5,6 +5,7 @@ public class InfobipPushDemo : MonoBehaviour
 {   
     private GUIStyle labelStyle = new GUIStyle();
     private float centerX = Screen.width / 2;
+    public InfobipPushRegistrationData regData = new InfobipPushRegistrationData{UserId = "a1", Channels = new ArrayList(new [] {"a", "b", "c"})};
 //    private InfobipPush infobipPush;
 
     // Use this for initialization
@@ -14,7 +15,7 @@ public class InfobipPushDemo : MonoBehaviour
         labelStyle.normal.textColor = Color.black;
         labelStyle.alignment = TextAnchor.MiddleCenter;
 
-//		infobipPush = new InfobipPush();
+//      infobipPush = new InfobipPush();
         InfobipPush.OnNotificationReceived = (notif) => {
             print("IBPush - Notification received: " + notif.ToString());
         };
@@ -24,38 +25,40 @@ public class InfobipPushDemo : MonoBehaviour
         InfobipPush.OnError = (errorCode) => {
             print("IBPush - ERROR: " + errorCode);
         };
-	}
-	
-	void OnGUI ()
-	{
+    }
+    
+    void OnGUI()
+    {
 
-		GUI.Label(new Rect(centerX - 200, 0, 400, 35), "Infobip Push Demo", labelStyle);
-		if (GUI.Button(new Rect(centerX - 175, 40, 150, 35), "Disable Debug Mode"))
-		{
-			InfobipPush.LogMode = true;
-		}
-		if (GUI.Button(new Rect(centerX + 25, 40, 150, 35), "Enable Debug Mode"))
-		{
-			InfobipPush.LogMode = false;
-		}
-
-		if (GUI.Button(new Rect(centerX - 300, 90, 175, 35), "Enable Timezone Update"))
-		{
-			InfobipPush.SetTimezoneOffsetAutomaticUpdateEnabled(true);
-		}
-		if (GUI.Button(new Rect(centerX - 100, 90, 175, 35), "Disable Timezone Update"))
-		{
-			InfobipPush.SetTimezoneOffsetAutomaticUpdateEnabled(false);
-		}
-
-		if (GUI.Button(new Rect(centerX +100, 90, 175, 35), "Set Timezone Offset"))
-		{
-			InfobipPush.SetTimezoneOffsetInMinutes(5);
-		}
-
-        if (GUI.Button(new Rect(centerX +100, 130, 175, 35), "initialize Push"))
+        GUI.Label(new Rect(centerX - 200, 0, 400, 35), "Infobip Push Demo", labelStyle);
+        if (GUI.Button(new Rect(centerX - 175, 40, 150, 35), "Disable Debug Mode"))
         {
-            InfobipPush.Initialize("063bdab564eb", "a5cf819f36e2");
+            InfobipPush.LogMode = true;
         }
-	}
+        if (GUI.Button(new Rect(centerX + 25, 40, 150, 35), "Enable Debug Mode"))
+        {
+            InfobipPush.LogMode = false;
+        }
+
+        if (GUI.Button(new Rect(centerX - 300, 90, 175, 35), "Enable Timezone Update"))
+        {
+            InfobipPush.SetTimezoneOffsetAutomaticUpdateEnabled(true);
+        }
+        if (GUI.Button(new Rect(centerX - 100, 90, 175, 35), "Disable Timezone Update"))
+        {
+            InfobipPush.SetTimezoneOffsetAutomaticUpdateEnabled(false);
+        }
+
+        if (GUI.Button(new Rect(centerX + 100, 90, 175, 35), "Set Timezone Offset"))
+        {
+            InfobipPush.SetTimezoneOffsetInMinutes(5);
+        }
+
+        if (GUI.Button(new Rect(centerX + 100, 130, 175, 35), "initialize Push"))
+        {
+            this.regData = new InfobipPushRegistrationData{UserId = "asfd", Channels = new ArrayList(new [] {"a", "b", "c", "d"})};
+            InfobipPush.Initialize("063bdab564eb", "a5cf819f36e2", this.regData);
+        }
+        GUI.Label(new Rect(centerX - 200, 200, 400, 35), this.regData.ToString(), labelStyle);
+    }
 }

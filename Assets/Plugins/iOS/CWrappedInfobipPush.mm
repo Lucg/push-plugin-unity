@@ -28,6 +28,7 @@ void IBSetTimezoneOffsetAutomaticUpdateEnabled (bool isEnabled){
 }
 
 void IBInitialization(char * appId, char * appSecret){
+    NSLog(@"IBInitialization");
     NSString * applicationId = [NSString stringWithFormat:@"%s",appId];
     NSString * applicationSecret = [NSString stringWithFormat:@"%s",appSecret];
     
@@ -38,3 +39,7 @@ void IBInitialization(char * appId, char * appSecret){
     
 }
 
+void IBInitializationWithRegistrationData(char * appId, char * appSecret, char * registrationData) {
+    IBInitialization(appId, appSecret);
+    NSLog(@"RegistrationData: %s", registrationData);
+}
