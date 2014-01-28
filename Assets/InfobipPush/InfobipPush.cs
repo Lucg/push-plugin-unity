@@ -168,7 +168,7 @@ public class InfobipPushNotification : MonoBehaviour
         set;
     }
 
-    public string AdditionalInfo
+    public object AdditionalInfo
     {
         get;
         set;
@@ -226,10 +226,15 @@ public class InfobipPushNotification : MonoBehaviour
             Title = (string)varObj;
             print("title " + Title);
         }
-        IDictionary<string, int> dictNotifInt = dictNotif as Dictionary<string, int>;
-        if (dictNotifInt.TryGetValue("badge", out varInt))
+        //IDictionary<string, int> dictNotifInt = dictNotif as Dictionary<string, int>;
+        if (dictNotif.TryGetValue("badge", out varObj))
         {
-            Badge = varInt;
+            if (varObj as String != null) {
+                Badge = 0;
+            } else {
+                varInt = (int)varObj;
+                Badge = varInt;
+            }
             print("badge " + Badge);
         }
         if (dictNotif.TryGetValue("sound", out varObj))
@@ -249,15 +254,18 @@ public class InfobipPushNotification : MonoBehaviour
         }
         if (dictNotif.TryGetValue("aditionalInfo", out varObj))
         {
-            AdditionalInfo = (string)varObj;
+            print("additionalInfo " + MiniJSON.Json.Serialize(AdditionalInfo));
+            // TODO: store this value in this.AdditionalInfo
         }
         if (dictNotif.TryGetValue("mediaData", out varObj))
         {
             MediaData = (string)varObj;
+            print("mediaData " + MediaData);
         }
         if (dictNotif.TryGetValue("message", out varObj))
         {
             Message = (string)varObj;
+            print("message " + Message);
         }
     }
 

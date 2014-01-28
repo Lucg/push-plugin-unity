@@ -4,3 +4,6 @@ Temp
 Library/metadata
 Library/metadata/**
 buildTest
+*.dll
+*.dll.mdb
+*.userprefs
