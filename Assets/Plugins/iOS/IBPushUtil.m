@@ -14,6 +14,11 @@ NSString *const PUSH_ERROR_HANDLER = @"IBPushErrorHandler";
 
 @implementation IBPushUtil
 
+// static channels
+static NSArray* channels;
++(NSArray *)channels { return channels; }
++(void)setChannels:(NSArray *)newChannels { channels = newChannels; }
+
 
 +(NSDictionary *)convertNotificationToAndroidFormat:(InfobipPushNotification *)notification {
     NSDictionary * notificationData = [notification data];
@@ -34,6 +39,7 @@ NSString *const PUSH_ERROR_HANDLER = @"IBPushErrorHandler";
     
     //    return [[NSDictionary alloc] initWithDictionary:newNotification];
     return newNotification;
+    
 }
 
 

@@ -17,6 +17,9 @@ FOUNDATION_EXPORT NSString *const PUSH_ERROR_HANDLER;
 @interface IBPushUtil : NSObject
 
 
++(NSArray *)channels;
++(void)setChannels:(NSArray *)newChannels;
+
 +(NSDictionary *)convertNotificationToAndroidFormat:(InfobipPushNotification *)notification;
 
 @end

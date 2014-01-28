@@ -1,5 +1,6 @@
 #import "CWrappedInfobipPush.h"
-#import "InfobipPush.h"
+
+
 
 void IBSetLogModeEnabled(bool isEnabled, int lLevel) {
     NSLog(@"IBSetLogModeEnabled method");
@@ -38,8 +39,31 @@ void IBInitialization(char * appId, char * appSecret){
 	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
                                                                            UIRemoteNotificationTypeSound |
                                                                            UIRemoteNotificationTypeAlert)];
+}
+
+void IBInitializationWithRegistrationData(char * appId, char * appSecret, char * registrationData) {
+    IBInitialization(appId, appSecret);
+    //    NSLog(@"RegistrationData: %@", registrationData);
     
-};
+    NSError *e;
+    NSString * regDataString = [NSString stringWithFormat:@"%s", registrationData];
+    NSDictionary * regDictionary = [NSJSONSerialization JSONObjectWithData:[regDataString  dataUsingEncoding:NSUTF8StringEncoding]
+                                                                   options:NSJSONReadingMutableContainers error:&e];
+    
+    NSString * userId = [regDictionary objectForKey:@"userId"];
+    NSArray * channels = [regDictionary objectForKey:@"channels"];
+    
+    // prepare channels for AppDelegate
+    [IBPushUtil setChannels:channels];
+    
+    // set UserId
+    [InfobipPush setUserID:userId usingBlock:^(BOOL succeeded, NSError *error) {
+        if (!succeeded) {
+            NSString * errorCode = [NSString stringWithFormat:@"%u", [error code]];
+            UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_ERROR_HANDLER UTF8String], [errorCode UTF8String]);
+        }
+    }];
+}
 
 bool IBIsRegistered(){
     return [InfobipPush isRegistered];

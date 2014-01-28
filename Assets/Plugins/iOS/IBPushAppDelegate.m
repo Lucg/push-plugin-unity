@@ -10,11 +10,11 @@
 #import <objc/runtime.h>
 
 
-//const NSString *PUSH_SINGLETON = @"InfobipPushNotifications";
+NSString *const PUSH_REGISTER_WITH_DEVICE_TOKRN = @"IBPushDidRegisterForRemoteNotificationsWithDeviceToken";
+
+
 
 @implementation UIApplication(IBPush)
-
-
 
 +(void)load
 {
@@ -89,15 +89,19 @@ void IBPushDidRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, i
     {
 		[self application:application IBPushDidRegisterForRemoteNotificationsWithDeviceToken:devToken];
 	}
-    
-    [InfobipPush registerWithDeviceToken:devToken toChannels:@[@"ROOT"] usingBlock:^(BOOL succeeded, NSError *error) {
+    NSMutableArray * channels = [[IBPushUtil channels] mutableCopy];
+    if (!channels) {
+        [channels addObject:@"ROOT"];
+    }
+    [InfobipPush registerWithDeviceToken:devToken toChannels:[channels copy] usingBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             NSLog(@"Register succeeded!");
+            // TODO replace last argument with something useful or remove it
+            UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_REGISTER_WITH_DEVICE_TOKRN UTF8String], [@"" UTF8String]);
         } else {
             NSLog(@"IBPush - Register with device token failed.");
         }
     }];
-    
 }
 
 void IBPushDidFailToRegisterForRemoteNotificationsWithError(id self, SEL _cmd, id application, id error) {
