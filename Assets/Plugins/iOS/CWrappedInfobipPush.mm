@@ -38,6 +38,22 @@ void IBInitialization(char * appId, char * appSecret){
     
 }
 bool IBIsRegistered(){
-    return [InfobipPush isRegistered()]
+    return [InfobipPush isRegistered];
 };
 
+
+char* cStringCopy(const char* string)
+{
+    if (string == NULL)
+        return NULL;
+    
+    char* res = (char*)malloc(strlen(string) + 1);
+    strcpy(res, string);
+    
+    return res;
+};
+
+char* IBDeviceId(){
+    NSString* devId=[InfobipPush deviceID];
+    return cStringCopy([devId UTF8String]);
+};

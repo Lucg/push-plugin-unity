@@ -63,6 +63,11 @@ public class InfobipPushDemo : MonoBehaviour
             bool isRegistered = InfobipPush.IsRegistered();
             print(isRegistered);
         }
+        if (GUI.Button(new Rect(centerX - 300, 130, 175, 35), "DeviceId"))
+        {
+            string deviceId = InfobipPush.DeviceID();
+            print(deviceId);
+        }
         }
         
 	}

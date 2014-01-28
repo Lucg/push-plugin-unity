@@ -10,6 +10,7 @@ extern "C" {
     void IBSetTimezoneOffsetAutomaticUpdateEnabled (bool isEnabled);
     void IBInitialization(char * appId, char * appSecret);
     bool IBIsRegistered();
+    char* IBDeviceId();
 }
 
 #endif
