@@ -35,4 +35,14 @@ public class InfobipPushInternal : MonoBehaviour {
     {
         InfobipPush.OnNotificationReceived(notification);
     }
+
+    public void IBPushDidRegisterForRemoteNotifications()
+    {
+        InfobipPush.OnRegistered();
+    }
+
+    public void IBPushErrorHandler(string errorCode)
+    {
+        InfobipPush.OnError(errorCode);
+    }
 }

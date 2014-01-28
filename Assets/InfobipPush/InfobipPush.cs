@@ -3,6 +3,7 @@ using System.Collections;
 using System.Runtime.InteropServices;
 
 public delegate void DelegateWithArgument(string notification);
+public delegate void DelegateWithoutArgument();
 
 public static class InfobipPush
 {
@@ -24,7 +25,11 @@ public static class InfobipPush
     #endregion
 
     #region listeners
-    internal static DelegateWithArgument OnNotificationReceived { get; set; }
+    public static DelegateWithArgument OnNotificationReceived { get; set; }
+    public static DelegateWithArgument OnNotificationOpened { get; set; }
+    public static DelegateWithoutArgument OnRegistered { get; set; }
+    public static DelegateWithoutArgument OnUnregistered { get; set; }
+    public static DelegateWithArgument OnError { get; set; }
     #endregion
 
     public static bool LogMode

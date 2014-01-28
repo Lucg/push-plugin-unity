@@ -10,8 +10,7 @@
 #import <Foundation/Foundation.h>
 #import "InfobipPush.h"
 
-const NSString *PUSH_SINGLETON = @"InfobipPushNotifications";
-
+FOUNDATION_EXPORT NSString *const PUSH_SINGLETON;
 
 @interface IBPushManager : NSObject
 
