@@ -3,7 +3,7 @@ using System.Collections;
 using System.Runtime.InteropServices;
 
 public delegate void DelegateWithArgument(string notification);
-public delegate void DelegateWithoutArgument(string notification);
+public delegate void DelegateWithoutArgument();
 
 public static class InfobipPush
 {
