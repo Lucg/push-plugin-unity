@@ -30,6 +30,12 @@ public static class InfobipPush
 
     [DllImport ("__Internal")]
     private static extern void IBInitializationWithRegistrationData(string appId, string appSecret, string registrationData);
+
+    [DllImport ("__Internal")]
+    private static extern bool IBIsRegistered();
+
+    [DllImport ("__Internal")]
+    private static extern string IBDeviceId();
     #endregion
 
     #region listeners
@@ -113,6 +119,29 @@ public static class InfobipPush
             }
         }
         #endif
+    }
+    public static bool IsRegistered()
+    {
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+           return IBIsRegistered();
+        }
+        return false;
+        #endif
+    }
+    public static string DeviceID()
+    {
+
+          #if UNITY_IPHONE
+           if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                return IBDeviceId();
+            }
+            return null;
+            #endif
+       
+           
     }
 }
 

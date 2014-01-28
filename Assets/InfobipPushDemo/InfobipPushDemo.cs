@@ -59,6 +59,17 @@ public class InfobipPushDemo : MonoBehaviour
             this.regData = new InfobipPushRegistrationData{UserId = "asfd", Channels = new ArrayList(new [] {"a", "b", "c", "d"})};
             InfobipPush.Initialize("063bdab564eb", "a5cf819f36e2", this.regData);
         }
-        GUI.Label(new Rect(centerX - 200, 200, 400, 35), this.regData.ToString(), labelStyle);
+
+        if (GUI.Button(new Rect(centerX - 100, 130, 175, 35), "isRegistered"))
+        {
+            bool isRegistered = InfobipPush.IsRegistered();
+            print(isRegistered);
+        }
+        if (GUI.Button(new Rect(centerX - 300, 130, 175, 35), "DeviceId"))
+        {
+            string deviceId = InfobipPush.DeviceID();
+            print(deviceId);
+        }
     }
+        
 }

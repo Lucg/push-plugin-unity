@@ -13,19 +13,21 @@ void IBSetLogModeEnabled(bool isEnabled, int lLevel) {
     }
     
     [InfobipPush setLogModeEnabled:isEnabled withLogLevel:logLevel];
-}
+};
 
 bool IBIsLogModeEnabled() {
     return [InfobipPush isLogModeEnabled];
-}
+};
+
 void IBSetTimezoneOffsetInMinutes(int offsetMinutes){
     NSLog(@"IBSetTimezoneOffsetInMinutes method");
     [InfobipPush setTimezoneOffsetInMinutes:offsetMinutes];
-}
+};
+
 void IBSetTimezoneOffsetAutomaticUpdateEnabled (bool isEnabled){
     NSLog(@"IBSetTimezoneOffsetAutomaticUpdateEnabled method");
     [InfobipPush setTimezoneOffsetAutomaticUpdateEnabled:isEnabled];
-}
+};
 
 void IBInitialization(char * appId, char * appSecret){
     NSLog(@"IBInitialization");
@@ -37,9 +39,29 @@ void IBInitialization(char * appId, char * appSecret){
                                                                            UIRemoteNotificationTypeSound |
                                                                            UIRemoteNotificationTypeAlert)];
     
-}
+};
+
+bool IBIsRegistered(){
+    return [InfobipPush isRegistered];
+};
 
 void IBInitializationWithRegistrationData(char * appId, char * appSecret, char * registrationData) {
     IBInitialization(appId, appSecret);
     NSLog(@"RegistrationData: %s", registrationData);
-}
+};
+
+char* cStringCopy(const char* string)
+{
+    if (string == NULL)
+        return NULL;
+    
+    char* res = (char*)malloc(strlen(string) + 1);
+    strcpy(res, string);
+    
+    return res;
+};
+
+char* IBDeviceId(){
+    NSString* devId=[InfobipPush deviceID];
+    return cStringCopy([devId UTF8String]);
+};
