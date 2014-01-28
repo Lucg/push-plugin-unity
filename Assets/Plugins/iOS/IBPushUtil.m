@@ -6,12 +6,13 @@
 //
 //
 
-#import "IBPushManager.h"
+#import "IBPushUtil.h"
 
 
 NSString *const PUSH_SINGLETON = @"InfobipPushNotifications";
+NSString *const PUSH_ERROR_HANDLER = @"IBPushErrorHandler";
 
-@implementation IBPushManager
+@implementation IBPushUtil
 
 
 +(NSDictionary *)convertNotificationToAndroidFormat:(InfobipPushNotification *)notification {

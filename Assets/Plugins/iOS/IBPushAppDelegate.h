@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "InfobipPush.h"
-#import "IBPushManager.h"
+#import "IBPushUtil.h"
 
 @interface UIApplication(IBPush123)
 

@@ -7,3 +7,6 @@ buildTest
 *.dll
 *.dll.mdb
 *.userprefs
+Library/assetDatabase3
+Library/EditorUserBuildSettings.asset
+Library/guidmapper

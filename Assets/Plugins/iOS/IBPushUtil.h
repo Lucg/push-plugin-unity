@@ -5,18 +5,20 @@
 //  Created by MMiroslav on 1/27/14.
 //
 //
-#ifndef IB_PUSH_MANAGER
-#define IB_PUSH_MANAGER
+#ifndef IB_PUSH_UTIL
+#define IB_PUSH_UTIL
 #import <Foundation/Foundation.h>
 #import "InfobipPush.h"
 
 FOUNDATION_EXPORT NSString *const PUSH_SINGLETON;
+FOUNDATION_EXPORT NSString *const PUSH_ERROR_HANDLER;
 
-@interface IBPushManager : NSObject
+
+@interface IBPushUtil : NSObject
 
 
 +(NSDictionary *)convertNotificationToAndroidFormat:(InfobipPushNotification *)notification;
 
 @end
 
-#endif //IB_PUSH_MANAGER
+#endif //IB_PUSH_UTIL
