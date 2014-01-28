@@ -9,6 +9,8 @@
 #import "IBPushManager.h"
 
 
+NSString *const PUSH_SINGLETON = @"InfobipPushNotifications";
+
 @implementation IBPushManager
 
 
