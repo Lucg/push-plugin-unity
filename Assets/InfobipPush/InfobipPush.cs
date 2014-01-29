@@ -60,7 +60,7 @@ public static class InfobipPush
 
     public static bool LogMode
     {
-        get//
+        get
         {
             #if UNITY_IPHONE
             if (Application.platform == RuntimePlatform.IPhonePlayer)
@@ -127,6 +127,7 @@ public static class InfobipPush
         }
         #endif
     }
+
     public static bool IsRegistered()
     {
         #if UNITY_IPHONE
@@ -138,9 +139,11 @@ public static class InfobipPush
         return false;
       
     }
+
     public static string DeviceId
     {
-        get {
+        get
+        {
             #if UNITY_IPHONE
            if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
@@ -148,13 +151,14 @@ public static class InfobipPush
             }
             #endif
             return null;
-             }
+        }
            
     }
+
     public static string UserId
     {
-        get//
-        {
+        get
+        {//
             #if UNITY_IPHONE
             if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
@@ -173,7 +177,7 @@ public static class InfobipPush
             #endif
         }
     }
-}  
+}
 
 public class InfobipPushNotification : MonoBehaviour
 {
@@ -256,9 +260,11 @@ public class InfobipPushNotification : MonoBehaviour
         //IDictionary<string, int> dictNotifInt = dictNotif as Dictionary<string, int>;
         if (dictNotif.TryGetValue("badge", out varObj))
         {
-            if (varObj as String != null) {
+            if (varObj as String != null)
+            {
                 Badge = 0;
-            } else {
+            } else
+            {
                 varInt = (int)varObj;
                 Badge = varInt;
             }
@@ -281,6 +287,7 @@ public class InfobipPushNotification : MonoBehaviour
         }
         if (dictNotif.TryGetValue("aditionalInfo", out varObj))
         {
+            print("additionalInfo real: " + varObj as String);
             print("additionalInfo " + MiniJSON.Json.Serialize(AdditionalInfo));
             // TODO: store this value in this.AdditionalInfo
         }
@@ -301,18 +308,20 @@ public class InfobipPushNotification : MonoBehaviour
     }
 }
 
-public class InfobipPushRegistrationData 
+public class InfobipPushRegistrationData
 {
     public string UserId
     {
         get;
         set;
     }
+
     public IList Channels
     {
         get;
         set;
     }
+
     public override string ToString()
     {
         IDictionary<string, object> regData = new Dictionary<string, object>(2);

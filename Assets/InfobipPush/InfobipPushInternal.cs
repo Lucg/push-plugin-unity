@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InfobipPushInternal : MonoBehaviour {
+public class InfobipPushInternal : MonoBehaviour
+{
 
     #region singleton game object
     private const string SINGLETON_GAME_OBJECT_NAME = "InfobipPushNotifications";
     
-    public static InfobipPushInternal Instance 
+    public static InfobipPushInternal Instance
     {
-        get 
+        get
         {
             return GetInstance();
         }
@@ -16,9 +17,9 @@ public class InfobipPushInternal : MonoBehaviour {
     
     private static InfobipPushInternal _instance = null;
     
-    internal static InfobipPushInternal GetInstance() 
+    internal static InfobipPushInternal GetInstance()
     {
-        if (_instance == null) 
+        if (_instance == null)
         {
             _instance = FindObjectOfType(typeof(InfobipPushInternal)) as InfobipPushInternal;
             if (_instance == null)
