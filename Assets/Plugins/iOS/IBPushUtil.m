@@ -19,7 +19,7 @@ NSString *const PUSH_ERROR_HANDLER = @"IBPushErrorHandler";
 // static channels
 static NSArray* channels;
 +(NSArray *)channels { return channels; }
-+(void)setChannels:(NSArray *)newChannels { channels = newChannels; }
++(void)setChannels:(NSArray *)newChannels { channels = [newChannels copy]; }
 
 
 +(NSDictionary *)convertNotificationToAndroidFormat:(InfobipPushNotification *)notification {
