@@ -154,3 +154,4 @@ void IBnotifyNotificationOpened(const char * pushIdParam) {
 void IBsetBadgeNumber(const int badgeNo) {
     [UIApplication sharedApplication].applicationIconBadgeNumber = badgeNo;
 }
+
