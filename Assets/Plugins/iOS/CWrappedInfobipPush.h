@@ -13,9 +13,14 @@ extern "C" {
     void IBInitialization(char * appId, char * appSecret);
     void IBInitializationWithRegistrationData(char * appId, char * appSecret, char * registrationData);
     bool IBIsRegistered();
-    char* IBDeviceId();
+    char *IBDeviceId();
     void IBSetUserId(const char* userId);
-    char* IBUserId();
+    char *IBUserId();
+    
+    void IBRegisterToChannels(const char * channelsData);
+    void IBgetRegisteredChannels();
+    void IBnotifyNotificationOpened(const char * pushIdParam);
+    void IBsetBadgeNumber(const int badgeNo);
 }
 
 #endif

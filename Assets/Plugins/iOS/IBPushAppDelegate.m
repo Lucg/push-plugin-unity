@@ -13,11 +13,9 @@
 NSString *const PUSH_REGISTER_WITH_DEVICE_TOKRN = @"IBPushDidRegisterForRemoteNotificationsWithDeviceToken";
 
 
-
 @implementation UIApplication(IBPush)
 
-+(void)load
-{
++(void)load {
     NSLog(@"%s",__FUNCTION__);
     method_exchangeImplementations(class_getInstanceMethod(self, @selector(setDelegate:)), class_getInstanceMethod(self, @selector(setIBPushDelegate:)));
     
@@ -26,8 +24,7 @@ NSString *const PUSH_REGISTER_WITH_DEVICE_TOKRN = @"IBPushDidRegisterForRemoteNo
     
 }
 
-- (void) setIBPushDelegate:(id<UIApplicationDelegate>)delegate
-{
+- (void) setIBPushDelegate:(id<UIApplicationDelegate>)delegate {
     
     static Class delegateClass = nil;
     
@@ -61,9 +58,7 @@ NSString *const PUSH_REGISTER_WITH_DEVICE_TOKRN = @"IBPushDidRegisterForRemoteNo
     [self setIBPushDelegate:delegate];
 }
 
-
-static void exchangeMethodImplementations(Class class, SEL oldMethod, SEL newMethod, IMP impl, const char * signature)
-{
+static void exchangeMethodImplementations(Class class, SEL oldMethod, SEL newMethod, IMP impl, const char * signature) {
 	Method method = nil;
     //Check whether method exists in the class
 	method = class_getInstanceMethod(class, oldMethod);
@@ -81,7 +76,6 @@ static void exchangeMethodImplementations(Class class, SEL oldMethod, SEL newMet
 		class_addMethod(class, oldMethod, impl, signature);
 	}
 }
-
 
 void IBPushDidRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, id application, id devToken){
     NSLog(@"%s",__FUNCTION__);
@@ -127,7 +121,6 @@ void IBPushDidReceiveRemoteNotification(id self, SEL _cmd, id application, id us
     }];
 }
 
-
 BOOL IBPushDidFinishLaunchingWithOptions(id self, SEL _cmd, id application, id launchOptions) {
     NSLog(@"%s",__FUNCTION__);
     
@@ -142,7 +135,5 @@ BOOL IBPushDidFinishLaunchingWithOptions(id self, SEL _cmd, id application, id l
 	
 	return result;
 }
-
-
 
 @end

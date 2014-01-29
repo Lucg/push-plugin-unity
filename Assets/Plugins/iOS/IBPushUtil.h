@@ -21,6 +21,8 @@ FOUNDATION_EXPORT NSString *const PUSH_ERROR_HANDLER;
 +(void)setChannels:(NSArray *)newChannels;
 
 +(NSDictionary *)convertNotificationToAndroidFormat:(InfobipPushNotification *)notification;
++(void)passErrorCodeToUnity:(NSError *)err;
+
 
 @end
 

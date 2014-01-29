@@ -1,6 +1,8 @@
 #import "CWrappedInfobipPush.h"
 
 NSString *const PUSH_SET_USER_ID = @"IBSetUserId_SUCCESS";
+NSString *const PUSH_SET_CHANNELS = @"IBSetChannels_SUCCESS";
+NSString *const PUSH_GET_CHANNELS = @"IBGetChannels_SUCCESS";
 
 void IBSetLogModeEnabled(bool isEnabled, int lLevel) {
     NSLog(@"IBSetLogModeEnabled method");
@@ -40,6 +42,7 @@ void IBInitialization(char * appId, char * appSecret){
                                                                            UIRemoteNotificationTypeSound |
                                                                            UIRemoteNotificationTypeAlert)];
 }
+
 void IBSetUserIdWithNSString(NSString *userId) {
     [InfobipPush setUserID: userId usingBlock:^(BOOL succeeded, NSError *error) {
         if(succeeded) {
@@ -53,7 +56,6 @@ void IBSetUserIdWithNSString(NSString *userId) {
     }];
     
 };
-
 
 void IBSetUserId(const char* userId) {
     NSLog(@"IBSetUserId method");
@@ -80,13 +82,11 @@ void IBInitializationWithRegistrationData(char * appId, char * appSecret, char *
     IBSetUserIdWithNSString(userId);
 }
 
-bool IBIsRegistered(){
+bool IBIsRegistered() {
     return [InfobipPush isRegistered];
 };
 
-
-char* cStringCopy(const char* string)
-{
+char* cStringCopy(const char* string) {
     if (string == NULL){
         return NULL;
     }
@@ -97,12 +97,10 @@ char* cStringCopy(const char* string)
     return res;
 };
 
-char* IBDeviceId(){
+char* IBDeviceId() {
     NSString* devId=[InfobipPush deviceID];
     return cStringCopy([devId UTF8String]);
 };
-
-
 
 char* IBUserId() {
     NSLog(@"IBUserId method");
@@ -110,3 +108,49 @@ char* IBUserId() {
     return cStringCopy([userId UTF8String]);
    
 };
+
+void IBRegisterToChannels(const char * channelsData) {
+    NSError *e;
+    NSString * channelsDataString = [NSString stringWithFormat:@"%s", channelsData];
+    NSDictionary * channelsDictionary = [NSJSONSerialization JSONObjectWithData:[channelsDataString  dataUsingEncoding:NSUTF8StringEncoding]
+                                                                   options:NSJSONReadingMutableContainers error:&e];
+    NSNumber * removeExistingChannels = [channelsDictionary objectForKey:@"removeExistingChannels"];
+    NSArray * channels = [channelsDictionary objectForKey:@"channels"];
+    
+    [InfobipPush subscribeToChannelsInBackground:channels removePrevious:[removeExistingChannels boolValue] usingBlock:^(BOOL succeeded, NSError *error) {
+        if(succeeded){
+            UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_SET_CHANNELS UTF8String], [@"" UTF8String]);
+        } else {
+            [IBPushUtil passErrorCodeToUnity:error];
+        }
+    }];
+}
+
+void IBgetRegisteredChannels() {
+    [InfobipPush getListOfChannelsInBackgroundUsingBlock:^(BOOL succeeded, NSArray *channels, NSError *error) {
+        if (succeeded) {
+            //convert channels to json
+            NSError * error = 0;
+            NSData *channelsJson = [NSJSONSerialization dataWithJSONObject:channels options:0 error:&error];
+            NSString *jsonString = [[NSString alloc] initWithData:channelsJson encoding:NSUTF8StringEncoding];
+            
+            UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_GET_CHANNELS UTF8String], [jsonString UTF8String]);
+        } else {
+            [IBPushUtil passErrorCodeToUnity:error];
+        }
+    }];
+    
+}
+
+void IBnotifyNotificationOpened(const char * pushIdParam) {
+    NSString * pushId = [NSString stringWithFormat:@"%s", pushIdParam];
+//    NSLog(@"PushID: %@", pushId);
+    InfobipPushNotification* tmpNotification = [[InfobipPushNotification alloc] init];
+    [tmpNotification setMessageID:pushId];
+    
+    [InfobipPush confirmPushNotificationWasOpened:tmpNotification];
+}
+
+void IBsetBadgeNumber(const int badgeNo) {
+    [UIApplication sharedApplication].applicationIconBadgeNumber = badgeNo;
+}

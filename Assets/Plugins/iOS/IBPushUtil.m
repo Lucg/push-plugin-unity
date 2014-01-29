@@ -44,5 +44,9 @@ static NSArray* channels;
     
 }
 
++(void)passErrorCodeToUnity:(NSError *)err {
+    NSString * errorCode = [NSString stringWithFormat:@"%d", [err code]];
+    UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_ERROR_HANDLER UTF8String], [errorCode UTF8String]);
+}
 
 @end
