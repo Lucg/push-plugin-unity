@@ -36,6 +36,12 @@ public static class InfobipPush
 
     [DllImport ("__Internal")]
     private static extern string IBDeviceId();
+
+    [DllImport ("__Internal")]
+    private static extern void IBSetUserId(string userId);
+    
+    [DllImport ("__Internal")]
+    private static extern string IBUserId();
     #endregion
 
     #region listeners
@@ -47,12 +53,14 @@ public static class InfobipPush
 
     public static InfobipPushDelegate OnUnregistered { get; set; }
 
+    public static InfobipPushDelegate OnUserDataSaved { get; set; }
+
     public static InfobipPushDelegateWithStringArg OnError { get; set; }
     #endregion
 
     public static bool LogMode
     {
-        get
+        get//
         {
             #if UNITY_IPHONE
             if (Application.platform == RuntimePlatform.IPhonePlayer)
@@ -114,7 +122,6 @@ public static class InfobipPush
                 IBInitialization(applicationId, applicationSecret);
             } else {
                 var regdata = registrationData.ToString();
-                InfobipPushNotification.printjebise(regdata);
                 IBInitializationWithRegistrationData(applicationId, applicationSecret, regdata);
             }
         }
@@ -127,29 +134,49 @@ public static class InfobipPush
         {
            return IBIsRegistered();
         }
-        return false;
         #endif
+        return false;
+      
     }
-    public static string DeviceID()
+    public static string DeviceId
     {
-
-          #if UNITY_IPHONE
+        get {
+            #if UNITY_IPHONE
            if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
                 return IBDeviceId();
             }
-            return null;
             #endif
-       
+            return null;
+             }
            
     }
-}
+    public static string UserId
+    {
+        get//
+        {
+            #if UNITY_IPHONE
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                return IBUserId();
+            }
+            #endif
+            return null;
+        }
+        set
+        {
+            #if UNITY_IPHONE
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                IBSetUserId(value);
+            }
+            #endif
+        }
+    }
+}  
 
 public class InfobipPushNotification : MonoBehaviour
 {
-    public static void printjebise(string asdf) {
-        print(asdf);
-    }
     public string NotificationId
     { 
         get; 

@@ -25,6 +25,9 @@ public class InfobipPushDemo : MonoBehaviour
         InfobipPush.OnError = (errorCode) => {
             print("IBPush - ERROR: " + errorCode);
         };
+        InfobipPush.OnUserDataSaved = () => {
+            print("IBPush - user data saved");
+        };
     }
     
     void OnGUI()
@@ -60,16 +63,28 @@ public class InfobipPushDemo : MonoBehaviour
             InfobipPush.Initialize("063bdab564eb", "a5cf819f36e2", this.regData);
         }
 
-        if (GUI.Button(new Rect(centerX - 100, 130, 175, 35), "isRegistered"))
+        if (GUI.Button(new Rect(centerX - 100, 130, 175, 35), "Is Registered"))
         {
             bool isRegistered = InfobipPush.IsRegistered();
             print(isRegistered);
         }
-        if (GUI.Button(new Rect(centerX - 300, 130, 175, 35), "DeviceId"))
+        if (GUI.Button(new Rect(centerX - 300, 130, 175, 35), "Device Id"))
         {
-            string deviceId = InfobipPush.DeviceID();
+            string deviceId = InfobipPush.DeviceId;
             print(deviceId);
         }
+    
+        if (GUI.Button(new Rect(centerX - 300, 170, 175, 35), "Set User Id"))
+        {
+            InfobipPush.UserId = "Malisica";
+        
+        }
+        if (GUI.Button(new Rect(centerX - 100, 170, 175, 35), "User Id"))
+        {
+            string userId = InfobipPush.UserId;
+            print(userId);
+        }
+
     }
         
 }

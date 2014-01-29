@@ -41,6 +41,11 @@ public class InfobipPushInternal : MonoBehaviour {
         InfobipPush.OnRegistered();
     }
 
+    public void IBSetUserId_SUCCESS()
+    {
+        InfobipPush.OnUserDataSaved();
+    }
+
     public void IBPushErrorHandler(string errorCode)
     {
         InfobipPush.OnError(errorCode);

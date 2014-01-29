@@ -1,6 +1,6 @@
 #import "CWrappedInfobipPush.h"
 
-
+NSString *const PUSH_SET_USER_ID = @"IBSetUserId_SUCCESS";
 
 void IBSetLogModeEnabled(bool isEnabled, int lLevel) {
     NSLog(@"IBSetLogModeEnabled method");
@@ -40,6 +40,26 @@ void IBInitialization(char * appId, char * appSecret){
                                                                            UIRemoteNotificationTypeSound |
                                                                            UIRemoteNotificationTypeAlert)];
 }
+void IBSetUserIdWithNSString(NSString *userId) {
+    [InfobipPush setUserID: userId usingBlock:^(BOOL succeeded, NSError *error) {
+        if(succeeded) {
+            NSLog(@"Setting userID was successful");
+            UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_SET_USER_ID UTF8String], [@"" UTF8String]);
+        } else {
+            NSLog(@"Setting userID failed");
+            NSString * errorCode = [NSString stringWithFormat:@"%u", [error code]];
+            UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_ERROR_HANDLER UTF8String], [errorCode UTF8String]);
+        }
+    }];
+    
+};
+
+
+void IBSetUserId(const char* userId) {
+    NSLog(@"IBSetUserId method");
+    NSString * userIdString = [NSString stringWithFormat:@"%s",userId];
+    IBSetUserIdWithNSString(userIdString);
+};
 
 void IBInitializationWithRegistrationData(char * appId, char * appSecret, char * registrationData) {
     IBInitialization(appId, appSecret);
@@ -57,27 +77,19 @@ void IBInitializationWithRegistrationData(char * appId, char * appSecret, char *
     [IBPushUtil setChannels:channels];
     
     // set UserId
-    [InfobipPush setUserID:userId usingBlock:^(BOOL succeeded, NSError *error) {
-        if (!succeeded) {
-            NSString * errorCode = [NSString stringWithFormat:@"%u", [error code]];
-            UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_ERROR_HANDLER UTF8String], [errorCode UTF8String]);
-        }
-    }];
+    IBSetUserIdWithNSString(userId);
 }
 
 bool IBIsRegistered(){
     return [InfobipPush isRegistered];
 };
 
-void IBInitializationWithRegistrationData(char * appId, char * appSecret, char * registrationData) {
-    IBInitialization(appId, appSecret);
-    NSLog(@"RegistrationData: %s", registrationData);
-};
 
 char* cStringCopy(const char* string)
 {
-    if (string == NULL)
+    if (string == NULL){
         return NULL;
+    }
     
     char* res = (char*)malloc(strlen(string) + 1);
     strcpy(res, string);
@@ -88,4 +100,13 @@ char* cStringCopy(const char* string)
 char* IBDeviceId(){
     NSString* devId=[InfobipPush deviceID];
     return cStringCopy([devId UTF8String]);
+};
+
+
+
+char* IBUserId() {
+    NSLog(@"IBUserId method");
+    NSString* userId = [InfobipPush userID];
+    return cStringCopy([userId UTF8String]);
+   
 };

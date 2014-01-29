@@ -12,6 +12,8 @@
 NSString *const PUSH_SINGLETON = @"InfobipPushNotifications";
 NSString *const PUSH_ERROR_HANDLER = @"IBPushErrorHandler";
 
+
+
 @implementation IBPushUtil
 
 // static channels
