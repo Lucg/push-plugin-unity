@@ -158,7 +158,7 @@ public static class InfobipPush
     public static string UserId
     {
         get
-        {//
+        {
             #if UNITY_IPHONE
             if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
