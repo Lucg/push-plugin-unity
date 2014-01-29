@@ -1,17 +1,8 @@
 /*
 /*/
 !/Assets/
-!*.csproj
-!*.sln
-Temp
 *.meta
 .DS_Store
-Library/metadata
-Library/metadata/**
-buildTest
 *.dll
 *.dll.mdb
 *.userprefs
-Library/assetDatabase3
-Library/EditorUserBuildSettings.asset
-Library/guidmapper
