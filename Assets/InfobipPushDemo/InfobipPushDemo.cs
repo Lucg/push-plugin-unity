@@ -17,6 +17,8 @@ public class InfobipPushDemo : MonoBehaviour
         InfobipPush.OnNotificationReceived = (notif) => {
 			bool isMediaNotification = notif.isMediaNotification();
 			ScreenPrinter.Print("IBPush - Is Media notification: " +isMediaNotification);
+			string mediaContent =notif.MediaData;
+			ScreenPrinter.Print("IBPush -  Media content: " +mediaContent);
             ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
         };
         InfobipPush.OnRegistered = () => {
