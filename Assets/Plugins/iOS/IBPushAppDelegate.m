@@ -67,13 +67,10 @@ IPPushNotificationInfoBlock didReceiveRemoteNotificationBlock = ^void(BOOL succe
                                   (IMP)IBPushDidReceiveRemoteNotification,
                                   "v@:::");
     
-//    NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
-//    if ([[vComp objectAtIndex:0] intValue] >= 7) {
-    
     exchangeMethodImplementations(delegateClass, @selector(application:didReceiveRemoteNotification:fetchCompletionHandler:),
-                                      @selector(application:IBPushDidReceiveRemoteNotificationFetchCompletionHandler:),
-                                      (IMP)IBPushDidReceiveRemoteNotificationFetchCompletionHandler,
-                                      "v@::::");
+                                  @selector(application:IBPushDidReceiveRemoteNotificationFetchCompletionHandler:),
+                                  (IMP)IBPushDidReceiveRemoteNotificationFetchCompletionHandler,
+                                  "v@::::");
     
     exchangeMethodImplementations(delegateClass, @selector(application:didReceiveLocalNotification:),
                                   @selector(application:IBPushDidReceiveLocalNotification:),
@@ -159,13 +156,7 @@ BOOL IBPushDidFinishLaunchingWithOptions(id self, SEL _cmd, id application, id l
 }
 
 void IBPushDidReceiveLocalNotification(id self, SEL _cmd, id application, id localNotification) {
-    [InfobipPush didReceiveLocalNotification:localNotification withCompletion:^(BOOL succeeded, InfobipPushNotification *notification, NSError *error) {
-        if (succeeded) {
-            // TODO:
-        } else {
-            [IBPushUtil passErrorCodeToUnity:error];
-        }
-    }];
+    [InfobipPush didReceiveLocalNotification:localNotification withCompletion:didReceiveRemoteNotificationBlock];
 }
 
 typedef void (^OurCompHandler)(UIBackgroundFetchResult);
