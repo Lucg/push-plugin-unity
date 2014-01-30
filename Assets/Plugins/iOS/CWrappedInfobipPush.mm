@@ -18,21 +18,21 @@ void IBSetLogModeEnabled(bool isEnabled, int lLevel) {
     }
     
     [InfobipPush setLogModeEnabled:isEnabled withLogLevel:logLevel];
-};
+}
 
 bool IBIsLogModeEnabled() {
     return [InfobipPush isLogModeEnabled];
-};
+}
 
 void IBSetTimezoneOffsetInMinutes(int offsetMinutes){
     NSLog(@"IBSetTimezoneOffsetInMinutes method");
     [InfobipPush setTimezoneOffsetInMinutes:offsetMinutes];
-};
+}
 
 void IBSetTimezoneOffsetAutomaticUpdateEnabled (bool isEnabled){
     NSLog(@"IBSetTimezoneOffsetAutomaticUpdateEnabled method");
     [InfobipPush setTimezoneOffsetAutomaticUpdateEnabled:isEnabled];
-};
+}
 
 void IBInitialization(char * appId, char * appSecret){
     NSLog(@"IBInitialization");
@@ -57,13 +57,13 @@ void IBSetUserIdWithNSString(NSString *userId) {
         }
     }];
     
-};
+}
 
 void IBSetUserId(const char* userId) {
     NSLog(@"IBSetUserId method");
     NSString * userIdString = [NSString stringWithFormat:@"%s",userId];
     IBSetUserIdWithNSString(userIdString);
-};
+}
 
 void IBInitializationWithRegistrationData(char * appId, char * appSecret, char * registrationData) {
     IBInitialization(appId, appSecret);
@@ -86,7 +86,7 @@ void IBInitializationWithRegistrationData(char * appId, char * appSecret, char *
 
 bool IBIsRegistered() {
     return [InfobipPush isRegistered];
-};
+}
 
 char* cStringCopy(const char* string) {
     if (string == NULL){
@@ -97,19 +97,19 @@ char* cStringCopy(const char* string) {
     strcpy(res, string);
     
     return res;
-};
+}
 
 char* IBDeviceId() {
     NSString* devId=[InfobipPush deviceID];
     return cStringCopy([devId UTF8String]);
-};
+}
 
 char* IBUserId() {
     NSLog(@"IBUserId method");
     NSString* userId = [InfobipPush userID];
     return cStringCopy([userId UTF8String]);
    
-};
+}
 
 void IBRegisterToChannels(const char * channelsData) {
     NSError *e;
