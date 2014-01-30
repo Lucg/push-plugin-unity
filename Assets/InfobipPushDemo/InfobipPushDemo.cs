@@ -29,6 +29,10 @@ public class InfobipPushDemo : MonoBehaviour
         InfobipPush.OnUserDataSaved = () => {
             ScreenPrinter.Print(("IBPush - User data saved");
         };
+		InfobipPush.OnUnregistered = () => {
+			print ("IBPush - Successfully unregistered!");
+	
+		};
     }
 
     void OnGUI()
@@ -248,5 +252,10 @@ public class ScreenPrinter : MonoBehaviour
                 guiText.pixelOffset = new Vector2(-pixelOffset, pixelOffset);
                 break;
         }
+		if (GUI.Button (new Rect (centerX + 100, 200, 175, 45), "Unregister")) {
+
+			InfobipPush.Unregister();
+
+				}
     }
 }

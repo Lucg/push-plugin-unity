@@ -21,6 +21,7 @@ extern "C" {
     void IBgetRegisteredChannels();
     void IBnotifyNotificationOpened(const char * pushIdParam);
     void IBsetBadgeNumber(const int badgeNo);
+    void IBUnregister();
 }
 
 #endif
