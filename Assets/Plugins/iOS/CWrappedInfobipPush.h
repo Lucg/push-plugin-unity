@@ -19,7 +19,7 @@ extern "C" {
     char *IBUserId();
     void IBRegisterToChannels(const char * channelsData);
     void IBGetRegisteredChannels();
-    void IBNotifyNotificationOpened(const char * pushIdParam);
+    void IBNotifyNotificationOpened(const char * pushIdParam) DEPRECATED_ATTRIBUTE;
     void IBSetBadgeNumber(const int badgeNo);
     void IBUnregister();
     void IBGetUnreceivedNotifications();

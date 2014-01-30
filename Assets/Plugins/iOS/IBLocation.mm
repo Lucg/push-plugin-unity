@@ -15,7 +15,7 @@ void IBEnableLocation() {
 }
 
 void IBDisableLocation() {
-    [InfobipPush startLocationUpdate];
+    [InfobipPush stopLocationUpdate];
 }
 
 BOOL IBIsLocationEnabled() {
