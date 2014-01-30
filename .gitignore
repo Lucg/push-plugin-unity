@@ -1,6 +1,7 @@
 /*
 /*/
 !/Assets/
+!README.md
 *.meta
 .DS_Store
 *.dll
