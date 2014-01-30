@@ -4,6 +4,7 @@ NSString *const PUSH_SET_USER_ID = @"IBSetUserId_SUCCESS";
 NSString *const PUSH_SET_CHANNELS = @"IBSetChannels_SUCCESS";
 NSString *const PUSH_GET_CHANNELS = @"IBGetChannels_SUCCESS";
 NSString *const PUSH_UNREGISTER =  @"IBUnregister_SUCCESS";
+NSString *const PUSH_GET_UNRECEIVED_NOTIFICATION = @"IBGetUnreceivedNotifications_SUCCESS";
 
 void IBSetLogModeEnabled(bool isEnabled, int lLevel) {
     NSLog(@"IBSetLogModeEnabled method");
@@ -168,4 +169,21 @@ void IBUnregister(){
     }];
 }
 
-
+void IBgetUnreceivedNotifications() {
+    [InfobipPush getListOfUnreceivedNotificationsInBackgroundUsingBlock:^(BOOL succeeded, NSArray *notifications, NSError *error) {
+        if (succeeded) {
+            NSMutableArray * notificationsArray = [[NSMutableArray alloc] init];
+            for (InfobipPushNotification *notification in notifications) {
+                [notificationsArray addObject:[IBPushUtil convertNotificationToAndroidFormat:notification]];
+            }
+            
+            NSError * error = 0;
+            NSData *notificationsData = [NSJSONSerialization dataWithJSONObject:notificationsArray options:0 error:&error];
+            NSString *notificationJson = [[NSString alloc] initWithData:notificationsData encoding:NSUTF8StringEncoding];
+            
+            UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_GET_UNRECEIVED_NOTIFICATION UTF8String], [notificationJson UTF8String]);
+        } else {
+            [IBPushUtil passErrorCodeToUnity:error];
+        }
+    }];
+}
