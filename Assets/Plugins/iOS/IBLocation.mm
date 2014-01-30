@@ -8,31 +8,35 @@
 
 #import "IBLocation.h"
 
-void enableLocation() {
+void IBEnableLocation() {
     [InfobipPush startLocationUpdate];
 }
 
-void disableLocation() {
+void IBDisableLocation() {
     [InfobipPush startLocationUpdate];
 }
 
-BOOL isLocationEnabled() {
+BOOL IBIsLocationEnabled() {
     return [InfobipPush locationUpdateActive];
 }
 
-void setBackgroundLocationUpdateModeEnabled(const int enable) {
+void IBSetBackgroundLocationUpdateModeEnabled(const int enable) {
     NSNumber * locationEnabled = [NSNumber numberWithInt:enable];
     [InfobipPush setBackgroundLocationUpdateModeEnabled:[locationEnabled boolValue]];
 }
 
-BOOL backgroundLocationUpdateModeEnabled() {
+BOOL IBBackgroundLocationUpdateModeEnabled() {
     return [InfobipPush backgroundLocationUpdateModeEnabled];
 }
 
-void setLocationUpdateTimeInterval(const int minutes) {
+void IBSetLocationUpdateTimeInterval(const int minutes) {
     [InfobipPush setLocationUpdateTimeInterval:minutes];
 }
 
-int getLocationUpdateTimeInterval() {
+int IBGetLocationUpdateTimeInterval() {
     return [InfobipPush locationUpdateTimeInterval];
+}
+
+void IBShareLocation(const char *locationCharArray) {
+    
 }

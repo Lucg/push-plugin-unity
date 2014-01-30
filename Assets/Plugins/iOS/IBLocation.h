@@ -13,12 +13,13 @@
 #import "IBPushUtil.h"
 
 extern "C" {
-    void enableLocation();
-    void disableLocation();
-    BOOL isLocationEnabled();
-    void setBackgroundLocationUpdateModeEnabled(const int enable);
-    BOOL backgroundLocationUpdateModeEnabled();
-    void setLocationUpdateTimeInterval(const int minutes);
-    int getLocationUpdateTimeInterval();
+    void IBEnableLocation();
+    void IBDisableLocation();
+    BOOL IBIsLocationEnabled();
+    void IBSetBackgroundLocationUpdateModeEnabled(const int enable);
+    BOOL IBBackgroundLocationUpdateModeEnabled();
+    void IBSetLocationUpdateTimeInterval(const int minutes);
+    int IBGetLocationUpdateTimeInterval();
+    void IBShareLocation(const char *locationCharArray);
 }
 #endif //IB_LOCATION
