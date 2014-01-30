@@ -114,8 +114,27 @@ public class InfobipPushDemo : MonoBehaviour
             ScreenPrinter.Print("IBPush - Location Enabled: " + (InfobipPush.LocationEnabled ? "true" : "false"));
             LocationInfo location = locationService.lastData;
             InfobipPush.ShareLocation(location);
+
         }
-		
+		if (GUI.Button (new Rect (centerX - 300, 300, 175, 45), "Background Location")) 
+		{
+			bool back = InfobipPush.BackgroundLocationUpdateModeEnabled;
+			ScreenPrinter.Print(back);
+		}
+		if (GUI.Button(new Rect(centerX - 100, 300, 175, 45), "Set Background Location"))
+		{
+			InfobipPush.BackgroundLocationUpdateModeEnabled = true;
+		}
+		if (GUI.Button (new Rect(centerX + 100, 300, 175, 45), "Time Update")) 
+		{
+			int time = InfobipPush.LocationUpdateTimeInterval;
+			ScreenPrinter.Print(time);
+		}
+		if (GUI.Button(new Rect(centerX - 100, 350, 175, 45), "Set Time Update"))
+		{
+			InfobipPush.LocationUpdateTimeInterval = 500;
+        }
+        
     }
 }
 

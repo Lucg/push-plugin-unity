@@ -58,6 +58,21 @@ public static class InfobipPush
     
     [DllImport ("__Internal")]
     private static extern void IBShareLocation(string location);
+
+	[DllImport ("__Internal")]
+	private static extern void  IBSetLocationUpdateTimeInterval(int seconds);
+
+	[DllImport ("__Internal")]
+	private static extern int IBLocationUpdateTimeInterval();
+
+	[DllImport ("__Internal")]
+	private static extern void IBSetBackgroundLocationUpdateModeEnabled(bool enable);
+
+	[DllImport ("__Internal")]
+	private static extern bool IBBackgroundLocationUpdateModeEnabled();
+    
+
+   
     #endregion
 
     #region listeners
@@ -225,7 +240,50 @@ public static class InfobipPush
         }
         #endif
     }
+	public static bool BackgroundLocationUpdateModeEnabled
+	{ 	
+		get
+		{
+		  #if UNITY_IPHONE
+		  if (Application.platform == RuntimePlatform.IPhonePlayer) 
+			{
+				return IBBackgroundLocationUpdateModeEnabled ();
+			}
+		  #endif
+			return false;
+            
+		}
+	
+		set
+		{
 
+		#if UNITY_IPHONE
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+				IBSetBackgroundLocationUpdateModeEnabled(value);
+		}
+		#endif
+		}
+	}
+
+	public static int LocationUpdateTimeInterval 
+	{
+				get {
+						#if UNITY_IPHONE
+						if (Application.platform == RuntimePlatform.IPhonePlayer) {
+								return IBLocationUpdateTimeInterval ();
+						}
+						#endif
+						return 0;
+				}
+				set {
+						#if UNITY_IPHONE
+						if (Application.platform == RuntimePlatform.IPhonePlayer) {
+								IBSetLocationUpdateTimeInterval(value);
+						}
+						#endif
+				}
+	}
     public static bool IsLocationEnabled()
     {
         #if UNITY_IPHONE

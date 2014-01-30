@@ -15,11 +15,11 @@
 extern "C" {
     void IBEnableLocation();
     void IBDisableLocation();
-    BOOL IBIsLocationEnabled();
-    void IBSetBackgroundLocationUpdateModeEnabled(const int enable);
-    BOOL IBBackgroundLocationUpdateModeEnabled();
-    void IBSetLocationUpdateTimeInterval(const int minutes);
-    int IBGetLocationUpdateTimeInterval();
+    bool IBIsLocationEnabled();
+    void IBSetBackgroundLocationUpdateModeEnabled(bool enable);
+    bool IBBackgroundLocationUpdateModeEnabled();
+    void IBSetLocationUpdateTimeInterval(const int seconds);
+    int IBLocationUpdateTimeInterval();
     void IBShareLocation(const char *locationCharArray);
 }
 #endif //IB_LOCATION
