@@ -172,6 +172,7 @@ public static class InfobipPush
             #if UNITY_IPHONE
             if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
+                InfobipPushInternal.GetInstance();
                 IBSetUserId(value);
             }
             #endif
