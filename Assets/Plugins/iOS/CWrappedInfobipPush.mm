@@ -3,6 +3,7 @@
 NSString *const PUSH_SET_USER_ID = @"IBSetUserId_SUCCESS";
 NSString *const PUSH_SET_CHANNELS = @"IBSetChannels_SUCCESS";
 NSString *const PUSH_GET_CHANNELS = @"IBGetChannels_SUCCESS";
+NSString *const PUSH_UNREGISTER =  @"IBUnregister_SUCCESS";
 
 void IBSetLogModeEnabled(bool isEnabled, int lLevel) {
     NSLog(@"IBSetLogModeEnabled method");
@@ -154,4 +155,17 @@ void IBnotifyNotificationOpened(const char * pushIdParam) {
 void IBsetBadgeNumber(const int badgeNo) {
     [UIApplication sharedApplication].applicationIconBadgeNumber = badgeNo;
 }
+void IBUnregister(){
+    [InfobipPush unregisterFromInfobipPushUsingBlock:^(BOOL succeeded, NSError *error) {
+        if(succeeded) {
+            NSLog(@"Unregistration was successful");
+             UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_UNREGISTER UTF8String], [@"" UTF8String]);
+        } else {
+            NSLog(@"Unregistration failed");
+            NSString * errorCode = [NSString stringWithFormat:@"%u", [error code]];
+            UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_ERROR_HANDLER UTF8String], [errorCode UTF8String]);
+        }
+    }];
+}
+
 

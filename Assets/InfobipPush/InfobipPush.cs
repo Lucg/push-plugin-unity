@@ -42,7 +42,10 @@ public static class InfobipPush
     
     [DllImport ("__Internal")]
     private static extern string IBUserId();
-    #endregion
+
+	[DllImport ("__Internal")]
+	private static extern void IBUnregister();
+	#endregion
 
     #region listeners
     public static InfobipPushDelegateWithNotificationArg OnNotificationReceived { get; set; }
@@ -177,6 +180,18 @@ public static class InfobipPush
             #endif
         }
     }
+
+	public static void Unregister()
+	{
+		#if UNITY_IPHONE
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			IBUnregister();
+		}
+		#endif
+
+		
+	}
 }
 
 public class InfobipPushNotification : MonoBehaviour

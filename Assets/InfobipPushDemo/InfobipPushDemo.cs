@@ -24,6 +24,10 @@ public class InfobipPushDemo : MonoBehaviour
         InfobipPush.OnUserDataSaved = () => {
             print("IBPush - user data saved");
         };
+		InfobipPush.OnUnregistered = () => {
+			print ("IBPush - Successfully unregistered!");
+	
+		};
     }
 
     void OnGUI()
@@ -80,5 +84,10 @@ public class InfobipPushDemo : MonoBehaviour
             string userId = InfobipPush.UserId;
             print(userId);
         }
+		if (GUI.Button (new Rect (centerX + 100, 200, 175, 45), "Unregister")) {
+
+			InfobipPush.Unregister();
+
+				}
     }
 }
