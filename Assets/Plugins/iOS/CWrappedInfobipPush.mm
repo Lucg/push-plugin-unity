@@ -156,6 +156,7 @@ void IBnotifyNotificationOpened(const char * pushIdParam) {
 void IBsetBadgeNumber(const int badgeNo) {
     [UIApplication sharedApplication].applicationIconBadgeNumber = badgeNo;
 }
+
 void IBUnregister(){
     [InfobipPush unregisterFromInfobipPushUsingBlock:^(BOOL succeeded, NSError *error) {
         if(succeeded) {
@@ -163,8 +164,7 @@ void IBUnregister(){
              UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_UNREGISTER UTF8String], [@"" UTF8String]);
         } else {
             NSLog(@"Unregistration failed");
-            NSString * errorCode = [NSString stringWithFormat:@"%u", [error code]];
-            UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_ERROR_HANDLER UTF8String], [errorCode UTF8String]);
+            [IBPushUtil passErrorCodeToUnity:error];
         }
     }];
 }
