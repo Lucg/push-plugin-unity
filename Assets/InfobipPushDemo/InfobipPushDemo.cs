@@ -7,12 +7,14 @@ public class InfobipPushDemo : MonoBehaviour
 {   
     private GUIStyle labelStyle = new GUIStyle();
     private float centerX = Screen.width / 2;
-
+    private LocationService locationService = new LocationService();
     void Start()
     {   
         labelStyle.fontSize = 24;
         labelStyle.normal.textColor = Color.black;
         labelStyle.alignment = TextAnchor.MiddleCenter;
+
+        locationService.Start();
 
         InfobipPush.OnNotificationReceived = (notif) => {
 			bool isMediaNotification = notif.isMediaNotification();
@@ -63,28 +65,25 @@ public class InfobipPushDemo : MonoBehaviour
             InfobipPush.SetTimezoneOffsetInMinutes(5);
         }
 
-        if (GUI.Button(new Rect(centerX + 100, 150, 175, 45), "Initialize Push"))
-        {
-            InfobipPushRegistrationData regData = new InfobipPushRegistrationData {
-                    UserId = "test New User", 
-                    Channels = new ArrayList(new [] {"a", "b", "c", "d", "News"})
-                };
-            InfobipPush.Initialize("063bdab564eb", "a5cf819f36e2", regData);
-        }
-
         if (GUI.Button(new Rect(centerX - 100, 150, 175, 45), "Is Registered"))
         {
             bool isRegistered = InfobipPush.IsRegistered();
             ScreenPrinter.Print(isRegistered);
-        }
-        if (GUI.Button (new Rect (centerX + 100, 200, 175, 45), "Unregister")) {
-            InfobipPush.Unregister();
         }
         if (GUI.Button(new Rect(centerX - 300, 150, 175, 45), "Device Id"))
         {
             string deviceId = InfobipPush.DeviceId;
             ScreenPrinter.Print(deviceId);
         }
+        if (GUI.Button(new Rect(centerX + 100, 150, 175, 45), "Initialize Push"))
+        {
+            InfobipPushRegistrationData regData = new InfobipPushRegistrationData {
+                UserId = "test New User", 
+                Channels = new ArrayList(new [] {"a", "b", "c", "d", "News"})
+            };
+            InfobipPush.Initialize("063bdab564eb", "a5cf819f36e2", regData);
+        }
+
         if (GUI.Button(new Rect(centerX - 300, 200, 175, 45), "Set User Id"))
         {
             InfobipPush.UserId = "Malisica";
@@ -94,11 +93,26 @@ public class InfobipPushDemo : MonoBehaviour
             string userId = InfobipPush.UserId;
             ScreenPrinter.Print(userId);
         }
-		if (GUI.Button(new Rect(centerX - 300, 150, 175, 45), "Device Id"))
-		{
-			string deviceId = InfobipPush.DeviceId;
-			ScreenPrinter.Print(deviceId);
-		}
+        if (GUI.Button (new Rect(centerX + 100, 200, 175, 45), "Unregister")) 
+        {
+            InfobipPush.Unregister();
+        }
+
+        if (GUI.Button(new Rect(centerX - 300, 250, 175, 45), "Enable Location"))
+        {
+            InfobipPush.EnableLocation();
+        }
+        if (GUI.Button(new Rect(centerX - 100, 250, 175, 45), "Disable Location"))
+        {
+            InfobipPush.LocationEnabled = false;
+        }
+        if (GUI.Button (new Rect(centerX + 100, 250, 175, 45), "Share Location")) 
+        {
+            ScreenPrinter.Print("IBPush - Location Enabled: " + (InfobipPush.LocationEnabled ? "true" : "false"));
+            LocationInfo location = locationService.lastData;
+            InfobipPush.ShareLocation(location);
+        }
+		
         
     }
 }

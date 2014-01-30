@@ -44,12 +44,21 @@ public static class InfobipPush
     [DllImport ("__Internal")]
     private static extern string IBUserId();
 
-	[DllImport ("__Internal")]
+    [DllImport ("__Internal")]
     private static extern void IBUnregister();
     
     [DllImport ("__Internal")]
+    private static extern void IBEnableLocation();
+    
+    [DllImport ("__Internal")]
+    private static extern void IBDisableLocation();
+    
+    [DllImport ("__Internal")]
+    private static extern bool IBIsLocationEnabled();
+    
+    [DllImport ("__Internal")]
     private static extern void IBShareLocation(string location);
-	#endregion
+    #endregion
 
     #region listeners
     public static InfobipPushDelegateWithNotificationArg OnNotificationReceived { get; set; }
@@ -146,7 +155,6 @@ public static class InfobipPush
         }
         #endif
         return false;
-      
     }
 
     public static string DeviceId
@@ -188,15 +196,52 @@ public static class InfobipPush
         }
     }
 
-	public static void Unregister()
-	{
-		#if UNITY_IPHONE
-		if (Application.platform == RuntimePlatform.IPhonePlayer)
-		{
-			IBUnregister();
-		}
-		#endif
-	}
+    public static void Unregister()
+    {
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            IBUnregister();
+        }
+        #endif
+    }
+
+    public static void EnableLocation()
+    {
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            IBEnableLocation();
+        }
+        #endif
+    }
+
+    public static void DisableLocation()
+    {
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            IBDisableLocation();
+        }
+        #endif
+    }
+
+    public static bool IsLocationEnabled()
+    {
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            return IBIsLocationEnabled();
+        }
+        #endif
+        return false;
+    }
+
+    public static bool LocationEnabled
+    {
+        get { return IsLocationEnabled(); }
+        set { if (value) EnableLocation(); else DisableLocation(); }
+    }
 
     public static void ShareLocation(LocationInfo location)
     {
@@ -252,15 +297,14 @@ public class InfobipPushNotification : MonoBehaviour
         set;
     }
 
-	public bool isMediaNotification(){
+    public bool isMediaNotification()
+    {
 
-	    if (MediaData != null)
-		{
-		return true;
-		} 
-		return false;
-
-            
+        if (MediaData != null)
+        {
+            return true;
+        } 
+        return false;
     }
  
     public string Title
