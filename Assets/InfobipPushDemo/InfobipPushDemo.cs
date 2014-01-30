@@ -15,22 +15,22 @@ public class InfobipPushDemo : MonoBehaviour
         labelStyle.alignment = TextAnchor.MiddleCenter;
 
         InfobipPush.OnNotificationReceived = (notif) => {
-            ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString());
+            ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
         };
         InfobipPush.OnRegistered = () => {
-            ScreenPrinter.Print(("IBPush - Successfully registered!");
+            ScreenPrinter.Print(("IBPush - Successfully registered!"));
         };
         InfobipPush.OnUnregistered = () => {
-            ScreenPrinter.Print(("IBPush - Successfully unregistered!");
+            ScreenPrinter.Print(("IBPush - Successfully unregistered!"));
         };
         InfobipPush.OnError = (errorCode) => {
-            ScreenPrinter.Print(("IBPush - ERROR: " + errorCode);
+            ScreenPrinter.Print(("IBPush - ERROR: " + errorCode));
         };
         InfobipPush.OnUserDataSaved = () => {
-            ScreenPrinter.Print(("IBPush - User data saved");
+            ScreenPrinter.Print(("IBPush - User data saved"));
         };
 		InfobipPush.OnUnregistered = () => {
-			print ("IBPush - Successfully unregistered!");
+            ScreenPrinter.Print("IBPush - Successfully unregistered!");
 	
 		};
     }
@@ -76,6 +76,9 @@ public class InfobipPushDemo : MonoBehaviour
             bool isRegistered = InfobipPush.IsRegistered();
             ScreenPrinter.Print(isRegistered);
         }
+        if (GUI.Button (new Rect (centerX + 100, 200, 175, 45), "Unregister")) {
+            InfobipPush.Unregister();
+        }
         if (GUI.Button(new Rect(centerX - 300, 150, 175, 45), "Device Id"))
         {
             string deviceId = InfobipPush.DeviceId;
@@ -90,6 +93,7 @@ public class InfobipPushDemo : MonoBehaviour
             string userId = InfobipPush.UserId;
             ScreenPrinter.Print(userId);
         }
+
     }
 }
 
@@ -252,10 +256,5 @@ public class ScreenPrinter : MonoBehaviour
                 guiText.pixelOffset = new Vector2(-pixelOffset, pixelOffset);
                 break;
         }
-		if (GUI.Button (new Rect (centerX + 100, 200, 175, 45), "Unregister")) {
-
-			InfobipPush.Unregister();
-
-				}
     }
 }
