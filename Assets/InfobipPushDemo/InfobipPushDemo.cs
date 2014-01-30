@@ -31,7 +31,6 @@ public class InfobipPushDemo : MonoBehaviour
         };
 		InfobipPush.OnUnregistered = () => {
             ScreenPrinter.Print("IBPush - Successfully unregistered!");
-	
 		};
     }
 
