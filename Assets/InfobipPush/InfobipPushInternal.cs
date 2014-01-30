@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class InfobipPushInternal : MonoBehaviour
 {
@@ -32,6 +33,14 @@ public class InfobipPushInternal : MonoBehaviour
     }
     #endregion
 
+    internal static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
+    {
+        // Unix timestamp is seconds past epoch
+        System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+        dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+        return dtDateTime;
+    }
+
     public void IBPushDidReceiveRemoteNotification(string notification)
     {
         InfobipPush.OnNotificationReceived(new InfobipPushNotification(notification));
@@ -47,17 +56,17 @@ public class InfobipPushInternal : MonoBehaviour
         InfobipPush.OnUserDataSaved();
     }
 
-	public void IBUnregister_SUCCESS()
-	{
-		InfobipPush.OnUnregistered();
-	}
+    public void IBUnregister_SUCCESS()
+    {
+        InfobipPush.OnUnregistered();
+    }
 
     public void IBPushErrorHandler(string errorCode)
     {
         InfobipPush.OnError(errorCode);
     }
 
-    public void IBShareLocation_SUCCESS() 
+    public void IBShareLocation_SUCCESS()
     {
         InfobipPush.OnLocationShared();
     }

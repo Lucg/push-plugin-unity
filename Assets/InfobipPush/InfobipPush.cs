@@ -251,8 +251,8 @@ public static class InfobipPush
         locationDict ["altitude"] = location.altitude;
         locationDict ["horizontalAccuracy"] = location.horizontalAccuracy;
         locationDict ["verticalAccuracy"] = location.verticalAccuracy;
-        var dateTime = DateTime.FromOADate(location.timestamp);
-        locationDict ["timestamp"] = dateTime.ToString("yyyy-MM-dd hh:mm:ss a", CultureInfo.InvariantCulture);
+        DateTime date = InfobipPushInternal.UnixTimeStampToDateTime(location.timestamp);
+        locationDict ["timestamp"] = String.Format("{0:u}", date);
         string locationString = MiniJSON.Json.Serialize(locationDict);
 
         #if UNITY_IPHONE
