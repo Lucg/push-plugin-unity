@@ -10,8 +10,21 @@
 #import <objc/runtime.h>
 
 
-NSString *const PUSH_REGISTER_WITH_DEVICE_TOKRN = @"IBPushDidRegisterForRemoteNotificationsWithDeviceToken";
+NSString *const PUSH_REGISTER_WITH_DEVICE_TOKEN = @"IBPushDidRegisterForRemoteNotificationsWithDeviceToken";
+NSString *const PUSH_RECEIVE_REMOTE_NOTIFICATION = @"IBPushDidReceiveRemoteNotification";
 
+IPPushNotificationInfoBlock didReceiveRemoteNotificationBlock = ^void(BOOL succeeded, InfobipPushNotification *notification, NSError *error) {
+    if (succeeded) {
+        NSDictionary * notificationAndroidStyle = [IBPushUtil convertNotificationToAndroidFormat:notification];
+        NSError * err = 0;
+        NSData *notificationData = [NSJSONSerialization dataWithJSONObject:notificationAndroidStyle options:0 error:&err];
+        NSString *notificationJson = [[NSString alloc] initWithData:notificationData encoding:NSUTF8StringEncoding];
+        
+        UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_RECEIVE_REMOTE_NOTIFICATION UTF8String], [notificationJson UTF8String]);
+    } else {
+        [IBPushUtil passErrorCodeToUnity:error];
+    }
+};
 
 @implementation UIApplication(IBPush)
 
@@ -21,7 +34,6 @@ NSString *const PUSH_REGISTER_WITH_DEVICE_TOKRN = @"IBPushDidRegisterForRemoteNo
     
     UIApplication *app = [UIApplication sharedApplication];
     NSLog(@"Initializing application: %@, %@", app, app.delegate);
-    
 }
 
 - (void) setIBPushDelegate:(id<UIApplicationDelegate>)delegate {
@@ -55,6 +67,19 @@ NSString *const PUSH_REGISTER_WITH_DEVICE_TOKRN = @"IBPushDidRegisterForRemoteNo
                                   (IMP)IBPushDidReceiveRemoteNotification,
                                   "v@:::");
     
+//    NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
+//    if ([[vComp objectAtIndex:0] intValue] >= 7) {
+    
+    exchangeMethodImplementations(delegateClass, @selector(application:didReceiveRemoteNotification:fetchCompletionHandler:),
+                                      @selector(application:IBPushDidReceiveRemoteNotificationFetchCompletionHandler:),
+                                      (IMP)IBPushDidReceiveRemoteNotificationFetchCompletionHandler,
+                                      "v@::::");
+    
+    exchangeMethodImplementations(delegateClass, @selector(application:didReceiveLocalNotification:),
+                                  @selector(application:IBPushDidReceiveLocalNotification:),
+                                  (IMP)IBPushDidReceiveLocalNotification,
+                                  "v@:::");
+    
     [self setIBPushDelegate:delegate];
 }
 
@@ -83,19 +108,23 @@ void IBPushDidRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, i
     {
 		[self application:application IBPushDidRegisterForRemoteNotificationsWithDeviceToken:devToken];
 	}
-    NSMutableArray * channels = [[IBPushUtil channels] mutableCopy];
-    if (!channels) {
-        [channels addObject:@"ROOT"];
-    }
-    [InfobipPush registerWithDeviceToken:devToken toChannels:[channels copy] usingBlock:^(BOOL succeeded, NSError *error) {
+    
+    IPResponseBlock block = ^void(BOOL succeeded, NSError *error) {
         if (succeeded) {
             NSLog(@"Register succeeded!");
             // TODO replace last argument with something useful or remove it
-            UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_REGISTER_WITH_DEVICE_TOKRN UTF8String], [@"" UTF8String]);
+            UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_REGISTER_WITH_DEVICE_TOKEN UTF8String], [@"" UTF8String]);
         } else {
             NSLog(@"IBPush - Register with device token failed.");
         }
-    }];
+    };
+    
+    NSArray * channels = [[IBPushUtil channels] copy];
+    if (!channels) {
+        [InfobipPush registerWithDeviceToken:devToken usingBlock:block];
+    } else {
+        [InfobipPush registerWithDeviceToken:devToken toChannels:[channels copy] usingBlock:block];
+    }
 }
 
 void IBPushDidFailToRegisterForRemoteNotificationsWithError(id self, SEL _cmd, id application, id error) {
@@ -111,18 +140,7 @@ void IBPushDidReceiveRemoteNotification(id self, SEL _cmd, id application, id us
     NSString * functionName =  [NSString stringWithFormat:@"%s", __FUNCTION__];
     NSLog(@"%@",functionName);
     
-    [InfobipPush didReceiveRemoteNotification:userInfo withAdditionalInformationAndCompletion:^(BOOL succeeded, InfobipPushNotification *notification, NSError *error) {
-        if (succeeded) {
-            NSDictionary * notificationAndroidStyle = [IBPushUtil convertNotificationToAndroidFormat:notification];
-            NSError * err = 0;
-            NSData *notificationData = [NSJSONSerialization dataWithJSONObject:notificationAndroidStyle options:0 error:&err];
-            NSString *notificationJson = [[NSString alloc] initWithData:notificationData encoding:NSUTF8StringEncoding];
-            
-            UnitySendMessage([PUSH_SINGLETON UTF8String], [functionName UTF8String], [notificationJson UTF8String]);
-        } else {
-            [IBPushUtil passErrorCodeToUnity:error];
-        }
-    }];
+    [InfobipPush didReceiveRemoteNotification:userInfo withAdditionalInformationAndCompletion:didReceiveRemoteNotificationBlock];
 }
 
 BOOL IBPushDidFinishLaunchingWithOptions(id self, SEL _cmd, id application, id launchOptions) {
@@ -138,6 +156,25 @@ BOOL IBPushDidFinishLaunchingWithOptions(id self, SEL _cmd, id application, id l
 	}
 	
 	return result;
+}
+
+void IBPushDidReceiveLocalNotification(id self, SEL _cmd, id application, id localNotification) {
+    [InfobipPush didReceiveLocalNotification:localNotification withCompletion:^(BOOL succeeded, InfobipPushNotification *notification, NSError *error) {
+        if (succeeded) {
+            // TODO:
+        } else {
+            [IBPushUtil passErrorCodeToUnity:error];
+        }
+    }];
+}
+
+typedef void (^OurCompHandler)(UIBackgroundFetchResult);
+
+void IBPushDidReceiveRemoteNotificationFetchCompletionHandler(id self, SEL _cmd, id application, id notif, id handler) {
+    [InfobipPush didReceiveRemoteNotification:notif withAdditionalInformationAndCompletion:didReceiveRemoteNotificationBlock];
+    
+    OurCompHandler completionHandler = (OurCompHandler) handler;
+    completionHandler(UIBackgroundFetchResultNewData);
 }
 
 @end

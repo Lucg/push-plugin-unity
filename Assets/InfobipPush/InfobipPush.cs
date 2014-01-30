@@ -339,19 +339,16 @@ public class InfobipPushNotification : MonoBehaviour
 
     public InfobipPushNotification(string notif)
     {
-        print(notif);
         IDictionary<string, object> dictNotif = MiniJSON.Json.Deserialize(notif) as Dictionary<string,object>;
         object varObj = null;
         int varInt;
         if (dictNotif.TryGetValue("notificationId", out varObj))
         {
             NotificationId = (string)varObj;
-            print("notificationId " + NotificationId);
         }
         if (dictNotif.TryGetValue("title", out varObj))
         {
             Title = (string)varObj;
-            print("title " + Title);
         }
         //IDictionary<string, int> dictNotifInt = dictNotif as Dictionary<string, int>;
         if (dictNotif.TryGetValue("badge", out varObj))
@@ -364,22 +361,18 @@ public class InfobipPushNotification : MonoBehaviour
                 varInt = (int)varObj;
                 Badge = varInt;
             }
-            print("badge " + Badge);
         }
         if (dictNotif.TryGetValue("sound", out varObj))
         {
             Sound = (string)varObj;
-            print("sound " + Sound);
         }
         if (dictNotif.TryGetValue("mimeType", out varObj))
         {
             MimeType = (string)varObj;
-            print("mimeType " + MimeType);
         }
         if (dictNotif.TryGetValue("url", out varObj))
         {
             Url = (string)varObj;
-            print("url " + Url);
         }
         if (dictNotif.TryGetValue("aditionalInfo", out varObj))
         {
@@ -390,12 +383,10 @@ public class InfobipPushNotification : MonoBehaviour
         if (dictNotif.TryGetValue("mediaData", out varObj))
         {
             MediaData = (string)varObj;
-            print("mediaData " + MediaData);
         }
         if (dictNotif.TryGetValue("message", out varObj))
         {
             Message = (string)varObj;
-            print("message " + Message);
         }
     }
 
