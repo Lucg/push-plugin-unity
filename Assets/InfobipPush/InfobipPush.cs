@@ -61,19 +61,19 @@ public static class InfobipPush
     #endregion
 
     #region listeners
-    public static InfobipPushDelegateWithNotificationArg OnNotificationReceived { get; set; }
+    public static InfobipPushDelegateWithNotificationArg OnNotificationReceived = delegate {};
 
-    public static InfobipPushDelegateWithNotificationArg OnNotificationOpened { get; set; }
+    public static InfobipPushDelegateWithNotificationArg OnNotificationOpened = delegate {};
 
-    public static InfobipPushDelegate OnRegistered { get; set; }
+    public static InfobipPushDelegate OnRegistered = delegate {};
 
-    public static InfobipPushDelegate OnUnregistered { get; set; }
+    public static InfobipPushDelegate OnUnregistered = delegate {};
 
-    public static InfobipPushDelegate OnUserDataSaved { get; set; }
+    public static InfobipPushDelegate OnUserDataSaved = delegate {};
 
-    public static InfobipPushDelegate OnLocationShared { get; set; }
+    public static InfobipPushDelegate OnLocationShared = delegate {};
 
-    public static InfobipPushDelegateWithStringArg OnError { get; set; }
+    public static InfobipPushDelegateWithStringArg OnError = delegate {};
     #endregion
 
     public static bool LogMode
