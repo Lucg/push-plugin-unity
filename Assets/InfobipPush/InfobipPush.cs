@@ -3,6 +3,7 @@ using System.Collections;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System;
+using System.Globalization;
 
 public delegate void InfobipPushDelegateWithNotificationArg(InfobipPushNotification notification);
 
@@ -44,7 +45,10 @@ public static class InfobipPush
     private static extern string IBUserId();
 
 	[DllImport ("__Internal")]
-	private static extern void IBUnregister();
+    private static extern void IBUnregister();
+    
+    [DllImport ("__Internal")]
+    private static extern void IBShareLocation(string location);
 	#endregion
 
     #region listeners
@@ -57,6 +61,8 @@ public static class InfobipPush
     public static InfobipPushDelegate OnUnregistered { get; set; }
 
     public static InfobipPushDelegate OnUserDataSaved { get; set; }
+
+    public static InfobipPushDelegate OnLocationShared { get; set; }
 
     public static InfobipPushDelegateWithStringArg OnError { get; set; }
     #endregion
@@ -190,9 +196,28 @@ public static class InfobipPush
 			IBUnregister();
 		}
 		#endif
-
-		
 	}
+
+    public static void ShareLocation(LocationInfo location)
+    {
+        IDictionary<string, object> locationDict = new Dictionary<string, object>(6);
+        locationDict ["latitude"] = location.latitude;
+        locationDict ["longitude"] = location.longitude;
+        locationDict ["altitude"] = location.altitude;
+        locationDict ["horizontalAccuracy"] = location.horizontalAccuracy;
+        locationDict ["verticalAccuracy"] = location.verticalAccuracy;
+        var dateTime = DateTime.FromOADate(location.timestamp);
+        locationDict ["timestamp"] = dateTime.ToString("yyyy-MM-dd hh:mm:ss a", CultureInfo.InvariantCulture);
+        string locationString = MiniJSON.Json.Serialize(locationDict);
+
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            ScreenPrinter.Print(locationString);
+            IBShareLocation(locationString);
+        }
+        #endif
+    }
 }
 
 public class InfobipPushNotification : MonoBehaviour

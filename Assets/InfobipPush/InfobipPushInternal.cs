@@ -56,4 +56,9 @@ public class InfobipPushInternal : MonoBehaviour
     {
         InfobipPush.OnError(errorCode);
     }
+
+    public void IBShareLocation_SUCCESS() 
+    {
+        InfobipPush.OnLocationShared();
+    }
 }

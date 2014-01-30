@@ -104,6 +104,7 @@ public class ScreenPrinter : MonoBehaviour
     public TextAnchor anchorAt = TextAnchor.LowerLeft;
     public int numberOfLines = 5;
     public int pixelOffset = 5;
+    public int chunkSize = 80;
     static ScreenPrinter defaultPrinter = null;
     static bool quitting = false;
     List<string> newMessages = new List<string>();
@@ -191,7 +192,13 @@ public class ScreenPrinter : MonoBehaviour
             }
             
             //  create the multi-line text to display
-            guiText.text = string.Join("\n", messageHistory.ToArray());
+            foreach (string msg in messageHistory.ToArray()) 
+            {
+                for (int i = 0; i < msg.Length; i += chunkSize)
+                {
+                    guiText.text += msg.Substring(i, chunkSize) + '\n';
+                }
+            }
             newMessages.Clear();
         }
     }
