@@ -6,6 +6,9 @@ NSString *const PUSH_GET_CHANNELS = @"IBGetChannels_SUCCESS";
 NSString *const PUSH_UNREGISTER =  @"IBUnregister_SUCCESS";
 NSString *const PUSH_GET_UNRECEIVED_NOTIFICATION = @"IBGetUnreceivedNotifications_SUCCESS";
 
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0];
+
+
 void IBSetLogModeEnabled(bool isEnabled, int lLevel) {
     NSLog(@"IBSetLogModeEnabled method");
     InfobipPushLogLevel logLevel = IPPushLogLevelDebug;
@@ -186,4 +189,58 @@ void IBGetUnreceivedNotifications() {
             [IBPushUtil passErrorCodeToUnity:error];
         }
     }];
+}
+
+void IBaddMediaView(const char * notif, const char * customiz) {
+    NSString * notificationJson = [NSString stringWithFormat:@"%s", notif];
+    NSString * customizationJson = [NSString stringWithFormat:@"%s", customiz];
+
+    NSError * e = nil;
+    NSDictionary * notification = [NSJSONSerialization JSONObjectWithData:[notificationJson dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&e];
+    NSDictionary * customization = [NSJSONSerialization JSONObjectWithData:[customizationJson dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&e];
+    
+    NSString * mediaContent = [notification objectForKey:@"mediaData"];
+    NSNumber * x = [customization objectForKey:@"x"];
+    NSNumber * y = [customization objectForKey:@"y"];
+    NSNumber * width = [customization objectForKey:@"width"];
+    NSNumber * height = [customization objectForKey:@"height"];
+    NSNumber * shadow = [customization objectForKey:@"shadow"]; //BOOL
+    NSNumber * radius = [customization objectForKey:@"radius"]; //int
+    
+    NSNumber * dismissButtonSize = [customization objectForKey:@"dismissButtonSize"]; //int
+    NSNumber * forgroundColorHex = [customization objectForKey:@"forgroundColor"]; //hex
+    NSNumber * backgroundColorHex = [customization objectForKey:@"backgroundColor"]; //hex
+    UIColor * forgroundColor = UIColorFromRGB([forgroundColorHex integerValue]);
+    UIColor * backgroundColor = UIColorFromRGB([backgroundColorHex integerValue]);
+    
+    UIView *topView = [[UIApplication sharedApplication] keyWindow].rootViewController.view;
+    CGRect frame = CGRectMake([x floatValue], [y floatValue], [width floatValue], [height floatValue]);
+    InfobipMediaView *mediaView = [[InfobipMediaView alloc] initWithFrame:frame andMediaContent:mediaContent];
+    
+    
+    //set the size od dismiss button
+    if(nil != dismissButtonSize){
+        [mediaView setDismissButtonSize:[dismissButtonSize integerValue]];
+        if ((nil != backgroundColor) && (nil != forgroundColor)) {
+            [mediaView setDismissButtonSize:[dismissButtonSize integerValue]
+                        withBackgroundColor:backgroundColor andForegroundColor:forgroundColor];
+        }
+    } else if ((nil != backgroundColor) && (nil != forgroundColor)) {
+        //TODO find default dismiss button size value and implement this
+    }
+    
+    // disabe/enable shadow
+    if (nil != shadow) {
+        mediaView.shadowEnabled = [shadow boolValue];
+    }
+    
+    // corner radius
+    if (nil != radius) {
+        mediaView.cornerRadius = [radius integerValue];
+    } else {
+        mediaView.cornerRadius = 0;
+    }
+    
+    // display media view
+    [topView addSubview:mediaView];
 }

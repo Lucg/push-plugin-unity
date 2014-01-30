@@ -2,6 +2,7 @@
 #define cwrapper_infobip
 
 #import "InfobipPush.h"
+#import "InfobipMediaView.h"
 #import "IBPushUtil.h"
 
 

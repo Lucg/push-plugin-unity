@@ -112,12 +112,18 @@ void IBPushDidReceiveRemoteNotification(id self, SEL _cmd, id application, id us
     NSLog(@"%@",functionName);
     
     [InfobipPush pushNotificationFromUserInfo:userInfo getAdditionalInfo:^(BOOL succeeded, InfobipPushNotification *notification, NSError *error) {
-        NSDictionary * notificationAndoridStyle = [IBPushUtil convertNotificationToAndroidFormat:notification];
-        NSError * err = 0;
-        NSData *notificationData = [NSJSONSerialization dataWithJSONObject:notificationAndoridStyle options:0 error:&err];
-        NSString *notificationJson = [[NSString alloc] initWithData:notificationData encoding:NSUTF8StringEncoding];
-        
-        UnitySendMessage([PUSH_SINGLETON UTF8String], [functionName UTF8String], [notificationJson UTF8String]);
+        if (succeeded) {
+            [InfobipPush confirmPushNotificationWasReceived:notification];
+            
+            NSDictionary * notificationAndoridStyle = [IBPushUtil convertNotificationToAndroidFormat:notification];
+            NSError * err = 0;
+            NSData *notificationData = [NSJSONSerialization dataWithJSONObject:notificationAndoridStyle options:0 error:&err];
+            NSString *notificationJson = [[NSString alloc] initWithData:notificationData encoding:NSUTF8StringEncoding];
+            
+            UnitySendMessage([PUSH_SINGLETON UTF8String], [functionName UTF8String], [notificationJson UTF8String]);
+        } else {
+            [IBPushUtil passErrorCodeToUnity:error];
+        }
     }];
 }
 
