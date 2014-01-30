@@ -17,11 +17,11 @@ extern "C" {
     void IBSetUserId(const char* userId);
     char *IBUserId();
     void IBRegisterToChannels(const char * channelsData);
-    void IBgetRegisteredChannels();
-    void IBnotifyNotificationOpened(const char * pushIdParam);
-    void IBsetBadgeNumber(const int badgeNo);
+    void IBGetRegisteredChannels();
+    void IBNotifyNotificationOpened(const char * pushIdParam);
+    void IBSetBadgeNumber(const int badgeNo);
     void IBUnregister();
-    void IBgetUnreceivedNotifications();
+    void IBGetUnreceivedNotifications();
 }
 
 #endif

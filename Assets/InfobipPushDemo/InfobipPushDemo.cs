@@ -8,6 +8,7 @@ public class InfobipPushDemo : MonoBehaviour
     private GUIStyle labelStyle = new GUIStyle();
     private float centerX = Screen.width / 2;
     private LocationService locationService = new LocationService();
+
     void Start()
     {   
         labelStyle.fontSize = 24;
@@ -18,9 +19,9 @@ public class InfobipPushDemo : MonoBehaviour
 
         InfobipPush.OnNotificationReceived = (notif) => {
 			bool isMediaNotification = notif.isMediaNotification();
-			ScreenPrinter.Print("IBPush - Is Media notification: " +isMediaNotification);
-			string mediaContent =notif.MediaData;
-			ScreenPrinter.Print("IBPush -  Media content: " +mediaContent);
+			ScreenPrinter.Print("IBPush - Is Media notification: " + isMediaNotification);
+			string mediaContent = notif.MediaData;
+			ScreenPrinter.Print("IBPush -  Media content: " + mediaContent);
             ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
         };
         InfobipPush.OnRegistered = () => {
@@ -115,7 +116,6 @@ public class InfobipPushDemo : MonoBehaviour
             InfobipPush.ShareLocation(location);
         }
 		
-        
     }
 }
 
@@ -219,7 +219,9 @@ public class ScreenPrinter : MonoBehaviour
             {
                 for (int i = 0; i < msg.Length; i += chunkSize)
                 {
-                    guiText.text += msg.Substring(i, chunkSize) + '\n';
+                    int len = chunkSize;
+                    if (i + chunkSize > msg.Length) len = msg.Length - i;
+                    guiText.text += msg.Substring(i, len) + '\n';
                 }
             }
             newMessages.Clear();

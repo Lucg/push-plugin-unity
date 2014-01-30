@@ -128,7 +128,7 @@ void IBRegisterToChannels(const char * channelsData) {
     }];
 }
 
-void IBgetRegisteredChannels() {
+void IBGetRegisteredChannels() {
     [InfobipPush getListOfChannelsInBackgroundUsingBlock:^(BOOL succeeded, NSArray *channels, NSError *error) {
         if (succeeded) {
             //convert channels to json
@@ -144,7 +144,7 @@ void IBgetRegisteredChannels() {
     
 }
 
-void IBnotifyNotificationOpened(const char * pushIdParam) {
+void IBNotifyNotificationOpened(const char * pushIdParam) {
     NSString * pushId = [NSString stringWithFormat:@"%s", pushIdParam];
 //    NSLog(@"PushID: %@", pushId);
     InfobipPushNotification* tmpNotification = [[InfobipPushNotification alloc] init];
@@ -153,7 +153,7 @@ void IBnotifyNotificationOpened(const char * pushIdParam) {
     [InfobipPush confirmPushNotificationWasOpened:tmpNotification];
 }
 
-void IBsetBadgeNumber(const int badgeNo) {
+void IBSetBadgeNumber(const int badgeNo) {
     [UIApplication sharedApplication].applicationIconBadgeNumber = badgeNo;
 }
 
@@ -169,7 +169,7 @@ void IBUnregister(){
     }];
 }
 
-void IBgetUnreceivedNotifications() {
+void IBGetUnreceivedNotifications() {
     [InfobipPush getListOfUnreceivedNotificationsInBackgroundUsingBlock:^(BOOL succeeded, NSArray *notifications, NSError *error) {
         if (succeeded) {
             NSMutableArray * notificationsArray = [[NSMutableArray alloc] init];
