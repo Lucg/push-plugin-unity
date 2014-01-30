@@ -227,12 +227,23 @@ public class InfobipPushNotification : MonoBehaviour
         set;
     }
 
+	public bool isMediaNotification(){
+
+	    if (MediaData != null)
+		{
+		return true;
+		} 
+		return false;
+
+            
+    }
+ 
     public string Title
     {
         get;
         set;
     }
-
+    
     public string Message
     {
         get;

@@ -15,6 +15,8 @@ public class InfobipPushDemo : MonoBehaviour
         labelStyle.alignment = TextAnchor.MiddleCenter;
 
         InfobipPush.OnNotificationReceived = (notif) => {
+			bool isMediaNotification = notif.isMediaNotification();
+			ScreenPrinter.Print("IBPush - Is Media notification: " +isMediaNotification);
             ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
         };
         InfobipPush.OnRegistered = () => {
@@ -92,7 +94,12 @@ public class InfobipPushDemo : MonoBehaviour
             string userId = InfobipPush.UserId;
             ScreenPrinter.Print(userId);
         }
-
+		if (GUI.Button(new Rect(centerX - 300, 150, 175, 45), "Device Id"))
+		{
+			string deviceId = InfobipPush.DeviceId;
+			ScreenPrinter.Print(deviceId);
+		}
+        
     }
 }
 
