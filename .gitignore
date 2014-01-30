@@ -1,1 +1,9 @@
-test
+/*
+/*/
+!/Assets/
+!README.md
+*.meta
+.DS_Store
+*.dll
+*.dll.mdb
+*.userprefs
