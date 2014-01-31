@@ -19,7 +19,10 @@ void IBDisableLocation() {
 }
 
 bool IBIsLocationEnabled() {
-    return [InfobipPush locationUpdateActive];
+    if([InfobipPush locationUpdateActive]) {
+        return (bool) 1;
+    }
+    return (bool) 0;
 }
 
 void IBSetBackgroundLocationUpdateModeEnabled(bool enable) {
@@ -27,7 +30,10 @@ void IBSetBackgroundLocationUpdateModeEnabled(bool enable) {
 }
 
 bool IBBackgroundLocationUpdateModeEnabled() {
-    return [InfobipPush backgroundLocationUpdateModeEnabled];
+    if([InfobipPush backgroundLocationUpdateModeEnabled]) {
+        return (bool) 1;
+    }
+    return (bool) 0;
 }
 
 void IBSetLocationUpdateTimeInterval(const int seconds) {
@@ -70,7 +76,10 @@ void IBDisableLiveGeo() {
 }
 
 bool IBLiveGeoEnabled() {
-    return [InfobipPush liveGeoEnabled];
+    if([InfobipPush liveGeoEnabled]) {
+        return (bool) 1;
+    }
+    return (bool) 0;
 }
 
 int IBNumberOfCurrentLiveGeoRegions() {
