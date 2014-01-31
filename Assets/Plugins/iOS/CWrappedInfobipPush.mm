@@ -191,7 +191,7 @@ void IBGetUnreceivedNotifications() {
     }];
 }
 
-void IBaddMediaView(const char * notif, const char * customiz) {
+void IBAddMediaView(const char * notif, const char * customiz) {
     NSString * notificationJson = [NSString stringWithFormat:@"%s", notif];
     NSString * customizationJson = [NSString stringWithFormat:@"%s", customiz];
 

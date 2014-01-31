@@ -23,7 +23,7 @@ extern "C" {
     void IBSetBadgeNumber(const int badgeNo);
     void IBUnregister();
     void IBGetUnreceivedNotifications();
-    void IBaddMediaView(const char * notif, const char * customiz);
+    void IBAddMediaView(const char * notif, const char * customiz);
 }
 
 #endif
