@@ -64,8 +64,7 @@ public static class InfobipPushLocation
 		[DllImport ("__Internal")]
 		public static extern double IBLiveGeoAccuracy();
 	#endregion
-    
-    
+
     public static void EnableLocation()
     {
         #if UNITY_IPHONE
@@ -97,12 +96,10 @@ public static class InfobipPushLocation
             }
             #endif
             return false;
-            
         }
         
         set
         {
-            
             #if UNITY_IPHONE
             if (Application.platform == RuntimePlatform.IPhonePlayer)
             {

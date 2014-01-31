@@ -46,30 +46,6 @@ public static class InfobipPush
 
     [DllImport ("__Internal")]
     private static extern void IBUnregister();
-    
-    [DllImport ("__Internal")]
-    private static extern void IBEnableLocation();
-    
-    [DllImport ("__Internal")]
-    private static extern void IBDisableLocation();
-    
-    [DllImport ("__Internal")]
-    private static extern bool IBIsLocationEnabled();
-    
-    [DllImport ("__Internal")]
-    private static extern void IBShareLocation(string location);
-
-    [DllImport ("__Internal")]
-    private static extern void IBSetLocationUpdateTimeInterval(int seconds);
-
-    [DllImport ("__Internal")]
-    private static extern int IBLocationUpdateTimeInterval();
-
-    [DllImport ("__Internal")]
-    private static extern void IBSetBackgroundLocationUpdateModeEnabled(bool enable);
-
-    [DllImport ("__Internal")]
-    private static extern bool IBBackgroundLocationUpdateModeEnabled();
 
     [DllImport ("__Internal")]
     private static extern void IBSetBadgeNumber(int badgeNo);
