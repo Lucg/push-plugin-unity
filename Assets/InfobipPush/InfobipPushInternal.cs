@@ -76,8 +76,8 @@ public class InfobipPushInternal : MonoBehaviour
         InfobipPush.OnGetChannelsFinished(channels);
     }
 
-    public void IBSetChannels_SUCCESS(string channels)
+    public void IBSetChannels_SUCCESS()
     {
-        InfobipPush.OnRegisteredToChannels(channels);
+        InfobipPush.OnRegisteredToChannels();
     }
 }
