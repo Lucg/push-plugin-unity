@@ -35,7 +35,6 @@ public class InfobipPushNotification : MonoBehaviour
     
     public bool isMediaNotification()
     {
-        
         if (MediaData != null)
         {
             return true;

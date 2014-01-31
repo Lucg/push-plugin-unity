@@ -70,4 +70,14 @@ public class InfobipPushInternal : MonoBehaviour
     {
         InfobipPush.OnLocationShared();
     }
+
+    public void IBGetChannels_SUCCESS(string channels)
+    {
+        InfobipPush.OnGetChannelsFinished(channels);
+    }
+
+    public void IBSetChannels_SUCCESS(string channels)
+    {
+        InfobipPush.OnRegisteredToChannels(channels);
+    }
 }

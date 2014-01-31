@@ -9,7 +9,7 @@ public class InfobipPushRegistrationData
         set;
     }
     
-    public IList Channels
+    public string[] Channels
     {
         get;
         set;
