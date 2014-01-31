@@ -13,6 +13,13 @@ public class InfobipPushLocation
 {
 	public InfobipPushLocation ()
 	{
+		#region declaration of methods
+		[DllImport ("__Internal")]
+		private static extern void IBEnableLocation();
+
+
+
+		#endregion
 	}
 }
 
