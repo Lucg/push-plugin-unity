@@ -18,24 +18,23 @@ void IBDisableLocation() {
     [InfobipPush stopLocationUpdate];
 }
 
-BOOL IBIsLocationEnabled() {
+bool IBIsLocationEnabled() {
     return [InfobipPush locationUpdateActive];
 }
 
-void IBSetBackgroundLocationUpdateModeEnabled(const int enable) {
-    NSNumber * locationEnabled = [NSNumber numberWithInt:enable];
-    [InfobipPush setBackgroundLocationUpdateModeEnabled:[locationEnabled boolValue]];
+void IBSetBackgroundLocationUpdateModeEnabled(bool enable) {
+    [InfobipPush setBackgroundLocationUpdateModeEnabled:enable];
 }
 
-BOOL IBBackgroundLocationUpdateModeEnabled() {
+bool IBBackgroundLocationUpdateModeEnabled() {
     return [InfobipPush backgroundLocationUpdateModeEnabled];
 }
 
-void IBSetLocationUpdateTimeInterval(const int minutes) {
-    [InfobipPush setLocationUpdateTimeInterval:minutes];
+void IBSetLocationUpdateTimeInterval(const int seconds) {
+    [InfobipPush setLocationUpdateTimeInterval:seconds];
 }
 
-int IBGetLocationUpdateTimeInterval() {
+int IBLocationUpdateTimeInterval() {
     return [InfobipPush locationUpdateTimeInterval];
 }
 
@@ -60,32 +59,4 @@ void IBShareLocation(const char *locationCharArray) {
             [IBPushUtil passErrorCodeToUnity:error];
         }
     }];
-}
-
-void IBEnableLiveGeo() {
-    [InfobipPush enableLiveGeo];
-}
-
-void IBDisableLiveGeo() {
-    [InfobipPush disableLiveGeo];
-}
-
-bool IBLiveGeoEnabled() {
-    return [InfobipPush liveGeoEnabled];
-}
-
-int IBNumberOfCurrentLiveGeoRegions() {
-    return [InfobipPush numberOfCurrentLiveGeoRegions];
-}
-
-int IBStopLiveGeoMonitoringForAllRegions() {
-    return [InfobipPush stopLiveGeoMonitoringForAllRegions];
-}
-
-void IBSetLiveGeoAccuracy(const double accuracy) {
-    [InfobipPush setLiveGeoAccuracy:accuracy];
-}
-
-double IBLiveGeoAccuracy() {
-    return [InfobipPush liveGeoAccuracy];
 }
