@@ -17,54 +17,55 @@ using System.Collections.Generic;
 public static class InfobipPushLocation
 {
 
-	#region declaration of methods
-		[DllImport ("__Internal")]
-		public static extern void IBEnableLocation();
-	
-		[DllImport ("__Internal")]
-		public static extern void IBDisableLocation();
+    #region declaration of methods
+        [DllImport ("__Internal")]
+        public static extern void IBEnableLocation();
+    
+        [DllImport ("__Internal")]
+        public static extern void IBDisableLocation();
 
-		[DllImport ("__Internal")]
-		public static extern bool IBIsLocationEnabled();
+        [DllImport ("__Internal")]
+        public static extern bool IBIsLocationEnabled();
 
-		[DllImport ("__Internal")]
-		public static extern void IBSetBackgroundLocationUpdateModeEnabled(bool enable);
+        [DllImport ("__Internal")]
+        public static extern void IBSetBackgroundLocationUpdateModeEnabled(bool enable);
 
-		[DllImport ("__Internal")]
-		public static extern bool IBBackgroundLocationUpdateModeEnabled();
+        [DllImport ("__Internal")]
+        public static extern bool IBBackgroundLocationUpdateModeEnabled();
 
-		[DllImport ("__Internal")]
-		public static extern void IBSetLocationUpdateTimeInterval(int seconds);
+        [DllImport ("__Internal")]
+        public static extern void IBSetLocationUpdateTimeInterval(int seconds);
 
-		[DllImport ("__Internal")]
-		public static extern int IBLocationUpdateTimeInterval();
+        [DllImport ("__Internal")]
+        public static extern int IBLocationUpdateTimeInterval();
 
-		[DllImport ("__Internal")]
-		public static extern void IBShareLocation(string locationCharArray);
-		
-		// live geo
-		[DllImport ("__Internal")]
-		public static extern void IBEnableLiveGeo();
+        [DllImport ("__Internal")]
+        public static extern void IBShareLocation(string locationCharArray);
+        
+        // live geo
+        [DllImport ("__Internal")]
+        public static extern void IBEnableLiveGeo();
 
-		[DllImport ("__Internal")]
-		public static extern void IBDisableLiveGeo();
+        [DllImport ("__Internal")]
+        public static extern void IBDisableLiveGeo();
 
-		[DllImport ("__Internal")]
-		public static extern bool IBLiveGeoEnabled();
+        [DllImport ("__Internal")]
+        public static extern bool IBLiveGeoEnabled();
 
-		[DllImport ("__Internal")]
-		public static extern int IBNumberOfCurrentLiveGeoRegions();
+        [DllImport ("__Internal")]
+        public static extern int IBNumberOfCurrentLiveGeoRegions();
 
-		[DllImport ("__Internal")]
-		public static extern int IBStopLiveGeoMonitoringForAllRegions();
+        [DllImport ("__Internal")]
+        public static extern int IBStopLiveGeoMonitoringForAllRegions();
 
-		[DllImport ("__Internal")]
-		public static extern void IBSetLiveGeoAccuracy(double accuracy);
+        [DllImport ("__Internal")]
+        public static extern void IBSetLiveGeoAccuracy(double accuracy);
 
-		[DllImport ("__Internal")]
-		public static extern double IBLiveGeoAccuracy();
-	#endregion
-
+        [DllImport ("__Internal")]
+        public static extern double IBLiveGeoAccuracy();
+    #endregion
+    
+    
     public static void EnableLocation()
     {
         #if UNITY_IPHONE
@@ -165,6 +166,81 @@ public static class InfobipPushLocation
         }
         #endif
     }
+
+
+    // Live Geo
+    public static bool LiveGeo
+    {
+        get
+        {
+            #if UNITY_IPHONE
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                return IBLiveGeoEnabled();
+            }
+            #endif
+            return false;
+        }
+        set
+        {
+            #if UNITY_IPHONE
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                if(value) {
+                    IBEnableLiveGeo();
+                } else {
+                    IBDisableLiveGeo();
+                }
+            }
+            #endif
+        }
+    }
+
+    public static int NumberOfCurrentLiveGeoRegions()
+    {
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            return IBNumberOfCurrentLiveGeoRegions();
+        }
+        #endif
+        return 0;
+    }
+
+    public static int StopLiveGeoMonitoringForAllRegions()
+    {
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            return IBStopLiveGeoMonitoringForAllRegions(); 
+        }
+        #endif
+        return 0;
+    }
+
+    public static double LiveGeoAccuracy
+    {
+        get
+        {
+            #if UNITY_IPHONE
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                return IBLiveGeoAccuracy();
+            }
+            #endif
+            return 0;
+        }
+        set
+        {
+            #if UNITY_IPHONE
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                IBSetLiveGeoAccuracy(value);
+            }
+            #endif
+        }
+    }
+
 }
 
 
