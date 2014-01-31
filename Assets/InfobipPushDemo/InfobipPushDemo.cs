@@ -157,6 +157,39 @@ public class InfobipPushDemo : MonoBehaviour
             };
             InfobipPush.RegisterToChannels(channels, false);
         }
+
+
+        if (GUI.Button (new Rect (centerX - 300, 450, 175, 45), "Enable Live Geo")) 
+        {
+            InfobipPushLocation.LiveGeo = true;
+            ScreenPrinter.Print("Live geo is enabled");
+        }
+        if (GUI.Button(new Rect(centerX - 100, 450, 175, 45), "Disable Live Geo"))
+        {
+            InfobipPushLocation.LiveGeo = false;
+            ScreenPrinter.Print("Live geo is disabled");
+        }
+        if (GUI.Button (new Rect(centerX + 100, 450, 175, 45), "Is Live Geo")) 
+        {
+            ScreenPrinter.Print(InfobipPushLocation.LiveGeo);
+        }
+
+        if (GUI.Button (new Rect (centerX - 300, 500, 175, 45), "Number Of Regions")) 
+        {
+            int regions = InfobipPushLocation.IBNumberOfCurrentLiveGeoRegions();
+            ScreenPrinter.Print("Number Of Regions:" + regions.ToString());
+        }
+        if (GUI.Button(new Rect(centerX - 100, 500, 175, 45), "Stop Live Geo Monitoring"))
+        {
+            int regions = InfobipPushLocation.IBStopLiveGeoMonitoringForAllRegions();
+            ScreenPrinter.Print("Stop Live Geo Monitoring for all Regions" + regions.ToString());
+        }
+        if (GUI.Button (new Rect(centerX + 100, 500, 175, 45), "Set Accuracy")) 
+        {
+            double accur = 100.43;
+            InfobipPushLocation.IBSetLiveGeoAccuracy(accur);
+            ScreenPrinter.Print("Live geo Accuracy is set to " + accur.ToString());
+        }
     }
 }
 
