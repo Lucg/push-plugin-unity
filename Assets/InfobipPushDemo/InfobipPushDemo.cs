@@ -134,6 +134,10 @@ public class InfobipPushDemo : MonoBehaviour
 		{
 			InfobipPush.LocationUpdateTimeInterval = 500;
         }
+		if (GUI.Button(new Rect(centerX - 300, 350, 175, 45), "Set Badge Number"))
+		{
+			InfobipPush.SetBadgeNumber(10);
+		}
         
     }
 }

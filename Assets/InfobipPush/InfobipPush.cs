@@ -70,9 +70,9 @@ public static class InfobipPush
 
 	[DllImport ("__Internal")]
 	private static extern bool IBBackgroundLocationUpdateModeEnabled();
-    
 
-   
+	[DllImport ("__Internal")]
+	private static extern void IBSetBadgeNumber(int badgeNo);
     #endregion
 
     #region listeners
@@ -220,6 +220,15 @@ public static class InfobipPush
         }
         #endif
     }
+	public static void SetBadgeNumber(int badgeNo)
+	{
+		#if UNITY_IPHONE
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			IBSetBadgeNumber(badgeNo);
+		}
+		#endif
+	}
 
     public static void EnableLocation()
     {
