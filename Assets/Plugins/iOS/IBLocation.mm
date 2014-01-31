@@ -60,3 +60,31 @@ void IBShareLocation(const char *locationCharArray) {
         }
     }];
 }
+
+void IBEnableLiveGeo() {
+    [InfobipPush enableLiveGeo];
+}
+
+void IBDisableLiveGeo() {
+    [InfobipPush disableLiveGeo];
+}
+
+bool IBLiveGeoEnabled() {
+    return [InfobipPush liveGeoEnabled];
+}
+
+int IBNumberOfCurrentLiveGeoRegions() {
+    return [InfobipPush numberOfCurrentLiveGeoRegions];
+}
+
+int IBStopLiveGeoMonitoringForAllRegions() {
+    return [InfobipPush stopLiveGeoMonitoringForAllRegions];
+}
+
+void IBSetLiveGeoAccuracy(const double accuracy) {
+    [InfobipPush setLiveGeoAccuracy:accuracy];
+}
+
+double IBLiveGeoAccuracy() {
+    return [InfobipPush liveGeoAccuracy];
+}
