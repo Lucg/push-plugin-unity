@@ -10,6 +10,7 @@
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using System.Collections.Generic;
 
 
 
@@ -63,7 +64,110 @@ public static class InfobipPushLocation
 		[DllImport ("__Internal")]
 		public static extern double IBLiveGeoAccuracy();
 	#endregion
+    
+    
+    public static void EnableLocation()
+    {
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            IBEnableLocation();
+        }
+        #endif
+    }
+    
+    public static void DisableLocation()
+    {
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            IBDisableLocation();
+        }
+        #endif
+    }
+    
+    public static bool BackgroundLocationUpdateModeEnabled
+    {   
+        get
+        {
+            #if UNITY_IPHONE
+            if (Application.platform == RuntimePlatform.IPhonePlayer) 
+            {
+                return IBBackgroundLocationUpdateModeEnabled ();
+            }
+            #endif
+            return false;
+            
+        }
+        
+        set
+        {
+            
+            #if UNITY_IPHONE
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                IBSetBackgroundLocationUpdateModeEnabled(value);
+            }
+            #endif
+        }
+    }
+    
+    public static int LocationUpdateTimeInterval 
+    {
+        get {
+            #if UNITY_IPHONE
+            if (Application.platform == RuntimePlatform.IPhonePlayer) {
+                return IBLocationUpdateTimeInterval();
+            }
+            #endif
+            return 0;
+        }
+        set {
+            #if UNITY_IPHONE
+            if (Application.platform == RuntimePlatform.IPhonePlayer) {
+                IBSetLocationUpdateTimeInterval(value);
+            }
+            #endif
+        }
+    }
 
+    public static bool IsLocationEnabled()
+    {
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            return IBIsLocationEnabled();
+        }
+        #endif
+        return false;
+    }
+    
+    public static bool LocationEnabled
+    {
+        get { return IsLocationEnabled(); }
+        set { if (value) EnableLocation(); else DisableLocation(); }
+    }
+    
+    public static void ShareLocation(LocationInfo location)
+    {
+        IDictionary<string, object> locationDict = new Dictionary<string, object>(6);
+        locationDict ["latitude"] = location.latitude;
+        locationDict ["longitude"] = location.longitude;
+        locationDict ["altitude"] = location.altitude;
+        locationDict ["horizontalAccuracy"] = location.horizontalAccuracy;
+        locationDict ["verticalAccuracy"] = location.verticalAccuracy;
+        DateTime date = InfobipPushInternal.UnixTimeStampToDateTime(location.timestamp);
+        locationDict ["timestamp"] = String.Format("{0:u}", date);
+        string locationString = MiniJSON.Json.Serialize(locationDict);
+        
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            ScreenPrinter.Print(locationString);
+            IBShareLocation(locationString);
+        }
+        #endif
+    }
 }
 
 
