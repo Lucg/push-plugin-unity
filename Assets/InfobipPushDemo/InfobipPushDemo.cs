@@ -107,32 +107,32 @@ public class InfobipPushDemo : MonoBehaviour
 
         if (GUI.Button(new Rect(centerX - 300, 250, 175, 45), "Enable Location"))
         {
-            InfobipPush.EnableLocation();
+            InfobipPushLocation.EnableLocation();
         }
         if (GUI.Button(new Rect(centerX - 100, 250, 175, 45), "Disable Location"))
         {
-            InfobipPush.LocationEnabled = false;
+            InfobipPushLocation.LocationEnabled = false;
         }
         if (GUI.Button (new Rect(centerX + 100, 250, 175, 45), "Share Location")) 
         {
-            ScreenPrinter.Print("IBPush - Location Enabled: " + (InfobipPush.LocationEnabled ? "true" : "false"));
+            ScreenPrinter.Print("IBPush - Location Enabled: " + (InfobipPushLocation.LocationEnabled ? "true" : "false"));
             LocationInfo location = locationService.lastData;
-            InfobipPush.ShareLocation(location);
+            InfobipPushLocation.ShareLocation(location);
 
         }
 
 		if (GUI.Button (new Rect (centerX - 300, 300, 175, 45), "Background Location")) 
 		{
-			bool back = InfobipPush.BackgroundLocationUpdateModeEnabled;
+            bool back = InfobipPushLocation.BackgroundLocationUpdateModeEnabled;
 			ScreenPrinter.Print(back);
 		}
 		if (GUI.Button(new Rect(centerX - 100, 300, 175, 45), "Set Background Location"))
 		{
-			InfobipPush.BackgroundLocationUpdateModeEnabled = true;
+            InfobipPushLocation.BackgroundLocationUpdateModeEnabled = true;
 		}
 		if (GUI.Button (new Rect(centerX + 100, 300, 175, 45), "Time Update")) 
 		{
-			int time = InfobipPush.LocationUpdateTimeInterval;
+            int time = InfobipPushLocation.LocationUpdateTimeInterval;
 			ScreenPrinter.Print(time);
 		}
 
@@ -142,7 +142,7 @@ public class InfobipPushDemo : MonoBehaviour
         }
 		if (GUI.Button(new Rect(centerX - 100, 350, 175, 45), "Set Time Update"))
 		{
-			InfobipPush.LocationUpdateTimeInterval = 500;
+            InfobipPushLocation.LocationUpdateTimeInterval = 500;
         }
 
         if (GUI.Button(new Rect(centerX - 300, 400, 175, 45), "Get Registered Channels"))
