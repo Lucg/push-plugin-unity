@@ -9,19 +9,61 @@
 // ------------------------------------------------------------------------------
 using System;
 using System.Runtime.InteropServices;
+using UnityEngine;
 
-public class InfobipPushLocation
+
+
+public static class InfobipPushLocation
 {
-	public InfobipPushLocation ()
-	{
-		#region declaration of methods
-//		[DllImport ("__Internal")]
-//		public static extern void IBEnableLocation();
 
+	#region declaration of methods
+		[DllImport ("__Internal")]
+		public static extern void IBEnableLocation();
+	
+		[DllImport ("__Internal")]
+		public static extern void IBDisableLocation();
 
+		[DllImport ("__Internal")]
+		public static extern bool IBIsLocationEnabled();
 
-		#endregion
-	}
+		[DllImport ("__Internal")]
+		public static extern void IBSetBackgroundLocationUpdateModeEnabled(bool enable);
+
+		[DllImport ("__Internal")]
+		public static extern bool IBBackgroundLocationUpdateModeEnabled();
+
+		[DllImport ("__Internal")]
+		public static extern void IBSetLocationUpdateTimeInterval(int seconds);
+
+		[DllImport ("__Internal")]
+		public static extern int IBLocationUpdateTimeInterval();
+
+		[DllImport ("__Internal")]
+		public static extern void IBShareLocation(string locationCharArray);
+		
+		// live geo
+		[DllImport ("__Internal")]
+		public static extern void IBEnableLiveGeo();
+
+		[DllImport ("__Internal")]
+		public static extern void IBDisableLiveGeo();
+
+		[DllImport ("__Internal")]
+		public static extern bool IBLiveGeoEnabled();
+
+		[DllImport ("__Internal")]
+		public static extern int IBNumberOfCurrentLiveGeoRegions();
+
+		[DllImport ("__Internal")]
+		public static extern int IBStopLiveGeoMonitoringForAllRegions();
+
+		[DllImport ("__Internal")]
+		public static extern void IBSetLiveGeoAccuracy(double accuracy);
+
+		[DllImport ("__Internal")]
+		public static extern double IBLiveGeoAccuracy();
+	#endregion
+
 }
 
 
