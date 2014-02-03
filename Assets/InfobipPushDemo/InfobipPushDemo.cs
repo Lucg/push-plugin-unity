@@ -48,7 +48,10 @@ public class InfobipPushDemo : MonoBehaviour
     void OnGUI()
     {
 
+        // Title
         GUI.Label(new Rect(centerX - 200, 0, 400, 35), "Infobip Push Demo", labelStyle);
+
+        // First row
         if (GUI.Button(new Rect(centerX - 175, 50, 150, 45), "Disable Debug Mode"))
         {
             InfobipPush.LogMode = true;
@@ -58,6 +61,7 @@ public class InfobipPushDemo : MonoBehaviour
             InfobipPush.LogMode = false;
         }
 
+        // Second row
         if (GUI.Button(new Rect(centerX - 300, 100, 175, 45), "Enable Timezone Update"))
         {
             InfobipPush.SetTimezoneOffsetAutomaticUpdateEnabled(true);
@@ -66,12 +70,12 @@ public class InfobipPushDemo : MonoBehaviour
         {
             InfobipPush.SetTimezoneOffsetAutomaticUpdateEnabled(false);
         }
-
         if (GUI.Button(new Rect(centerX + 100, 100, 175, 45), "Set Timezone Offset"))
         {
             InfobipPush.SetTimezoneOffsetInMinutes(5);
         }
 
+        // Third row
         if (GUI.Button(new Rect(centerX - 100, 150, 175, 45), "Is Registered"))
         {
             bool isRegistered = InfobipPush.IsRegistered();
@@ -91,6 +95,7 @@ public class InfobipPushDemo : MonoBehaviour
             InfobipPush.Initialize("063bdab564eb", "a5cf819f36e2", regData);
         }
 
+        // Fourth row
         if (GUI.Button(new Rect(centerX - 300, 200, 175, 45), "Set User Id"))
         {
             InfobipPush.UserId = "Malisica";
@@ -105,6 +110,7 @@ public class InfobipPushDemo : MonoBehaviour
             InfobipPush.Unregister();
         }
 
+        // Fifth row
         if (GUI.Button(new Rect(centerX - 300, 250, 175, 45), "Enable Location"))
         {
             InfobipPushLocation.EnableLocation();
@@ -121,6 +127,7 @@ public class InfobipPushDemo : MonoBehaviour
 
         }
 
+        // Sixth row
 		if (GUI.Button (new Rect (centerX - 300, 300, 175, 45), "Background Location")) 
 		{
             bool back = InfobipPushLocation.BackgroundLocationUpdateModeEnabled;
@@ -136,6 +143,7 @@ public class InfobipPushDemo : MonoBehaviour
 			ScreenPrinter.Print(time);
 		}
 
+        // Seventh row
         if (GUI.Button(new Rect(centerX - 300, 350, 175, 45), "Set Badge Number"))
         {
             InfobipPush.SetBadgeNumber(10);
@@ -145,6 +153,7 @@ public class InfobipPushDemo : MonoBehaviour
             InfobipPushLocation.LocationUpdateTimeInterval = 500;
         }
 
+        // Eighth row
         if (GUI.Button(new Rect(centerX - 300, 400, 175, 45), "Get Registered Channels"))
         {
             InfobipPush.BeginGetRegisteredChannels();
@@ -158,7 +167,7 @@ public class InfobipPushDemo : MonoBehaviour
             InfobipPush.RegisterToChannels(channels, false);
         }
 
-
+        // Ninth row
         if (GUI.Button (new Rect (centerX - 300, 450, 175, 45), "Enable Live Geo")) 
         {
             InfobipPushLocation.LiveGeo = true;
@@ -174,6 +183,7 @@ public class InfobipPushDemo : MonoBehaviour
             ScreenPrinter.Print(InfobipPushLocation.LiveGeo);
         }
 
+        // Tenth row
         if (GUI.Button (new Rect (centerX - 300, 500, 175, 45), "Number Of Regions")) 
         {
             int regions = InfobipPushLocation.IBNumberOfCurrentLiveGeoRegions();

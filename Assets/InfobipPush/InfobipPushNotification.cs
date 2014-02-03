@@ -68,8 +68,20 @@ public class InfobipPushNotification : MonoBehaviour
     
     public override string ToString()
     {
-        return string.Format("[InfobipPushNotification: NotificationId={0}, Sound={1}, Url={2}, AdditionalInfo={3}, MediaData={4}, Title={5}, Message={6}, MimeType={7}, Badge={8}]", 
-                             NotificationId, Sound, Url, AdditionalInfo, MediaData, Title, Message, MimeType, Badge);
+        IDictionary<string, object> dictNotif = new Dictionary<string, object>(8);
+
+        dictNotif ["badge"] = Badge;
+        dictNotif ["mimeType"] = MimeType;
+        dictNotif ["message"] = Message;
+        dictNotif ["title"] = Title;
+        dictNotif ["mediaData"] = MediaData;
+        // FIXME: is it aditionalInfo or additionalInfo in usage of this method's result?
+        dictNotif ["additionalInfo"] = AdditionalInfo;
+        dictNotif ["url"] = Url;
+        dictNotif ["sound"] = Sound;
+        dictNotif ["notificationId"] = NotificationId;
+
+        return MiniJSON.Json.Serialize(dictNotif);
     }
     
     public InfobipPushNotification(string notif)
@@ -88,6 +100,7 @@ public class InfobipPushNotification : MonoBehaviour
         //IDictionary<string, int> dictNotifInt = dictNotif as Dictionary<string, int>;
         if (dictNotif.TryGetValue("badge", out varObj))
         {
+            // TODO: fix 'badge' (string "" if it is 0, and int if not)
             if (varObj as string != null)
             {
                 Badge = 0;
@@ -111,8 +124,8 @@ public class InfobipPushNotification : MonoBehaviour
         }
         if (dictNotif.TryGetValue("aditionalInfo", out varObj))
         {
-            print("additionalInfo real: " + varObj as string);
-            print("additionalInfo " + MiniJSON.Json.Serialize(AdditionalInfo));
+//            print("additionalInfo real: " + varObj as string);
+//            print("additionalInfo " + MiniJSON.Json.Serialize(AdditionalInfo));
             // TODO: store this value in this.AdditionalInfo
         }
         if (dictNotif.TryGetValue("mediaData", out varObj))
