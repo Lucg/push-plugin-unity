@@ -61,10 +61,10 @@ public class InfobipPushDemo : MonoBehaviour
         InfobipPush.OnGetChannelsFinished = (channels) => {
             ScreenPrinter.Print("IBPush - You are registered to: " + channels.ToString());
         };
-        InfobipPush.OnUnreceivedNotificationList = (notifications) => {
-            ScreenPrinter.Print("IBPush - List of notifications");
+        InfobipPush.OnUnreceivedNotificationReceived = (notification) => {
+            ScreenPrinter.Print("IBPush - Unreceived notification: ");
             // TODO convert notification string to array of InfobipPushNotification objects
-            ScreenPrinter.Print(notifications);
+            ScreenPrinter.Print(notification);
         };
 
     }

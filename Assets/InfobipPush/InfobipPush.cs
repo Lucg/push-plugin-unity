@@ -68,6 +68,8 @@ public static class InfobipPush
 
     #region listeners
     public static InfobipPushDelegateWithNotificationArg OnNotificationReceived = delegate {};
+    
+    public static InfobipPushDelegateWithNotificationArg OnUnreceivedNotificationReceived = delegate {};
 
     public static InfobipPushDelegateWithNotificationArg OnNotificationOpened = delegate {};
 
@@ -84,8 +86,6 @@ public static class InfobipPush
     public static InfobipPushDelegateWithStringArg OnGetChannelsFinished = delegate {};
 
     public static InfobipPushDelegateWithStringArg OnError = delegate {};
-
-    public static InfobipPushDelegateWithStringArg OnUnreceivedNotificationList = delegate {};
     #endregion
 
     public static bool LogMode
