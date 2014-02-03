@@ -80,4 +80,11 @@ public class InfobipPushInternal : MonoBehaviour
     {
         InfobipPush.OnRegisteredToChannels();
     }
+
+    public void IBGetUnreceivedNotifications_SUCCESS(string notificationsList)
+    {   
+        // TODO convert notifications string to array
+//        ArrayList notifications = null;
+        InfobipPush.OnUnreceivedNotificationList("");
+    }
 }

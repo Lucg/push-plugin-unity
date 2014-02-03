@@ -55,6 +55,9 @@ public static class InfobipPush
     
     [DllImport ("__Internal")]
     private static extern void IBGetRegisteredChannels();
+
+    [DllImport ("__Internal")]
+    private static extern void IBGetUnreceivedNotifications();
     #endregion
 
     #region listeners
@@ -75,6 +78,8 @@ public static class InfobipPush
     public static InfobipPushDelegateWithStringArg OnGetChannelsFinished = delegate {};
 
     public static InfobipPushDelegateWithStringArg OnError = delegate {};
+
+    public static InfobipPushDelegateWithStringArg OnUnreceivedNotificationList = delegate {};
     #endregion
 
     public static bool LogMode
@@ -241,4 +246,15 @@ public static class InfobipPush
         }
         #endif
     }
+
+    public static void GetListOfUnreceivedNotifications()
+    {
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            IBGetUnreceivedNotifications();
+        }
+        #endif
+    }
+
 }
