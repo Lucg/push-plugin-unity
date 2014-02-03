@@ -192,7 +192,37 @@ namespace MiniJSON {
                 
                 return array;
             }
-            
+
+            List<object> ParseArrayOnly() {
+                List<object> array = new List<object>();
+                
+                // ditch opening bracket
+                json.Read();
+                
+                // [
+                var parsing = true;
+                while (parsing) {
+                    TOKEN nextToken = NextToken;
+                    
+                    switch (nextToken) {
+                        case TOKEN.NONE:
+                            return null;
+                        case TOKEN.COMMA:
+                            continue;
+                        case TOKEN.SQUARED_CLOSE:
+                            parsing = false;
+                            break;
+                        default:
+                            object value = ParseByToken(nextToken);
+                            
+                            array.Add(value);
+                            break;
+                    }
+                }
+                
+                return array;
+            }
+
             object ParseValue() {
                 TOKEN nextToken = NextToken;
                 return ParseByToken(nextToken);
