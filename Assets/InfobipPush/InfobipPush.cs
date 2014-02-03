@@ -46,9 +46,6 @@ public static class InfobipPush
 
     [DllImport ("__Internal")]
     private static extern void IBUnregister();
-
-    [DllImport ("__Internal")]
-    private static extern void IBSetBadgeNumber(int badgeNo);
     
     [DllImport ("__Internal")]
     private static extern void IBRegisterToChannels(string channelsData);
@@ -56,8 +53,17 @@ public static class InfobipPush
     [DllImport ("__Internal")]
     private static extern void IBGetRegisteredChannels();
 
+
     [DllImport ("__Internal")]
     private static extern void IBGetUnreceivedNotifications();
+
+
+	[DllImport ("__Internal")]
+	private static extern void IBSetBadgeNumber(int badgeNo);
+
+	[DllImport ("__Internal")]
+	private static extern void IBaddMediaView(string notif, string customiz);
+
     #endregion
 
     #region listeners
@@ -212,15 +218,25 @@ public static class InfobipPush
         #endif
     }
 
-    public static void SetBadgeNumber(int badgeNo)
-    {
-        #if UNITY_IPHONE
-        if (Application.platform == RuntimePlatform.IPhonePlayer)
-        {
-            IBSetBadgeNumber(badgeNo);
-        }
-        #endif
-    }
+	public static void SetBadgeNumber(int badgeNo)
+	{
+		#if UNITY_IPHONE
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			IBSetBadgeNumber(badgeNo);
+		}
+		#endif
+	}
+	public static void AddMediaView(string notif, string customiz)
+	{
+		#if UNITY_IPHONE
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			IBaddMediaView(notif,customiz);
+		}
+		#endif
+	}
+	
 
     public static void RegisterToChannels(string[] channels, bool removeExistingChannels = false)
     {

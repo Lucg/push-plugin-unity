@@ -208,26 +208,30 @@ void IBAddMediaView(const char * notif, const char * customiz) {
     NSNumber * radius = [customization objectForKey:@"radius"]; //int
     
     NSNumber * dismissButtonSize = [customization objectForKey:@"dismissButtonSize"]; //int
+    
     NSNumber * forgroundColorHex = [customization objectForKey:@"forgroundColor"]; //hex
     NSNumber * backgroundColorHex = [customization objectForKey:@"backgroundColor"]; //hex
     UIColor * forgroundColor = UIColorFromRGB([forgroundColorHex integerValue]);
     UIColor * backgroundColor = UIColorFromRGB([backgroundColorHex integerValue]);
+   // UIColor * forgroundColor =  UIColorFromRGB([forgroundColorHex integerValue])//[UIColor colorWithRed:1 green:0 blue:0 alpha:1];
+  //  UIColor * backgroundColor = UIColorFromRGB([backgroundColorHex integerValue])//[UIColor colorWithRed:0 green:0 blue:1 alpha:1];
     
     UIView *topView = [[UIApplication sharedApplication] keyWindow].rootViewController.view;
     CGRect frame = CGRectMake([x floatValue], [y floatValue], [width floatValue], [height floatValue]);
+    
     InfobipMediaView *mediaView = [[InfobipMediaView alloc] initWithFrame:frame andMediaContent:mediaContent];
     
     
     //set the size od dismiss button
     if(nil != dismissButtonSize){
-        [mediaView setDismissButtonSize:[dismissButtonSize integerValue]];
         if ((nil != backgroundColor) && (nil != forgroundColor)) {
             [mediaView setDismissButtonSize:[dismissButtonSize integerValue]
                         withBackgroundColor:backgroundColor andForegroundColor:forgroundColor];
+        } else {
+            [mediaView setDismissButtonSize:[dismissButtonSize integerValue]];
         }
-    } else if ((nil != backgroundColor) && (nil != forgroundColor)) {
-        //TODO find default dismiss button size value and implement this
     }
+    
     
     // disabe/enable shadow
     if (nil != shadow) {

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InfobipPushNotification : MonoBehaviour
@@ -68,20 +68,17 @@ public class InfobipPushNotification : MonoBehaviour
     
     public override string ToString()
     {
-        IDictionary<string, object> dictNotif = new Dictionary<string, object>(8);
-
-        dictNotif ["badge"] = Badge;
-        dictNotif ["mimeType"] = MimeType;
-        dictNotif ["message"] = Message;
-        dictNotif ["title"] = Title;
-        dictNotif ["mediaData"] = MediaData;
-        // FIXME: is it aditionalInfo or additionalInfo in usage of this method's result?
-        dictNotif ["additionalInfo"] = AdditionalInfo;
-        dictNotif ["url"] = Url;
-        dictNotif ["sound"] = Sound;
-        dictNotif ["notificationId"] = NotificationId;
-
-        return MiniJSON.Json.Serialize(dictNotif);
+		IDictionary<string, object> notif = new Dictionary<string, object>(9);
+		notif ["notificationId"] = NotificationId;
+		notif ["sound"] = Sound; 
+		notif ["url"] = Url;
+		notif ["additionalInfo"] = AdditionalInfo;
+		notif ["mediaData"] = MediaData;
+		notif ["title"] = Title;
+		notif ["message"] = Message; 
+		notif ["mimeType"] = MimeType;
+	    notif ["badge"] = Badge; 
+		return MiniJSON.Json.Serialize(notif);
     }
     
     public InfobipPushNotification(string notif)
@@ -130,7 +127,8 @@ public class InfobipPushNotification : MonoBehaviour
         }
         if (dictNotif.TryGetValue("mediaData", out varObj))
         {
-            MediaData = (string)varObj;
+			MediaData = (string)varObj;
+			print("MediaData: " + MediaData);
         }
         if (dictNotif.TryGetValue("message", out varObj))
         {

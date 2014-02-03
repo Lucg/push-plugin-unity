@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -22,8 +22,27 @@ public class InfobipPushDemo : MonoBehaviour
 			ScreenPrinter.Print("IBPush - Is Media notification: " + isMediaNotification);
 			string mediaContent = notif.MediaData;
 			ScreenPrinter.Print("IBPush -  Media content: " + mediaContent);
-            ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
-        };
+            //ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
+			if(isMediaNotification)
+			{
+			InfobipPushMediaViewCustomization customiz = new InfobipPushMediaViewCustomization 
+				{
+				X = 20,
+				Y = 20,
+				Width = 250,
+				Height = 350,
+				Shadow = true,
+				Radius = 50,
+				DismissButtonSize = 25,
+				ForgroundColorHex = new Color(255, 0, 0,1),
+	            BackgroundColorHex = new Color(0, 0, 0,1)           
+				};
+				InfobipPush.AddMediaView(notif.ToString(), customiz.ToString ());
+
+			};
+		};
+			
+	
         InfobipPush.OnRegistered = () => {
             ScreenPrinter.Print(("IBPush - Successfully registered!"));
         };
@@ -128,7 +147,6 @@ public class InfobipPushDemo : MonoBehaviour
             ScreenPrinter.Print("IBPush - Location Enabled: " + (InfobipPushLocation.LocationEnabled ? "true" : "false"));
             LocationInfo location = locationService.lastData;
             InfobipPushLocation.ShareLocation(location);
-
         }
 
         // Sixth row
@@ -156,6 +174,10 @@ public class InfobipPushDemo : MonoBehaviour
 		{
             InfobipPushLocation.LocationUpdateTimeInterval = 500;
         }
+		if (GUI.Button(new Rect(centerX - 300, 350, 175, 45), "Set Badge Number"))
+		{
+			InfobipPush.SetBadgeNumber(10);
+		}
 
         // Eighth row
         if (GUI.Button(new Rect(centerX - 300, 400, 175, 45), "Get Registered Channels"))
