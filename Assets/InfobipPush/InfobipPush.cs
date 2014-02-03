@@ -62,7 +62,7 @@ public static class InfobipPush
 	private static extern void IBSetBadgeNumber(int badgeNo);
 
 	[DllImport ("__Internal")]
-	private static extern void IBaddMediaView(string notif, string customiz);
+	private static extern void IBAddMediaView(string notif, string customiz);
 
     #endregion
 
@@ -232,7 +232,7 @@ public static class InfobipPush
 		#if UNITY_IPHONE
 		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
-			IBaddMediaView(notif,customiz);
+			IBAddMediaView(notif,customiz);
 		}
 		#endif
 	}
