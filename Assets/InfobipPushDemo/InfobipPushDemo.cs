@@ -63,7 +63,8 @@ public class InfobipPushDemo : MonoBehaviour
         };
         InfobipPush.OnUnreceivedNotificationList = (notifications) => {
             ScreenPrinter.Print("IBPush - List of notifications");
-            // TODO print all notifications
+            // TODO convert notification string to array of InfobipPushNotification objects
+            ScreenPrinter.Print(notifications);
         };
 
     }
@@ -225,6 +226,20 @@ public class InfobipPushDemo : MonoBehaviour
             double accur = 100.43;
             InfobipPushLocation.IBSetLiveGeoAccuracy(accur);
             ScreenPrinter.Print("Live geo Accuracy is set to " + accur.ToString());
+        }
+
+        // Eleventh row
+        if (GUI.Button (new Rect (centerX - 300, 550, 175, 45), "Get Unreceived Notifications")) 
+        {
+            InfobipPush.GetListOfUnreceivedNotifications();
+        }
+        if (GUI.Button(new Rect(centerX - 100, 550, 175, 45), ""))
+        {
+
+        }
+        if (GUI.Button (new Rect(centerX + 100, 550, 175, 45), "")) 
+        {
+
         }
     }
 }
