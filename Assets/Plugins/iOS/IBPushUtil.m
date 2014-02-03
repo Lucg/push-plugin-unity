@@ -30,7 +30,7 @@ static NSArray* channels;
     [newNotification setValue:[notification messageID] forKey:@"notificationId"];
     [newNotification setValue:[notification sound] forKey:@"sound"];
     [newNotification setValue:[notificationData objectForKey:@"url"] forKey:@"url"];
-    [newNotification setValue:[notification additionalInfo] forKey:@"aditionalInfo"];
+    [newNotification setValue:[notification additionalInfo] forKey:@"additionalInfo"];
     [newNotification setValue:[notification mediaContent] forKey:@"mediaData"];
     [newNotification setValue:[notification alert] forKey:@"title"];
     [newNotification setValue:[notificationData objectForKey:@"message"] forKey:@"message"];
@@ -47,6 +47,14 @@ static NSArray* channels;
 +(void)passErrorCodeToUnity:(NSError *)err {
     NSString * errorCode = [NSString stringWithFormat:@"%d", [err code]];
     UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_ERROR_HANDLER UTF8String], [errorCode UTF8String]);
+}
+
+-(void)didDismissInfobipMediaView:(InfobipMediaView *)infobipMediaView {
+    // Unregister as a delegate
+    infobipMediaView.delegate = nil;
+    
+    // Dismiss the Media View from the super view
+    [infobipMediaView removeFromSuperview];
 }
 
 @end

@@ -4,6 +4,7 @@
 #import "InfobipPush.h"
 #import "InfobipMediaView.h"
 #import "IBPushUtil.h"
+#import "IBMediaView.h"
 
 
 extern "C" {

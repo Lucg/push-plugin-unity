@@ -6,6 +6,7 @@ NSString *const PUSH_GET_CHANNELS = @"IBGetChannels_SUCCESS";
 NSString *const PUSH_UNREGISTER =  @"IBUnregister_SUCCESS";
 NSString *const PUSH_GET_UNRECEIVED_NOTIFICATION = @"IBGetUnreceivedNotifications_SUCCESS";
 
+
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0];
 
 
@@ -191,6 +192,9 @@ void IBGetUnreceivedNotifications() {
     }];
 }
 
+
+
+
 void IBAddMediaView(const char * notif, const char * customiz) {
     NSString * notificationJson = [NSString stringWithFormat:@"%s", notif];
     NSString * customizationJson = [NSString stringWithFormat:@"%s", customiz];
@@ -208,17 +212,13 @@ void IBAddMediaView(const char * notif, const char * customiz) {
     NSNumber * radius = [customization objectForKey:@"radius"]; //int
     
     NSNumber * dismissButtonSize = [customization objectForKey:@"dismissButtonSize"]; //int
-    
     NSNumber * forgroundColorHex = [customization objectForKey:@"forgroundColor"]; //hex
     NSNumber * backgroundColorHex = [customization objectForKey:@"backgroundColor"]; //hex
     UIColor * forgroundColor = UIColorFromRGB([forgroundColorHex integerValue]);
     UIColor * backgroundColor = UIColorFromRGB([backgroundColorHex integerValue]);
-   // UIColor * forgroundColor =  UIColorFromRGB([forgroundColorHex integerValue])//[UIColor colorWithRed:1 green:0 blue:0 alpha:1];
-  //  UIColor * backgroundColor = UIColorFromRGB([backgroundColorHex integerValue])//[UIColor colorWithRed:0 green:0 blue:1 alpha:1];
     
     UIView *topView = [[UIApplication sharedApplication] keyWindow].rootViewController.view;
     CGRect frame = CGRectMake([x floatValue], [y floatValue], [width floatValue], [height floatValue]);
-    
     InfobipMediaView *mediaView = [[InfobipMediaView alloc] initWithFrame:frame andMediaContent:mediaContent];
     
     
@@ -232,7 +232,6 @@ void IBAddMediaView(const char * notif, const char * customiz) {
         }
     }
     
-    
     // disabe/enable shadow
     if (nil != shadow) {
         mediaView.shadowEnabled = [shadow boolValue];
@@ -244,6 +243,12 @@ void IBAddMediaView(const char * notif, const char * customiz) {
     } else {
         mediaView.cornerRadius = 0;
     }
+//    
+//    // Add action with selector "yourDismissAction" to the dismiss button inside Infobip Media View
+//    [mediaView.dismissButton addTarget:IBMediaView action:@selector() forControlEvents:UIControlEventTouchUpInside];
+
+    mediaView.delegate = [IBMediaView class];
+    
     
     // display media view
     [topView addSubview:mediaView];
