@@ -8,7 +8,9 @@
 require 'rubygems'
 require 'pathname'
 require 'xcoder'
- 
+require 'rexml/document'
+include REXML
+
 #
 # Define utility functions
 #
@@ -27,21 +29,35 @@ def add_sys_framework_to_project(proj, framework_names, option=:required)
 end
 
 def append_to_start_of_file(projpath, fname, line)
-    newfile = File.new(projpath + fname + ".temp", "w")
+    newfile = File.new(projpath + "/" + fname + ".temp", "w")
     newfile.puts line;
 
-    oldfile = File.open(projpath + fname, "r+")
+    oldfile = File.open(projpath +  "/" + fname, "r+")
     oldfile.each_line { |line| newfile.puts line}
 
     oldfile.close();
     newfile.close();
 
-    File.delete(projpath + fname);
-    File.rename(projpath + fname + ".temp", projpath + fname);
+    File.delete(projpath +  "/" + fname);
+    File.rename(projpath +  "/" + fname + ".temp", projpath +  "/" + fname);
 end
 
-def add_remote_notifications_to_plist(projpath, fname)
+def add_remote_notifications_to_plist(path, fname)
+    doc = Document.new File.open(path +  "/" + fname, "r+")
+    doc.elements.each("plist/dict") { |root|
+        key = root.add_element "key"
+        key.text = "UIBackgroundModes"
+        array = root.add_element "array"
+        string = array.add_element "string"
+        string.text = "remote-notification"
+    }
+    formatter = REXML::Formatters::Default.new
+    File.open(path + "/" + fname + ".temp", "w") do |result|
+        formatter.write(doc, result)
+    end
 
+    File.delete(path +  "/" + fname);
+    File.rename(path +  "/" + fname + ".temp", path +  "/" + fname);
 end
 
 #
@@ -58,10 +74,10 @@ puts "PostprocessBuildPlayer running on build directory: " + buildpath
 projpath = buildpath + "/Unity-iPhone.xcodeproj"
 
 project = Xcode.project(projpath)
-add_sys_framework_to_project(project, ["MapKit", "CoreTelephony"], :required)
+add_sys_framework_to_project(project, ["MapKit", "CoreTelephony", "CoreLocation", "SystemConfiguration"], :required)
 puts "Before proj.save_as(projpath)..."
 project.save!
 
-append_to_start_of_file(projpath, "/project_temp.pbxproj", "// !$*UTF8*$!")
+append_to_start_of_file(projpath, "/project.pbxproj", "// !$*UTF8*$!")
 
-add_remote_notifications_to_plist(projpath, "Info.plist")
+add_remote_notifications_to_plist(buildpath, "Info.plist")
