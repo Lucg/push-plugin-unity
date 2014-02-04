@@ -15,7 +15,7 @@ public class ScreenPrinter : MonoBehaviour
     List<string> newMessages = new List<string>();
     TextAnchor _anchorAt;
     float _pixelOffset;
-    List<string> messageHistory = new List<string>();
+//    List<string> messageHistory = new List<string>();
     
     // static Print method: finds a ScreenPrinter in the project, 
     // or creates one if necessary, and prints to that.
@@ -69,6 +69,8 @@ public class ScreenPrinter : MonoBehaviour
     {
         quitting = true;
     }
+
+    private readonly object syncLock = new object();
     
     void Update()
     {
@@ -79,35 +81,40 @@ public class ScreenPrinter : MonoBehaviour
             _pixelOffset = pixelOffset;
             UpdatePosition();
         }
-        
-        //  if the message has changed, update the display
-        if (newMessages.Count > 0)
+
+        lock (syncLock)
         {
-            if (null == messageHistory)
+            //  if the message has changed, update the display
+            if (newMessages.Count > 0)
             {
-                messageHistory = new List<string>(numberOfLines);
-            }
-            for (int messageIndex = 0; messageIndex < newMessages.Count; messageIndex++)
-            {
-                messageHistory.Add(newMessages [messageIndex]);
-            }
-            newMessages.Clear();
-            if (messageHistory.Count > numberOfLines)
-            {
-                guiText.text = "";
-                messageHistory.RemoveRange(0, messageHistory.Count - numberOfLines);
-            }
-            
-            //  create the multi-line text to display
-            foreach (string msg in messageHistory.ToArray())
-            {
-                for (int i = 0; i < msg.Length; i += chunkSize)
+                //  create the multi-line text to display
+                foreach (string msg in newMessages.ToArray())
                 {
-                    int len = chunkSize;
-                    if (i + chunkSize > msg.Length)
-                        len = msg.Length - i;
-                    guiText.text += msg.Substring(i, len) + '\n';
+                    for (int i = 0; i < msg.Length; i += chunkSize)
+                    {
+                        int len = chunkSize;
+                        if (i + chunkSize > msg.Length)
+                            len = msg.Length - i;
+                        guiText.text += msg.Substring(i, len) + '\n';
+                    }
                 }
+                newMessages.Clear();
+                /*
+                if (null == messageHistory)
+                {
+                    messageHistory = new List<string>(numberOfLines);
+                }
+                for (int messageIndex = 0; messageIndex < newMessages.Count; messageIndex++)
+                {
+                    messageHistory.Add(newMessages [messageIndex]);
+                }
+                if (messageHistory.Count > numberOfLines)
+                {
+                    guiText.text = "";
+                    messageHistory.RemoveRange(0, messageHistory.Count - numberOfLines);
+                }
+                messageHistory.Clear();
+                */
             }
         }
     }
