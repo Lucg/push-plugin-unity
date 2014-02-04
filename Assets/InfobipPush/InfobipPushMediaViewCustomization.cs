@@ -72,8 +72,8 @@ public class InfobipPushMediaViewCustomization{
 		customiz ["shadow"] = Shadow;
 		customiz ["radius"] = Radius;
 		customiz ["dismissButtonSize"] = DismissButtonSize;
-        customiz ["forgroundColorHex"] = "#ff0000";
-        customiz ["forgroundColorHex"] = "#0000ff";
+        customiz ["forgroundColorHex"] = "0xff0000";
+        customiz ["forgroundColorHex"] = "0x0000ff";
 
 //		customiz ["forgroundColorHex"] = ColorTranslator.ToHtml(ForgroundColorHex);
 //		customiz ["forgroundColorHex"] =  String.Format("#{0:X2}{1:X2}{2:X2}", ForgroundColorHex.r, ForgroundColorHex.g, ForgroundColorHex.b);
