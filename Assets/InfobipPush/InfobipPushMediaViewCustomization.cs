@@ -8,6 +8,8 @@ public class InfobipPushMediaViewCustomization
     public InfobipPushMediaViewCustomization()
     {
         ForegroundColorHex = BackgroundColorHex = null;
+        Width = Height = 320;
+        X = Y = 0;
     }
 
     public int X
