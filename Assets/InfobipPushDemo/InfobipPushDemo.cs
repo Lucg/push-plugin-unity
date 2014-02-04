@@ -65,7 +65,6 @@ public class InfobipPushDemo : MonoBehaviour
         };
         InfobipPush.OnUnreceivedNotificationReceived = (notification) => {
             ScreenPrinter.Print("IBPush - Unreceived notification: ");
-            // TODO convert notification string to array of InfobipPushNotification objects
             ScreenPrinter.Print(notification);
         };
 

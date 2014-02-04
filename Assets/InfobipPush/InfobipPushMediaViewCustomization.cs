@@ -9,58 +9,55 @@ public class InfobipPushMediaViewCustomization{
 	{
 		get;
 		set;
-
 	}
+
 	public int Y
 	{
 		get;
 		set;
-		
 	}
-	public int Width
+	
+    public int Width
 	{
 		get;
 		set;
-		
 	}
-	public int Height
+	
+    public int Height
 	{
 		get;
 		set;
-		
 	}
-	public bool Shadow
+	
+    public bool Shadow
 	{
 		get;
 		set;
-		
 	}
+
 	public int Radius
 	{
 		get;
 		set;
-		
 	}
+
 	public int DismissButtonSize
 	{
 		get;
-		set;
-		
+		set;	
 	}
+
 	public Color ForgroundColorHex 
 	{
 		get;
 		set;
-		
 	}
+
 	public Color BackgroundColorHex
 	{
 		get;
-		set;
-		
+		set;	
 	}
-
-
 
     private int ConvertToHex(Color clr)
     {
@@ -83,6 +80,4 @@ public class InfobipPushMediaViewCustomization{
         customiz ["backgroundColorHex"] = ConvertToHex(BackgroundColorHex);
         return MiniJSON.Json.Serialize(customiz);
     }
-
-
 }
