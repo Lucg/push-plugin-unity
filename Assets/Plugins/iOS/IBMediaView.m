@@ -16,16 +16,14 @@
 @end
 
 @implementation IBMediaView
+
 InfobipMediaView *mediaView = nil;
 
 
 +(void)addMediaViewWithNotification:(NSString *) notif andCustomization:(NSString *)customiz {
-    NSString * notificationJson =  notif;
-    NSString * customizationJson = customiz;
-    
     NSError * e = nil;
-    NSDictionary * notification = [NSJSONSerialization JSONObjectWithData:[notificationJson dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&e];
-    NSDictionary * customization = [NSJSONSerialization JSONObjectWithData:[customizationJson dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&e];
+    NSDictionary * notification = [NSJSONSerialization JSONObjectWithData:[notif dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&e];
+    NSDictionary * customization = [NSJSONSerialization JSONObjectWithData:[customiz dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&e];
     
     NSString * mediaContent = [notification objectForKey:@"mediaData"];
     NSNumber * x = [customization objectForKey:@"x"];
