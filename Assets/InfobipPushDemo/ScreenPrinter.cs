@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 [RequireComponent (typeof(GUIText))]
 
 public class ScreenPrinter : MonoBehaviour
@@ -84,7 +83,7 @@ public class ScreenPrinter : MonoBehaviour
         //  if the message has changed, update the display
         if (newMessages.Count > 0)
         {
-            if (null == messageHistory) 
+            if (null == messageHistory)
             {
                 messageHistory = new List<string>(numberOfLines);
             }
@@ -98,12 +97,13 @@ public class ScreenPrinter : MonoBehaviour
             }
             
             //  create the multi-line text to display
-            foreach (string msg in messageHistory.ToArray()) 
+            foreach (string msg in messageHistory.ToArray())
             {
                 for (int i = 0; i < msg.Length; i += chunkSize)
                 {
                     int len = chunkSize;
-                    if (i + chunkSize > msg.Length) len = msg.Length - i;
+                    if (i + chunkSize > msg.Length)
+                        len = msg.Length - i;
                     guiText.text += msg.Substring(i, len) + '\n';
                 }
             }

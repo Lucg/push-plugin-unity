@@ -79,7 +79,7 @@ if (target == "iPhone") then
     #
     projpath = buildpath + "/Unity-iPhone.xcodeproj"
     project = Xcode.project(projpath)
-    add_sys_framework_to_project(project, ["MapKit", "CoreTelephony", "CoreLocation", "SystemConfiguration"], :required)
+    add_sys_framework_to_project(project, ["MapKit", "CoreTelephony", "CoreLocation", "SystemConfiguration", "QuartzCore"], :required)
     project.save!
 
     #
