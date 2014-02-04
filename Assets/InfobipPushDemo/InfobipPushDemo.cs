@@ -32,16 +32,14 @@ public class InfobipPushDemo : MonoBehaviour
                     Y = 20,
                     Width = 250,
                     Height = 350,
-                    Shadow = true,
+                    Shadow = false,
                     Radius = 50,
-                    DismissButtonSize = 25,
-                    ForgroundColorHex = new Color(1.0f, 0, 0, 1.0f),
-                    BackgroundColorHex = new Color(0, 1.0f, 0, 1.0f)
+                    DismissButtonSize = 25
+//                    ForegroundColorHex = new Color(1.0f, 0, 0, 1.0f),
+//                    BackgroundColorHex = new Color(0, 1.0f, 0, 1.0f)
                 };
                 InfobipPush.AddMediaView(notif.ToString(), customiz.ToString());
-
             }
-            ;
         };
             
     

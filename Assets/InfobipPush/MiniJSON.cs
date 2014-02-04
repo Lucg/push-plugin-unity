@@ -249,7 +249,7 @@ namespace MiniJSON
                         lvl--;
                         if (lvl == 0)
                         {
-                            array.Add(wholeArray.Substring(start, i - start));
+                            array.Add(wholeArray.Substring(start, i - start + 1));
                         }
                     }
                 }
