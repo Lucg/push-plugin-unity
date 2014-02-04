@@ -227,12 +227,12 @@ public static class InfobipPush
 		}
 		#endif
 	}
-	public static void AddMediaView(string notif, string customiz)
+	public static void AddMediaView(InfobipPushNotification notif, InfobipPushMediaViewCustomization customiz)
 	{
 		#if UNITY_IPHONE
 		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
-			IBAddMediaView(notif,customiz);
+            IBAddMediaView(notif.ToString(), customiz.ToString());
 		}
 		#endif
 	}
