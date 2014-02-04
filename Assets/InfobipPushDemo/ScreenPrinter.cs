@@ -91,8 +91,10 @@ public class ScreenPrinter : MonoBehaviour
             {
                 messageHistory.Add(newMessages [messageIndex]);
             }
+            newMessages.Clear();
             if (messageHistory.Count > numberOfLines)
             {
+                guiText.text = "";
                 messageHistory.RemoveRange(0, messageHistory.Count - numberOfLines);
             }
             
@@ -107,7 +109,6 @@ public class ScreenPrinter : MonoBehaviour
                     guiText.text += msg.Substring(i, len) + '\n';
                 }
             }
-            newMessages.Clear();
         }
     }
     
