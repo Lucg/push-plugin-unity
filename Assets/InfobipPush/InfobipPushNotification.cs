@@ -128,7 +128,6 @@ public class InfobipPushNotification
         if (dictNotif.TryGetValue("mediaData", out varObj))
         {
 			MediaData = (string)varObj;
-//			print("MediaData: " + MediaData);
         }
         if (dictNotif.TryGetValue("message", out varObj))
         {
