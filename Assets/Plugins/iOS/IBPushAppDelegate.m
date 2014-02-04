@@ -128,6 +128,10 @@ void IBPushDidFailToRegisterForRemoteNotificationsWithError(id self, SEL _cmd, i
     NSString * functionName =  [NSString stringWithFormat:@"%s", __FUNCTION__];
     NSLog(@"%@",functionName);
     NSLog(@"%@", error);
+    if ([self respondsToSelector:@selector(application:IBPushDidFailToRegisterForRemoteNotificationsWithError:)])
+    {
+		[self application:application IBPushDidFailToRegisterForRemoteNotificationsWithError:error];
+	}
     
     NSString * errorCode = [NSString stringWithFormat:@"%d", [error code]];
     UnitySendMessage([PUSH_SINGLETON UTF8String], [functionName UTF8String], [errorCode UTF8String]);
@@ -136,15 +140,17 @@ void IBPushDidFailToRegisterForRemoteNotificationsWithError(id self, SEL _cmd, i
 void IBPushDidReceiveRemoteNotification(id self, SEL _cmd, id application, id userInfo) {
     NSString * functionName =  [NSString stringWithFormat:@"%s", __FUNCTION__];
     NSLog(@"%@",functionName);
+    if ([self respondsToSelector:@selector(application:IBPushDidReceiveRemoteNotification:)])
+    {
+		[self application:application IBPushDidReceiveRemoteNotification:userInfo];
+	}
     
     [InfobipPush didReceiveRemoteNotification:userInfo withAdditionalInformationAndCompletion:didReceiveRemoteNotificationBlock];
 }
 
 BOOL IBPushDidFinishLaunchingWithOptions(id self, SEL _cmd, id application, id launchOptions) {
     NSLog(@"%s",__FUNCTION__);
-    
     BOOL result = YES;
-	
 	if ([self respondsToSelector:@selector(application:IBPushDidFinishLaunchingWithOptions:)]) {
 		result = (BOOL) [self application:application IBPushDidFinishLaunchingWithOptions:launchOptions];
 	} else {
@@ -152,16 +158,20 @@ BOOL IBPushDidFinishLaunchingWithOptions(id self, SEL _cmd, id application, id l
 		result = YES;
 	}
 	
+    // TODO
+    
 	return result;
 }
 
 void IBPushDidReceiveLocalNotification(id self, SEL _cmd, id application, id localNotification) {
+    NSLog(@"%s", __FUNCTION__);
     [InfobipPush didReceiveLocalNotification:localNotification withCompletion:didReceiveRemoteNotificationBlock];
 }
 
 typedef void (^OurCompHandler)(UIBackgroundFetchResult);
 
 void IBPushDidReceiveRemoteNotificationFetchCompletionHandler(id self, SEL _cmd, id application, id notif, id handler) {
+    NSLog(@"%s", __FUNCTION__);
     [InfobipPush didReceiveRemoteNotification:notif withAdditionalInformationAndCompletion:didReceiveRemoteNotificationBlock];
     
     OurCompHandler completionHandler = (OurCompHandler) handler;
