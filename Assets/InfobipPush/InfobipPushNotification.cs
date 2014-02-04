@@ -72,7 +72,7 @@ public class InfobipPushNotification
 		notif ["notificationId"] = NotificationId;
 		notif ["sound"] = Sound; 
 		notif ["url"] = Url;
-		notif ["additionalInfo"] = AdditionalInfo;
+//		notif ["additionalInfo"] = AdditionalInfo;
 		notif ["mediaData"] = MediaData;
 		notif ["title"] = Title;
 		notif ["message"] = Message; 
@@ -95,18 +95,18 @@ public class InfobipPushNotification
             Title = (string)varObj;
         }
         //IDictionary<string, int> dictNotifInt = dictNotif as Dictionary<string, int>;
-        if (dictNotif.TryGetValue("badge", out varObj))
-        {
+//        if (dictNotif.TryGetValue("badge", out varObj))
+//        {
             // TODO: fix 'badge' (string "" if it is 0, and int if not)
-            if (varObj as string != null)
-            {
-                Badge = 0;
-            } else
-            {
-                varInt = (int)varObj;
-                Badge = varInt;
-            }
-        }
+//            if (varObj as string != null)
+//            {
+//                Badge = 0;
+//            } else
+//            {
+//                varInt = (int)varObj;
+//                Badge = varInt;
+//            }
+//        }
         if (dictNotif.TryGetValue("sound", out varObj))
         {
             Sound = (string)varObj;
@@ -119,12 +119,12 @@ public class InfobipPushNotification
         {
             Url = (string)varObj;
         }
-        if (dictNotif.TryGetValue("aditionalInfo", out varObj))
-        {
+//        if (dictNotif.TryGetValue("additionalInfo", out varObj))
+//        {
 //            print("additionalInfo real: " + varObj as string);
 //            print("additionalInfo " + MiniJSON.Json.Serialize(AdditionalInfo));
             // TODO: store this value in this.AdditionalInfo
-        }
+//        }
         if (dictNotif.TryGetValue("mediaData", out varObj))
         {
 			MediaData = (string)varObj;

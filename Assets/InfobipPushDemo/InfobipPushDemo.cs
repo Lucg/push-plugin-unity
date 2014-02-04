@@ -18,32 +18,33 @@ public class InfobipPushDemo : MonoBehaviour
         locationService.Start();
 
         InfobipPush.OnNotificationReceived = (notif) => {
-			bool isMediaNotification = notif.isMediaNotification();
-			ScreenPrinter.Print("IBPush - Is Media notification: " + isMediaNotification);
-			string mediaContent = notif.MediaData;
-			ScreenPrinter.Print("IBPush -  Media content: " + mediaContent);
+            bool isMediaNotification = notif.isMediaNotification();
+            ScreenPrinter.Print("IBPush - Is Media notification: " + isMediaNotification);
+            string mediaContent = notif.MediaData;
+            ScreenPrinter.Print("IBPush -  Media content: " + mediaContent);
             //ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
-			if(isMediaNotification)
-			{
+            if (isMediaNotification)
+            {
                 ScreenPrinter.Print("Media Push");
-			    InfobipPushMediaViewCustomization customiz = new InfobipPushMediaViewCustomization 
-				{
-    				X = 20,
-    				Y = 20,
-    				Width = 250,
-    				Height = 350,
-    				Shadow = true,
-    				Radius = 50,
-    				DismissButtonSize = 25,
-//    				ForgroundColorHex = new Color(255, 0, 0,1),
-//    	            BackgroundColorHex = new Color(0, 0, 0,1)           
-				};
-				InfobipPush.AddMediaView(notif.ToString(), customiz.ToString ());
+                InfobipPushMediaViewCustomization customiz = new InfobipPushMediaViewCustomization 
+                {
+                    X = 20,
+                    Y = 20,
+                    Width = 250,
+                    Height = 350,
+                    Shadow = true,
+                    Radius = 50,
+                    DismissButtonSize = 25,
+                    ForgroundColorHex = new Color(1.0f, 0, 0, 1.0f),
+                    BackgroundColorHex = new Color(0, 1.0f, 0, 1.0f)
+                };
+                InfobipPush.AddMediaView(notif.ToString(), customiz.ToString());
 
-			};
-		};
-			
-	
+            }
+            ;
+        };
+            
+    
         InfobipPush.OnRegistered = () => {
             ScreenPrinter.Print(("IBPush - Successfully registered!"));
         };
@@ -56,9 +57,9 @@ public class InfobipPushDemo : MonoBehaviour
         InfobipPush.OnUserDataSaved = () => {
             ScreenPrinter.Print(("IBPush - User data saved"));
         };
-		InfobipPush.OnUnregistered = () => {
+        InfobipPush.OnUnregistered = () => {
             ScreenPrinter.Print("IBPush - Successfully unregistered!");
-		};
+        };
         InfobipPush.OnGetChannelsFinished = (channels) => {
             ScreenPrinter.Print("IBPush - You are registered to: " + channels.ToString());
         };
@@ -130,7 +131,7 @@ public class InfobipPushDemo : MonoBehaviour
             string userId = InfobipPush.UserId;
             ScreenPrinter.Print(userId);
         }
-        if (GUI.Button (new Rect(centerX + 100, 200, 175, 45), "Unregister")) 
+        if (GUI.Button(new Rect(centerX + 100, 200, 175, 45), "Unregister"))
         {
             InfobipPush.Unregister();
         }
@@ -144,7 +145,7 @@ public class InfobipPushDemo : MonoBehaviour
         {
             InfobipPushLocation.LocationEnabled = false;
         }
-        if (GUI.Button (new Rect(centerX + 100, 250, 175, 45), "Share Location")) 
+        if (GUI.Button(new Rect(centerX + 100, 250, 175, 45), "Share Location"))
         {
             ScreenPrinter.Print("IBPush - Location Enabled: " + (InfobipPushLocation.LocationEnabled ? "true" : "false"));
             LocationInfo location = locationService.lastData;
@@ -152,28 +153,28 @@ public class InfobipPushDemo : MonoBehaviour
         }
 
         // Sixth row
-		if (GUI.Button (new Rect (centerX - 300, 300, 175, 45), "Background Location")) 
-		{
+        if (GUI.Button(new Rect(centerX - 300, 300, 175, 45), "Background Location"))
+        {
             bool back = InfobipPushLocation.BackgroundLocationUpdateModeEnabled;
-			ScreenPrinter.Print(back);
-		}
-		if (GUI.Button(new Rect(centerX - 100, 300, 175, 45), "Set Background Location"))
-		{
+            ScreenPrinter.Print(back);
+        }
+        if (GUI.Button(new Rect(centerX - 100, 300, 175, 45), "Set Background Location"))
+        {
             InfobipPushLocation.BackgroundLocationUpdateModeEnabled = true;
-		}
-		if (GUI.Button (new Rect(centerX + 100, 300, 175, 45), "Time Update")) 
-		{
+        }
+        if (GUI.Button(new Rect(centerX + 100, 300, 175, 45), "Time Update"))
+        {
             int time = InfobipPushLocation.LocationUpdateTimeInterval;
-			ScreenPrinter.Print(time);
-		}
+            ScreenPrinter.Print(time);
+        }
 
         // Seventh row
         if (GUI.Button(new Rect(centerX - 300, 350, 175, 45), "Set Badge Number"))
         {
             InfobipPush.SetBadgeNumber(10);
         }
-		if (GUI.Button(new Rect(centerX - 100, 350, 175, 45), "Set Time Update"))
-		{
+        if (GUI.Button(new Rect(centerX - 100, 350, 175, 45), "Set Time Update"))
+        {
             InfobipPushLocation.LocationUpdateTimeInterval = 500;
         }
 
@@ -192,7 +193,7 @@ public class InfobipPushDemo : MonoBehaviour
         }
 
         // Ninth row
-        if (GUI.Button (new Rect (centerX - 300, 450, 175, 45), "Enable Live Geo")) 
+        if (GUI.Button(new Rect(centerX - 300, 450, 175, 45), "Enable Live Geo"))
         {
             InfobipPushLocation.LiveGeo = true;
             ScreenPrinter.Print("Live geo is enabled");
@@ -202,13 +203,13 @@ public class InfobipPushDemo : MonoBehaviour
             InfobipPushLocation.LiveGeo = false;
             ScreenPrinter.Print("Live geo is disabled");
         }
-        if (GUI.Button (new Rect(centerX + 100, 450, 175, 45), "Is Live Geo")) 
+        if (GUI.Button(new Rect(centerX + 100, 450, 175, 45), "Is Live Geo"))
         {
             ScreenPrinter.Print(InfobipPushLocation.LiveGeo);
         }
 
         // Tenth row
-        if (GUI.Button (new Rect (centerX - 300, 500, 175, 45), "Number Of Regions")) 
+        if (GUI.Button(new Rect(centerX - 300, 500, 175, 45), "Number Of Regions"))
         {
             int regions = InfobipPushLocation.IBNumberOfCurrentLiveGeoRegions();
             ScreenPrinter.Print("Number Of Regions:" + regions.ToString());
@@ -218,7 +219,7 @@ public class InfobipPushDemo : MonoBehaviour
             int regions = InfobipPushLocation.IBStopLiveGeoMonitoringForAllRegions();
             ScreenPrinter.Print("Stop Live Geo Monitoring for all Regions" + regions.ToString());
         }
-        if (GUI.Button (new Rect(centerX + 100, 500, 175, 45), "Set Accuracy")) 
+        if (GUI.Button(new Rect(centerX + 100, 500, 175, 45), "Set Accuracy"))
         {
             double accur = 100.43;
             InfobipPushLocation.IBSetLiveGeoAccuracy(accur);
@@ -226,7 +227,7 @@ public class InfobipPushDemo : MonoBehaviour
         }
 
         // Eleventh row
-        if (GUI.Button (new Rect (centerX - 300, 550, 175, 45), "Get Unreceived Notifications")) 
+        if (GUI.Button(new Rect(centerX - 300, 550, 175, 45), "Get Unreceived Notifications"))
         {
             InfobipPush.GetListOfUnreceivedNotifications();
         }
@@ -234,7 +235,7 @@ public class InfobipPushDemo : MonoBehaviour
         {
 
         }
-        if (GUI.Button (new Rect(centerX + 100, 550, 175, 45), "")) 
+        if (GUI.Button(new Rect(centerX + 100, 550, 175, 45), ""))
         {
 
         }
