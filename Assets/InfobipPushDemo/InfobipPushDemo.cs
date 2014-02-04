@@ -25,17 +25,18 @@ public class InfobipPushDemo : MonoBehaviour
             //ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
 			if(isMediaNotification)
 			{
-			InfobipPushMediaViewCustomization customiz = new InfobipPushMediaViewCustomization 
+                ScreenPrinter.Print("Media Push");
+			    InfobipPushMediaViewCustomization customiz = new InfobipPushMediaViewCustomization 
 				{
-				X = 20,
-				Y = 20,
-				Width = 250,
-				Height = 350,
-				Shadow = true,
-				Radius = 50,
-				DismissButtonSize = 25,
-				ForgroundColorHex = new Color(1, 0, 0,1),
-	            BackgroundColorHex = new Color(0, 0, 0,1)           
+    				X = 20,
+    				Y = 20,
+    				Width = 250,
+    				Height = 350,
+    				Shadow = true,
+    				Radius = 50,
+    				DismissButtonSize = 25,
+//    				ForgroundColorHex = new Color(255, 0, 0,1),
+//    	            BackgroundColorHex = new Color(0, 0, 0,1)           
 				};
 				InfobipPush.AddMediaView(notif.ToString(), customiz.ToString ());
 
