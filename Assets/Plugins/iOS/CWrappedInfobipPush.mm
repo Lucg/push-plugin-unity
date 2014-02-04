@@ -7,8 +7,6 @@ NSString *const PUSH_UNREGISTER =  @"IBUnregister_SUCCESS";
 NSString *const PUSH_GET_UNRECEIVED_NOTIFICATION = @"IBGetUnreceivedNotifications_SUCCESS";
 
 
-#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0];
-
 
 void IBSetLogModeEnabled(bool isEnabled, int lLevel) {
     NSLog(@"IBSetLogModeEnabled method");
@@ -112,14 +110,14 @@ char* IBUserId() {
     NSLog(@"IBUserId method");
     NSString* userId = [InfobipPush userID];
     return cStringCopy([userId UTF8String]);
-   
+    
 }
 
 void IBRegisterToChannels(const char * channelsData) {
     NSError *e;
     NSString * channelsDataString = [NSString stringWithFormat:@"%s", channelsData];
     NSDictionary * channelsDictionary = [NSJSONSerialization JSONObjectWithData:[channelsDataString  dataUsingEncoding:NSUTF8StringEncoding]
-                                                                   options:NSJSONReadingMutableContainers error:&e];
+                                                                        options:NSJSONReadingMutableContainers error:&e];
     NSNumber * removeExistingChannels = [channelsDictionary objectForKey:@"removeExistingChannels"];
     NSArray * channels = [channelsDictionary objectForKey:@"channels"];
     
@@ -150,7 +148,7 @@ void IBGetRegisteredChannels() {
 
 void IBNotifyNotificationOpened(const char * pushIdParam) {
     NSString * pushId = [NSString stringWithFormat:@"%s", pushIdParam];
-//    NSLog(@"PushID: %@", pushId);
+    //    NSLog(@"PushID: %@", pushId);
     InfobipPushNotification* tmpNotification = [[InfobipPushNotification alloc] init];
     [tmpNotification setMessageID:pushId];
     
@@ -165,7 +163,7 @@ void IBUnregister(){
     [InfobipPush unregisterFromInfobipPushUsingBlock:^(BOOL succeeded, NSError *error) {
         if(succeeded) {
             NSLog(@"Unregistration was successful");
-             UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_UNREGISTER UTF8String], [@"" UTF8String]);
+            UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_UNREGISTER UTF8String], [@"" UTF8String]);
         } else {
             NSLog(@"Unregistration failed");
             [IBPushUtil passErrorCodeToUnity:error];
@@ -198,58 +196,5 @@ void IBGetUnreceivedNotifications() {
 void IBAddMediaView(const char * notif, const char * customiz) {
     NSString * notificationJson = [NSString stringWithFormat:@"%s", notif];
     NSString * customizationJson = [NSString stringWithFormat:@"%s", customiz];
-
-    NSError * e = nil;
-    NSDictionary * notification = [NSJSONSerialization JSONObjectWithData:[notificationJson dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&e];
-    NSDictionary * customization = [NSJSONSerialization JSONObjectWithData:[customizationJson dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&e];
-    
-    NSString * mediaContent = [notification objectForKey:@"mediaData"];
-    NSNumber * x = [customization objectForKey:@"x"];
-    NSNumber * y = [customization objectForKey:@"y"];
-    NSNumber * width = [customization objectForKey:@"width"];
-    NSNumber * height = [customization objectForKey:@"height"];
-    NSNumber * shadow = [customization objectForKey:@"shadow"]; //BOOL
-    NSNumber * radius = [customization objectForKey:@"radius"]; //int
-    
-    NSNumber * dismissButtonSize = [customization objectForKey:@"dismissButtonSize"]; //int
-    NSNumber * forgroundColorHex = [customization objectForKey:@"forgroundColor"]; //hex
-    NSNumber * backgroundColorHex = [customization objectForKey:@"backgroundColor"]; //hex
-    UIColor * forgroundColor = UIColorFromRGB([forgroundColorHex integerValue]);
-    UIColor * backgroundColor = UIColorFromRGB([backgroundColorHex integerValue]);
-    
-    UIView *topView = [[UIApplication sharedApplication] keyWindow].rootViewController.view;
-    CGRect frame = CGRectMake([x floatValue], [y floatValue], [width floatValue], [height floatValue]);
-    InfobipMediaView *mediaView = [[InfobipMediaView alloc] initWithFrame:frame andMediaContent:mediaContent];
-    
-    
-    //set the size od dismiss button
-    if(nil != dismissButtonSize){
-        if ((nil != backgroundColor) && (nil != forgroundColor)) {
-            [mediaView setDismissButtonSize:[dismissButtonSize integerValue]
-                        withBackgroundColor:backgroundColor andForegroundColor:forgroundColor];
-        } else {
-            [mediaView setDismissButtonSize:[dismissButtonSize integerValue]];
-        }
-    }
-    
-    // disabe/enable shadow
-    if (nil != shadow) {
-        mediaView.shadowEnabled = [shadow boolValue];
-    }
-    
-    // corner radius
-    if (nil != radius) {
-        mediaView.cornerRadius = [radius integerValue];
-    } else {
-        mediaView.cornerRadius = 0;
-    }
-//    
-//    // Add action with selector "yourDismissAction" to the dismiss button inside Infobip Media View
-//    [mediaView.dismissButton addTarget:IBMediaView action:@selector() forControlEvents:UIControlEventTouchUpInside];
-
-    mediaView.delegate = [IBMediaView class];
-    
-    
-    // display media view
-    [topView addSubview:mediaView];
+    [IBMediaView addMediaViewWithNotification:notificationJson andCustomization:customizationJson];
 }

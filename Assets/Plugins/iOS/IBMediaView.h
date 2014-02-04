@@ -8,8 +8,8 @@
 
 #import "InfobipMediaView.h"
 
-@interface IBMediaView : InfobipMediaView
+@interface IBMediaView : NSObject
 
--(void)didDismissInfobipMediaView:(InfobipMediaView *)infobipMediaView;
++(void)addMediaViewWithNotification:(NSString *) notif andCustomization:(NSString *)customiz;
 
 @end

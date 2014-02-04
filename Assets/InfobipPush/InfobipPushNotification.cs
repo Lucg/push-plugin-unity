@@ -72,7 +72,7 @@ public class InfobipPushNotification
 		notif ["notificationId"] = NotificationId;
 		notif ["sound"] = Sound; 
 		notif ["url"] = Url;
-//		notif ["additionalInfo"] = AdditionalInfo;
+		notif ["additionalInfo"] = AdditionalInfo;
 		notif ["mediaData"] = MediaData;
 		notif ["title"] = Title;
 		notif ["message"] = Message; 
@@ -97,7 +97,7 @@ public class InfobipPushNotification
         //IDictionary<string, int> dictNotifInt = dictNotif as Dictionary<string, int>;
 //        if (dictNotif.TryGetValue("badge", out varObj))
 //        {
-            // TODO: fix 'badge' (string "" if it is 0, and int if not)
+//            // TODO: fix 'badge' (string "" if it is 0, and int if not)
 //            if (varObj as string != null)
 //            {
 //                Badge = 0;

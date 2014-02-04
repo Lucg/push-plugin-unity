@@ -60,27 +60,29 @@ public class InfobipPushMediaViewCustomization{
 		
 	}
 
+
+
     private int ConvertToHex(Color clr)
     {
         int hex = 0x0;
         hex |= (byte)(Math.Round(255 * clr.r)) << 4 * 4 | (byte)(Math.Round(255 * clr.g)) << 4 * 2 | (byte)(Math.Round(255 * clr.b));
         return hex;
     }
-
-	public override string ToString()
-	{
-		IDictionary<string, object> customiz = new Dictionary<string, object>(9);
-		customiz ["x"] = X;
-		customiz ["y"] = Y; 
-		customiz ["width"] = Width;
-		customiz ["height"] = Height; 
-		customiz ["shadow"] = Shadow;
-		customiz ["radius"] = Radius;
-		customiz ["dismissButtonSize"] = DismissButtonSize;
+    
+    public override string ToString()
+    {
+        IDictionary<string, object> customiz = new Dictionary<string, object>(9);
+        customiz ["x"] = X;
+        customiz ["y"] = Y; 
+        customiz ["width"] = Width;
+        customiz ["height"] = Height; 
+        customiz ["shadow"] = Shadow;
+        customiz ["radius"] = Radius;
+        customiz ["dismissButtonSize"] = DismissButtonSize;
         customiz ["forgroundColorHex"] = ConvertToHex(ForgroundColorHex);
         customiz ["backgroundColorHex"] = ConvertToHex(BackgroundColorHex);
-		return MiniJSON.Json.Serialize(customiz);
-	}
+        return MiniJSON.Json.Serialize(customiz);
+    }
 
 
 }
