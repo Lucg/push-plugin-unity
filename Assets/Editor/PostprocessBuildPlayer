@@ -61,23 +61,36 @@ def add_remote_notifications_to_plist(path, fname)
 end
 
 #
-# Define build directory path
-# -> Will be suppried as argv if run by Unity
-# -> Else, assume UNITY_PROJECT_ROOT/build is a build directory
+# If it's not iOS we're building, skip this
 #
-buildpath = (ARGV[0]) ? ARGV[0] : File.expand_path(File.dirname($0)) + "/../../build"
-puts "PostprocessBuildPlayer running on build directory: " + buildpath
- 
-#
-# Add System frameworks required to build
-#
-projpath = buildpath + "/Unity-iPhone.xcodeproj"
+target = ARGV[1]
+if (target == "iPhone") then
 
-project = Xcode.project(projpath)
-add_sys_framework_to_project(project, ["MapKit", "CoreTelephony", "CoreLocation", "SystemConfiguration"], :required)
-puts "Before proj.save_as(projpath)..."
-project.save!
+    #
+    # Define build directory path
+    # -> Will be suppried as argv if run by Unity
+    # -> Else, assume UNITY_PROJECT_ROOT/build is a build directory
+    #
+    buildpath = (ARGV[0]) ? ARGV[0] : File.expand_path(File.dirname($0)) + "/../../build"
+    puts "PostprocessBuildPlayer running on build directory: " + buildpath
 
-append_to_start_of_file(projpath, "/project.pbxproj", "// !$*UTF8*$!")
+    #
+    # Add System frameworks required to build
+    #
+    projpath = buildpath + "/Unity-iPhone.xcodeproj"
+    project = Xcode.project(projpath)
+    add_sys_framework_to_project(project, ["MapKit", "CoreTelephony", "CoreLocation", "SystemConfiguration"], :required)
+    project.save!
 
-add_remote_notifications_to_plist(buildpath, "Info.plist")
+    #
+    # Fix .pbxproj file by adding a line to it's start
+    #
+    append_to_start_of_file(projpath, "/project.pbxproj", "// !$*UTF8*$!")
+
+    #
+    # Add BackgroundTask <remote-notifications /> to .plist file
+    #
+    add_remote_notifications_to_plist(buildpath, "Info.plist")
+else 
+    puts "Not doing anything in postprocess. Building for " + target + "..."
+end

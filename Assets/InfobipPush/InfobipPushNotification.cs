@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InfobipPushNotification : MonoBehaviour
+public class InfobipPushNotification 
 {
     public string NotificationId
     { 
@@ -128,7 +128,7 @@ public class InfobipPushNotification : MonoBehaviour
         if (dictNotif.TryGetValue("mediaData", out varObj))
         {
 			MediaData = (string)varObj;
-			print("MediaData: " + MediaData);
+//			print("MediaData: " + MediaData);
         }
         if (dictNotif.TryGetValue("message", out varObj))
         {
