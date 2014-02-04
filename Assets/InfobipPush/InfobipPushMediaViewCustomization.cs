@@ -74,8 +74,8 @@ public class InfobipPushMediaViewCustomization{
 		customiz ["dismissButtonSize"] = DismissButtonSize;
 		//customiz ["forgroundColorHex"] = ColorTranslator.ToHtml(ForgroundColorHex);
 		  customiz ["forgroundColorHex"] =  String.Format("#{0:X2}{1:X2}{2:X2}", ForgroundColorHex.r, ForgroundColorHex.g, ForgroundColorHex.b);
-		//ScreenPrinter.Print(ForgroundColorHex.GetHashCode());
- 	//ScreenPrinter.Print (String.Format ("%d", ForgroundColorHex.GetHashCode ()));
+	ScreenPrinter.Print("Color hex: " +ForgroundColorHex);
+ 	ScreenPrinter.Print ("Color real " +ForgroundColorHex);
 		customiz ["backgroundColorHex"] = String.Format("#{0:X2}{1:X2}{2:X2}", BackgroundColorHex.r, BackgroundColorHex.g, BackgroundColorHex.b);
 		return MiniJSON.Json.Serialize(customiz);
 	}

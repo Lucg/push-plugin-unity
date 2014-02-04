@@ -34,7 +34,7 @@ public class InfobipPushDemo : MonoBehaviour
 				Shadow = true,
 				Radius = 50,
 				DismissButtonSize = 25,
-				ForgroundColorHex = new Color(255, 0, 0,1),
+				ForgroundColorHex = new Color(1, 0, 0,1),
 	            BackgroundColorHex = new Color(0, 0, 0,1)           
 				};
 				InfobipPush.AddMediaView(notif.ToString(), customiz.ToString ());
@@ -175,10 +175,6 @@ public class InfobipPushDemo : MonoBehaviour
 		{
             InfobipPushLocation.LocationUpdateTimeInterval = 500;
         }
-		if (GUI.Button(new Rect(centerX - 300, 350, 175, 45), "Set Badge Number"))
-		{
-			InfobipPush.SetBadgeNumber(10);
-		}
 
         // Eighth row
         if (GUI.Button(new Rect(centerX - 300, 400, 175, 45), "Get Registered Channels"))
