@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class InfobipPushNotification
 {
@@ -99,15 +100,18 @@ public class InfobipPushNotification
         if (dictNotif.TryGetValue("badge", out varObj))
         {
             // TODO: fix 'badge' (string "" if it is 0, and int if not)
-            if ("".Equals(varObj as string))
+            if (varObj == null || "".Equals(varObj as string))
             {
                 Badge = null;
             } else
             {
-                varInt = (int)varObj;
+                ScreenPrinter.Print("teste0");
+                varInt = Convert.ToInt32(varObj);
+				ScreenPrinter.Print("teste1");
                 Badge = varInt;
+                ScreenPrinter.Print("teste2");
             }
-            ScreenPrinter.Print("BADGE: " + Badge);
+            ScreenPrinter.Print("BADGE: " + (Badge ?? (int) -1).ToString());
         }
         if (dictNotif.TryGetValue("sound", out varObj))
         {

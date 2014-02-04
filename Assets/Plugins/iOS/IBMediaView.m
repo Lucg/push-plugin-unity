@@ -36,8 +36,14 @@ InfobipMediaView *mediaView = nil;
     NSNumber * dismissButtonSize = [customization objectForKey:@"dismissButtonSize"]; //int
     NSNumber * forgroundColorHex = [customization objectForKey:@"forgroundColorHex"]; //hex
     NSNumber * backgroundColorHex = [customization objectForKey:@"backgroundColorHex"]; //hex
-    UIColor * forgroundColor = UIColorFromRGB([forgroundColorHex longValue]);
-    UIColor * backgroundColor = UIColorFromRGB([backgroundColorHex longValue]);
+    UIColor * forgroundColor = nil;
+    UIColor * backgroundColor = nil;
+    if (![[NSNull null] isEqual:forgroundColorHex]) {
+        forgroundColor = UIColorFromRGB([forgroundColorHex longValue]);
+    }
+    if (![backgroundColorHex isEqual:[NSNull null]]) {
+        backgroundColor = UIColorFromRGB([backgroundColorHex longValue]);
+    }
     
     UIView *topView = [[UIApplication sharedApplication] keyWindow].rootViewController.view;
     CGRect frame = CGRectMake([x floatValue], [y floatValue], [width floatValue], [height floatValue]);
