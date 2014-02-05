@@ -147,10 +147,10 @@ public class InfobipPushDemo : MonoBehaviour
         {
             InfobipPushLocation.LocationEnabled = false;
         }
-        if (GUI.Button(new Rect(centerX + 100, 325, 175, 50), "Is Location Enabled"))
+        if (GUI.Button(new Rect(centerX + 100, 325, 175, 50), "Is Loc. Enabled"))
         {
             bool isLocation = InfobipPushLocation.IsLocationEnabled();
-            ScreenPrinter.Print(isLocation);
+            ScreenPrinter.Print("isLocation = " + isLocation);
         }
     
         // Seventh row
