@@ -147,20 +147,25 @@ public class InfobipPushDemo : MonoBehaviour
         {
             InfobipPushLocation.LocationEnabled = false;
         }
-        if (GUI.Button(new Rect(centerX + 100, 325, 175, 50), ""))
+        if (GUI.Button(new Rect(centerX + 100, 325, 175, 50), "Is Location Enabled"))
         {
-            
+            bool isLocation = InfobipPushLocation.IsLocationEnabled();
+            ScreenPrinter.Print(isLocation);
         }
- 
+    
         // Seventh row
-        if (GUI.Button(new Rect(centerX - 175, 380, 175, 50), "Background Location"))
+         if (GUI.Button(new Rect(centerX - 300, 380, 175, 50), "Background Location"))
+         {
+             bool back = InfobipPushLocation.BackgroundLocationUpdateModeEnabled;
+              ScreenPrinter.Print(back);
+          }
+        if (GUI.Button(new Rect(centerX - 100, 380, 175, 50), "Enable Background Location"))
+          {
+              InfobipPushLocation.BackgroundLocationUpdateModeEnabled = true;
+          }
+        if (GUI.Button(new Rect(centerX + 100, 380, 175, 50), "Disable Background Location"))
         {
-            bool back = InfobipPushLocation.BackgroundLocationUpdateModeEnabled;
-            ScreenPrinter.Print(back);
-        }
-        if (GUI.Button(new Rect(centerX + 25, 380, 175, 50), "Set Background Location"))
-        {
-            InfobipPushLocation.BackgroundLocationUpdateModeEnabled = true;
+            InfobipPushLocation.BackgroundLocationUpdateModeEnabled = false;
         }
         // Eighth row
 
@@ -232,4 +237,3 @@ public class InfobipPushDemo : MonoBehaviour
 
     }
 }
-
