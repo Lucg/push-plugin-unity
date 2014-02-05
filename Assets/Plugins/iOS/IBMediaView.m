@@ -41,7 +41,7 @@ InfobipMediaView *mediaView = nil;
     if (![[NSNull null] isEqual:forgroundColorHex]) {
         forgroundColor = UIColorFromRGB([forgroundColorHex longValue]);
     }
-    if (![backgroundColorHex isEqual:[NSNull null]]) {
+    if (![[NSNull null] isEqual:backgroundColorHex]) {
         backgroundColor = UIColorFromRGB([backgroundColorHex longValue]);
     }
     

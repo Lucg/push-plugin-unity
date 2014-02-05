@@ -11,7 +11,7 @@ public delegate void InfobipPushDelegateWithStringArg(string argument);
 
 public delegate void InfobipPushDelegate();
 
-public static class InfobipPush
+public class InfobipPush : MonoBehaviour
 {
     #region declaration of methods
     [DllImport ("__Internal")]
@@ -53,40 +53,70 @@ public static class InfobipPush
     [DllImport ("__Internal")]
     private static extern void IBGetRegisteredChannels();
 
-
     [DllImport ("__Internal")]
     private static extern void IBGetUnreceivedNotifications();
 
+    [DllImport ("__Internal")]
+    private static extern void IBSetBadgeNumber(int badgeNo);
 
-	[DllImport ("__Internal")]
-	private static extern void IBSetBadgeNumber(int badgeNo);
-
-	[DllImport ("__Internal")]
-	private static extern void IBAddMediaView(string notif, string customiz);
+    [DllImport ("__Internal")]
+    private static extern void IBAddMediaView(string notif, string customiz);
 
     #endregion
 
     #region listeners
-    public static InfobipPushDelegateWithNotificationArg OnNotificationReceived = delegate {};
-    
-    public static InfobipPushDelegateWithNotificationArg OnUnreceivedNotificationReceived = delegate {};
-
-    public static InfobipPushDelegateWithNotificationArg OnNotificationOpened = delegate {};
-
-    public static InfobipPushDelegate OnRegistered = delegate {};
-    
-    public static InfobipPushDelegate OnRegisteredToChannels = delegate {};
-
-    public static InfobipPushDelegate OnUnregistered = delegate {};
-
-    public static InfobipPushDelegate OnUserDataSaved = delegate {};
-
-    public static InfobipPushDelegate OnLocationShared = delegate {};
-    
-    public static InfobipPushDelegateWithStringArg OnGetChannelsFinished = delegate {};
-
-    public static InfobipPushDelegateWithStringArg OnError = delegate {};
+    public static InfobipPushDelegateWithNotificationArg OnNotificationReceived = delegate
+    {
+    };
+    public static InfobipPushDelegateWithNotificationArg OnUnreceivedNotificationReceived = delegate
+    {
+    };
+    public static InfobipPushDelegateWithNotificationArg OnNotificationOpened = delegate
+    {
+    };
+    public static InfobipPushDelegate OnRegistered = delegate
+    {
+    };
+    public static InfobipPushDelegate OnRegisteredToChannels = delegate
+    {
+    };
+    public static InfobipPushDelegate OnUnregistered = delegate
+    {
+    };
+    public static InfobipPushDelegate OnUserDataSaved = delegate
+    {
+    };
+    public static InfobipPushDelegate OnLocationShared = delegate
+    {
+    };
+    public static InfobipPushDelegateWithStringArg OnGetChannelsFinished = delegate
+    {
+    };
+    public static InfobipPushDelegateWithStringArg OnError = delegate
+    {
+    };
     #endregion
+
+    private static InfobipPush _instance;
+    private static readonly object synLock = new object();
+    private const string SINGLETON_GAME_OBJECT_NAME = "InfobipPush Instance";
+
+    public static InfobipPush GetInstance()
+    {
+        lock (synLock)
+        {
+            if (_instance == null) 
+            {
+                _instance = FindObjectOfType(typeof(InfobipPush)) as InfobipPush;
+                if (_instance == null)
+                {
+                    var gameObject = new GameObject(SINGLETON_GAME_OBJECT_NAME);
+                    _instance = gameObject.AddComponent<InfobipPush>();
+                }
+            }
+            return _instance;
+        }
+    }
 
     public static bool LogMode
     {
@@ -111,14 +141,26 @@ public static class InfobipPush
         }
     }
 
+    static IEnumerator SetLogModeEnabled_C(bool isEnabled, int logLevel)
+    {
+        IBSetLogModeEnabled(isEnabled, logLevel);
+        yield return true;
+    }
+
     public static void SetLogModeEnabled(bool isEnabled, int logLevel)
     {
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            IBSetLogModeEnabled (isEnabled, logLevel);
+            GetInstance().StartCoroutine(SetLogModeEnabled_C(isEnabled, logLevel));
         }
         #endif
+    }
+
+    static IEnumerator SetTimezoneOffsetInMinutes_C(int offsetMinutes)
+    {
+        IBSetTimezoneOffsetInMinutes(offsetMinutes);
+        yield return true;
     }
 
     public static void SetTimezoneOffsetInMinutes(int offsetMinutes)
@@ -126,7 +168,7 @@ public static class InfobipPush
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            IBSetTimezoneOffsetInMinutes(offsetMinutes);
+            GetInstance().StartCoroutine(SetTimezoneOffsetInMinutes_C(offsetMinutes));
         }
         #endif
     }
@@ -136,9 +178,22 @@ public static class InfobipPush
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            IBSetTimezoneOffsetAutomaticUpdateEnabled (isEnabled);
+            IBSetTimezoneOffsetAutomaticUpdateEnabled(isEnabled);
         }
         #endif
+    }
+
+    static IEnumerator Initialize_C(string applicationId, string applicationSecret, InfobipPushRegistrationData registrationData = null)
+    {
+        InfobipPushInternal.GetInstance();
+        if (registrationData == null) 
+        {
+            IBInitialization(applicationId, applicationSecret);
+        } else {
+            var regdata = registrationData.ToString();
+            IBInitializationWithRegistrationData(applicationId, applicationSecret, regdata);
+        }
+        yield return true;
     }
 
     public static void Initialize(string applicationId, string applicationSecret, InfobipPushRegistrationData registrationData = null)
@@ -146,14 +201,7 @@ public static class InfobipPush
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            InfobipPushInternal.GetInstance();
-            if (registrationData == null) 
-            {
-                IBInitialization(applicationId, applicationSecret);
-            } else {
-                var regdata = registrationData.ToString();
-                IBInitializationWithRegistrationData(applicationId, applicationSecret, regdata);
-            }
+            GetInstance().StartCoroutine(Initialize_C(applicationId, applicationSecret, registrationData));
         }
         #endif
     }
@@ -174,7 +222,7 @@ public static class InfobipPush
         get
         {
             #if UNITY_IPHONE
-           if (Application.platform == RuntimePlatform.IPhonePlayer)
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
                 return IBDeviceId();
             }
@@ -208,49 +256,67 @@ public static class InfobipPush
         }
     }
 
+    static IEnumerator Unregister_C()
+    {
+        IBUnregister();
+        yield return true;
+    }
+
     public static void Unregister()
     {
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            IBUnregister();
+            GetInstance().StartCoroutine(Unregister_C());
         }
         #endif
     }
 
-	public static void SetBadgeNumber(int badgeNo)
-	{
-		#if UNITY_IPHONE
-		if (Application.platform == RuntimePlatform.IPhonePlayer)
-		{
-			IBSetBadgeNumber(badgeNo);
-		}
-		#endif
-	}
-	public static void AddMediaView(InfobipPushNotification notif, InfobipPushMediaViewCustomization customiz)
-	{
-		#if UNITY_IPHONE
-		if (Application.platform == RuntimePlatform.IPhonePlayer)
-		{
-            IBAddMediaView(notif.ToString(), customiz.ToString());
-		}
-		#endif
-	}
-	
-
-    public static void RegisterToChannels(string[] channels, bool removeExistingChannels = false)
+    public static void SetBadgeNumber(int badgeNo)
     {
-        IDictionary<string, object> dict = new Dictionary<string, object>(2);
-        dict ["channels"] = channels;
-        dict ["removeExistingChannels"] = removeExistingChannels;
-        string channelsData = MiniJSON.Json.Serialize(dict);
-
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            IBRegisterToChannels(channelsData);
+            IBSetBadgeNumber(badgeNo);
         }
         #endif
+    }
+
+    public static void AddMediaView(InfobipPushNotification notif, InfobipPushMediaViewCustomization customiz)
+    {
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            IBAddMediaView(notif.ToString(), customiz.ToString());
+        }
+        #endif
+    }
+
+    static IEnumerator RegisterToChannels_C(string[] channels, bool remove)
+    {   
+        IDictionary<string, object> dict = new Dictionary<string, object>(2);
+        dict ["channels"] = channels;
+        dict ["removeExistingChannels"] = remove;
+        string channelsData = MiniJSON.Json.Serialize(dict);
+
+        IBRegisterToChannels(channelsData);
+        yield return true;
+    }
+
+    public static void RegisterToChannels(string[] channels, bool removeExistingChannels = false)
+    {
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            GetInstance().StartCoroutine(RegisterToChannels_C(channels, removeExistingChannels));
+        }
+        #endif
+    }
+
+    static IEnumerator BeginGetRegisteredChannels_C()
+    {
+        IBGetRegisteredChannels();
+        yield return true;
     }
 
     public static void BeginGetRegisteredChannels()
@@ -258,9 +324,15 @@ public static class InfobipPush
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            IBGetRegisteredChannels();
+            GetInstance().StartCoroutine(BeginGetRegisteredChannels_C());
         }
         #endif
+    }
+
+    static IEnumerator GetListOfUnreceivedNotifications_C()
+    {
+        IBGetUnreceivedNotifications();
+        yield return true;
     }
 
     public static void GetListOfUnreceivedNotifications()
@@ -268,7 +340,7 @@ public static class InfobipPush
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            IBGetUnreceivedNotifications();
+            GetInstance().StartCoroutine(GetListOfUnreceivedNotifications_C());
         }
         #endif
     }

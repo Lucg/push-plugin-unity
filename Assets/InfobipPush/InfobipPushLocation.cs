@@ -2,10 +2,11 @@ using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 
 
-public static class InfobipPushLocation
+public class InfobipPushLocation : MonoBehaviour
 {
 
     #region declaration of methods
@@ -56,7 +57,27 @@ public static class InfobipPushLocation
         public static extern double IBLiveGeoAccuracy();
     #endregion
     
+    private static InfobipPushLocation _instance;
+    private static readonly object synLock = new object();
+    private const string SINGLETON_GAME_OBJECT_NAME = "InfobipPushLocation Instance";
     
+    public static InfobipPushLocation GetInstance()
+    {
+        lock (synLock)
+        {
+            if (_instance == null) 
+            {
+                _instance = FindObjectOfType(typeof(InfobipPushLocation)) as InfobipPushLocation;
+                if (_instance == null)
+                {
+                    var gameObject = new GameObject(SINGLETON_GAME_OBJECT_NAME);
+                    _instance = gameObject.AddComponent<InfobipPushLocation>();
+                }
+            }
+            return _instance;
+        }
+    }
+
     public static void EnableLocation()
     {
         #if UNITY_IPHONE
@@ -136,8 +157,8 @@ public static class InfobipPushLocation
         get { return IsLocationEnabled(); }
         set { if (value) EnableLocation(); else DisableLocation(); }
     }
-    
-    public static void ShareLocation(LocationInfo location)
+
+    static IEnumerator ShareLocation_C(LocationInfo location)
     {
         IDictionary<string, object> locationDict = new Dictionary<string, object>(6);
         locationDict ["latitude"] = location.latitude;
@@ -149,11 +170,16 @@ public static class InfobipPushLocation
         locationDict ["timestamp"] = String.Format("{0:u}", date);
         string locationString = MiniJSON.Json.Serialize(locationDict);
         
+        IBShareLocation(locationString);
+        yield return true;
+    }
+
+    public static void ShareLocation(LocationInfo location)
+    {
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            ScreenPrinter.Print(locationString);
-            IBShareLocation(locationString);
+            GetInstance().StartCoroutine(ShareLocation_C(location));
         }
         #endif
     }

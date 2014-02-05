@@ -21,6 +21,9 @@ static NSArray* channels;
 +(NSArray *)channels { return channels; }
 +(void)setChannels:(NSArray *)newChannels { channels = [newChannels copy]; }
 
+static NSString* userId;
++(NSString *)userId { return userId; }
++(void)setUserId:(NSString *)newUserId { userId = [newUserId copy]; }
 
 +(NSDictionary *)convertNotificationToAndroidFormat:(InfobipPushNotification *)notification {
     NSDictionary * notificationData = [notification data];

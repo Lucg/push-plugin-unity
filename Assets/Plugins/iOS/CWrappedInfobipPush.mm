@@ -82,8 +82,8 @@ void IBInitializationWithRegistrationData(char * appId, char * appSecret, char *
     // prepare channels for AppDelegate
     [IBPushUtil setChannels:channels];
     
-    // set UserId
-    IBSetUserIdWithNSString(userId);
+    // save UserId for setting later
+    [IBPushUtil setUserId:userId];
 }
 
 bool IBIsRegistered() {

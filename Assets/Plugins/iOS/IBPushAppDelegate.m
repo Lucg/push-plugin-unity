@@ -122,6 +122,8 @@ void IBPushDidRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, i
     } else {
         [InfobipPush registerWithDeviceToken:devToken toChannels:[channels copy] usingBlock:block];
     }
+    
+    [InfobipPush setUserID:[IBPushUtil userId]];
 }
 
 void IBPushDidFailToRegisterForRemoteNotificationsWithError(id self, SEL _cmd, id application, id error) {

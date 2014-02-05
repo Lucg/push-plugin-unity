@@ -7,7 +7,7 @@ public class ScreenPrinter : MonoBehaviour
 {
     
     public TextAnchor anchorAt = TextAnchor.LowerLeft;
-    public int numberOfLines = 5;
+    public int numberOfLines = 8;
     public int pixelOffset = 5;
     public int chunkSize = 80;
     static ScreenPrinter defaultPrinter = null;
@@ -99,6 +99,17 @@ public class ScreenPrinter : MonoBehaviour
                     }
                 }
                 newMessages.Clear();
+
+                string[] strings = guiText.text.Split('\n');
+                if (strings.Length > numberOfLines)
+                {
+                    int len = 0;
+                    for (int i = 0; i < newMessages.Count; i++)
+                    {
+                        len += strings[i].Length;
+                    }
+                    guiText.text = guiText.text.Remove(0, len);
+                }
                 /*
                 if (null == messageHistory)
                 {
