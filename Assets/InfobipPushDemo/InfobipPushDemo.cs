@@ -150,7 +150,7 @@ public class InfobipPushDemo : MonoBehaviour
         }
         if (GUI.Button(new Rect(centerX - 100, 325, 175, 50), "Disable Location"))
         {
-            InfobipPushLocation.LocationEnabled = false;
+            InfobipPushLocation.DisableLocation();
         }
         if (GUI.Button(new Rect(centerX + 100, 325, 175, 50), "Is Loc. Enabled"))
         {
