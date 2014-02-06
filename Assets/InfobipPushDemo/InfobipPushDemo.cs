@@ -22,7 +22,12 @@ public class InfobipPushDemo : MonoBehaviour
             ScreenPrinter.Print("IBPush - Is Media notification: " + isMediaNotification);
             string mediaContent = notif.MediaData;
             ScreenPrinter.Print("IBPush -  Media content: " + mediaContent);
-            //ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
+           // ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
+            Dictionary<string,object> addInfo=( Dictionary<string,object>)notif.AdditionalInfo;
+            object varObj=null;
+            addInfo.TryGetValue("ime1", out varObj);
+            ScreenPrinter.Print("IBPush - Notification received: " + varObj);
+
             if (isMediaNotification)
             {
                 ScreenPrinter.Print("Media Push");
@@ -136,7 +141,7 @@ public class InfobipPushDemo : MonoBehaviour
         }
         if (GUI.Button(new Rect(centerX + 25, 270, 175, 50), "Set Badge Number"))
         {
-            InfobipPush.SetBadgeNumber(10);
+            InfobipPush.SetBadgeNumber(0);
         }
         // Sixth row
         if (GUI.Button(new Rect(centerX - 300, 325, 175, 50), "Enable Location"))
@@ -155,11 +160,11 @@ public class InfobipPushDemo : MonoBehaviour
     
         // Seventh row
      
-        if (GUI.Button(new Rect(centerX - 300, 380, 175, 50), "Enable Background Location"))
+        if (GUI.Button(new Rect(centerX - 300, 380, 175, 50), "Enable Background Loc."))
           {
               InfobipPushLocation.BackgroundLocationUpdateModeEnabled = true;
           }
-        if (GUI.Button(new Rect(centerX - 100, 380, 175, 50), "Disable Background Location"))
+        if (GUI.Button(new Rect(centerX - 100, 380, 175, 50), "Disable Background Loc."))
         {
             InfobipPushLocation.BackgroundLocationUpdateModeEnabled = false;
         }

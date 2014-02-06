@@ -105,11 +105,8 @@ public class InfobipPushNotification
                 Badge = null;
             } else
             {
-                ScreenPrinter.Print("teste0");
                 varInt = Convert.ToInt32(varObj);
-				ScreenPrinter.Print("teste1");
                 Badge = varInt;
-                ScreenPrinter.Print("teste2");
             }
             ScreenPrinter.Print("BADGE: " + (Badge ?? (int) -1).ToString());
         }
@@ -125,12 +122,14 @@ public class InfobipPushNotification
         {
             Url = (string)varObj;
         }
-//        if (dictNotif.TryGetValue("additionalInfo", out varObj))
-//        {
-//            print("additionalInfo real: " + varObj as string);
-//            print("additionalInfo " + MiniJSON.Json.Serialize(AdditionalInfo));
-        // TODO: store this value in this.AdditionalInfo
-//        }
+       if (dictNotif.TryGetValue("additionalInfo", out varObj))
+        {
+            string  additionalInfo= MiniJSON.Json.Serialize(varObj);
+            ScreenPrinter.Print("additionalInfo real: " + additionalInfo);
+            AdditionalInfo =varObj;
+            ScreenPrinter.Print("additionalInfo real: " + MiniJSON.Json.Serialize(AdditionalInfo));
+            // TODO: store this value in this.AdditionalInfo
+         }
         if (dictNotif.TryGetValue("mediaData", out varObj))
         {
             MediaData = (string)varObj;

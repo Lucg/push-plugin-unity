@@ -20,4 +20,25 @@ Basic Usage
 -----------
 
 ### Initialization
+### Registration
+Advanced Usage
+--------------
+### Debug Mode
+### Registration
+### UserId
+### DeviceId
+### Badge Number
+### Timezone offset
+### Location
+### Media View
 
+Owners
+-----------
+Framework Integration Team @ Belgrade, Serbia
+
+*Android is a trademark of Google Inc.*
+
+*IOS is a trademark of Cisco in the U.S. and other countries and is used under license.*
+
+
+© 2013-2014, Infobip Ltd
