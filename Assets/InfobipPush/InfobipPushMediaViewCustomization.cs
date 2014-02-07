@@ -7,7 +7,7 @@ public class InfobipPushMediaViewCustomization
 {
     public InfobipPushMediaViewCustomization()
     {
-        ForegroundColorHex = BackgroundColorHex = null;
+        ForegroundColor = BackgroundColor = null;
         Width = Height = 320;
         X = Y = 0;
     }
@@ -54,13 +54,13 @@ public class InfobipPushMediaViewCustomization
         set;    
     }
 
-    public Color? ForegroundColorHex
+    public Color? ForegroundColor
     {
         get;
         set;
     }
 
-    public Color? BackgroundColorHex
+    public Color? BackgroundColor
     {
         get;
         set;    
@@ -83,19 +83,19 @@ public class InfobipPushMediaViewCustomization
         customiz ["shadow"] = Shadow;
         customiz ["radius"] = Radius;
         customiz ["dismissButtonSize"] = DismissButtonSize;
-        if (ForegroundColorHex == null)
+        if (ForegroundColor == null)
         {
             customiz ["forgroundColorHex"] = null;
         } else
         {
-            customiz ["forgroundColorHex"] = ConvertToHex(ForegroundColorHex);
+            customiz ["forgroundColorHex"] = ConvertToHex(ForegroundColor);
         }
-        if (BackgroundColorHex == null)
+        if (BackgroundColor == null)
         {
             customiz ["backgroundColorHex"] = null;
         } else
         {
-            customiz ["backgroundColorHex"] = ConvertToHex(BackgroundColorHex);
+            customiz ["backgroundColorHex"] = ConvertToHex(BackgroundColor);
         }
         return MiniJSON.Json.Serialize(customiz);
     }
