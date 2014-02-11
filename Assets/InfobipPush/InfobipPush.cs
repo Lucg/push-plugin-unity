@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using System.Runtime.InteropServices;
 using System.Collections.Generic;
-using System;
 using System.Globalization;
+using System.Runtime.InteropServices;
+using UnityEngine;
 
 public delegate void InfobipPushDelegateWithNotificationArg(InfobipPushNotification notification);
 
@@ -137,6 +137,10 @@ public class InfobipPush : MonoBehaviour
             {
                 IBSetLogModeEnabled(value);
             }
+            #elif UNITY_ANDROID
+                ScreenPrinter.Print("will be: " + (value ? "true" : "false"));
+                ScreenPrinter.Print(string.Format("bundle: {0}", Application.persistentDataPath));
+                InfobipPushInternal.Instance.SetLogModeEnabled(value);
             #endif
         }
     }
@@ -154,6 +158,8 @@ public class InfobipPush : MonoBehaviour
         {
             GetInstance().StartCoroutine(SetLogModeEnabled_C(isEnabled, logLevel));
         }
+        #elif UNITY_ANDROID
+            InfobipPushInternal.Instance.SetLogModeEnabled(isEnabled);
         #endif
     }
 

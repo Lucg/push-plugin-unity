@@ -78,14 +78,15 @@ public class InfobipPushDemo : MonoBehaviour
 
         // Title
         GUI.Label(new Rect(centerX - 200, 0, 400, 35), "Infobip Push Demo", labelStyle);
+
         // First row
         if (GUI.Button(new Rect(centerX - 175, 50, 175, 50), "Enable Debug Mode"))
         {
-            InfobipPush.LogMode = false;
+            InfobipPush.LogMode = true;
         }
         if (GUI.Button(new Rect(centerX + 25, 50, 175, 50), "Disable Debug Mode"))
         {
-            InfobipPush.LogMode = true;
+            InfobipPush.LogMode = false;
         }
         
         // Second row

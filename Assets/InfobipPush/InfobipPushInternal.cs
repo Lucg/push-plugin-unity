@@ -102,6 +102,10 @@ public class InfobipPushInternal : MonoBehaviour
 //        ScreenPrinter.Print("Int returned: " + result);
     }
 
+    internal void SetLogModeEnabled(bool enabled) {
+        GetCurrentActivity().Call("setDebugMode", new object[] { enabled });
+    }
+
     private static AndroidJavaObject GetCurrentActivity()
     {
         AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"); 

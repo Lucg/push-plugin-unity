@@ -18,7 +18,32 @@
          
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-    
+   
+   	<!-- REQUIRED PERMISSIONS -->
+	<!-- Custom permission declared so that only your application can receive your notifications. -->
+	<permission
+	    android:name="com.infobip.unity.demo.permission.C2D_MESSAGE"
+	    android:protectionLevel="signature" />
+
+	<!-- Previously custom defined permission -->
+	<uses-permission android:name="com.infobip.unity.demo.permission.C2D_MESSAGE" />
+	<!-- Permission to receive push notifications -->
+	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+	<!-- Connect to the Infobip Push service -->
+	<uses-permission android:name="android.permission.INTERNET" />
+	<!-- Using push notifications requires a Google account -->
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	<!-- Keeps the processor from sleeping when a message is received -->
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<!-- Checks network state -->
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<!-- REQUIRED PERMISSIONS -->
+
+	<!-- OPTIONAL PERMISSIONS -->
+	<!-- Needed for push notifications that contain VIBRATE flag. Optional, but recommended. -->
+	<uses-permission android:name="android.permission.VIBRATE" />
+	<!-- OPTIONAL PERMISSIONS -->
+
     <application 
         android:icon="@drawable/app_icon" 
         android:label="@string/app_name"
@@ -35,6 +60,42 @@
 					<category android:name="android.intent.category.LAUNCHER" />
 				</intent-filter>
 		</activity>
-		
+
+	    <!-- REQUIRED SERVICES -->
+	    <service android:name="com.infobip.push.lib.InfobipPushService"/>
+	    <!-- REQUIRED SERVICES -->
+
+	    <!-- REQUIRED RECEIVERS -->
+	    <receiver android:name="com.infobip.push.lib.InfobipPushReceiver"
+	        android:permission="com.google.android.c2dm.permission.SEND">
+	        <intent-filter>
+	            <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+	            <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+	            <category android:name="com.infobip.unity.demo"/>
+	        </intent-filter>
+	    </receiver>
+
+	    <receiver android:name="com.infobip.push.lib.InternalReceiver" />
+
+	    <receiver android:name="com.infobip.push.unity.IBPushReceiver"
+	        android:permission="com.infobip.unity.demo.permission.C2D_MESSAGE">
+	        <intent-filter>
+	            <action android:name="com.infobip.push.intent.REGISTERED_FOR_NOTIFICATIONS"/>
+	            <action android:name="com.infobip.push.intent.REGISTRATION_REFRESHED"/>
+	            <action android:name="com.infobip.push.intent.UNREGISTERED_FROM_NOTIFICATIONS"/>
+	            <action android:name="com.infobip.push.intent.NOTIFICATION_RECEIVED"/>
+	            <action android:name="com.infobip.push.intent.NOTIFICATION_OPENED"/>
+	            <action android:name="com.infobip.push.intent.ERROR"/>
+
+	            <category android:name="com.infobip.unity.demo"/>
+	        </intent-filter>
+	    </receiver>
+	    <!-- REQUIRED RECEIVERS -->
+
+	    <!-- REQUIRED METADATA TAG -->
+	    <meta-data
+	        android:name="com.google.android.gms.version"
+	        android:value="@+integer/google_play_services_version" />
+	    <!-- REQUIRED METADATA TAG -->
 	</application>
 </manifest>
