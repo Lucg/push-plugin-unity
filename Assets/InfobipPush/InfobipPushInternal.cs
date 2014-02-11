@@ -91,24 +91,29 @@ public class InfobipPushInternal : MonoBehaviour
         }
     }
 
-    public void IBSignalTest(string test)
+    internal void SetLogModeEnabled(bool enabled) 
     {
-        ScreenPrinter.Print(test);
-    }
-
-    public void TestJava()
-    {
-        GetCurrentActivity().Call("someNumber", new object[] { "test" });
-//        ScreenPrinter.Print("Int returned: " + result);
-    }
-
-    internal void SetLogModeEnabled(bool enabled) {
         GetCurrentActivity().Call("setDebugMode", new object[] { enabled });
+    }
+
+    internal void Initialize(string applicationId, string applicationSecret, InfobipPushRegistrationData registrationData) 
+    {
+        GetCurrentActivity().Call("initialize", new object[] {
+            applicationId, applicationSecret, (registrationData != null ? registrationData.ToString() : "null")
+        });
     }
 
     private static AndroidJavaObject GetCurrentActivity()
     {
-        AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"); 
-        return unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+        if (infobipPushJava == null)
+        {
+            using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer")) 
+            {
+                infobipPushJava = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            } 
+        }
+        return infobipPushJava;
     }
+
+    private static AndroidJavaObject infobipPushJava = null;
 }

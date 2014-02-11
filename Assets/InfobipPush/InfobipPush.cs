@@ -209,6 +209,8 @@ public class InfobipPush : MonoBehaviour
         {
             GetInstance().StartCoroutine(Initialize_C(applicationId, applicationSecret, registrationData));
         }
+        #elif UNITY_ANDROID
+            
         #endif
     }
 

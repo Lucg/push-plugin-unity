@@ -96,6 +96,9 @@
 	    <meta-data
 	        android:name="com.google.android.gms.version"
 	        android:value="@+integer/google_play_services_version" />
+	    <meta-data
+	    	android:name="IB_PROJECT_ID"
+	    	android:value="396503387923" />
 	    <!-- REQUIRED METADATA TAG -->
 	</application>
 </manifest>
