@@ -241,5 +241,10 @@ public class InfobipPushDemo : MonoBehaviour
             InfobipPush.SetTimezoneOffsetInMinutes(5);
         }
 
+        // Twelfth row
+        if (GUI.Button(new Rect(centerX - 300, 655, 175, 50), "Test JAVA"))
+        {
+            InfobipPushInternal.Instance.TestJava();
+        }
     }
 }

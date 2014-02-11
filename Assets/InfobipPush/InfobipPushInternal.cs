@@ -83,13 +83,28 @@ public class InfobipPushInternal : MonoBehaviour
 
     public void IBGetUnreceivedNotifications_SUCCESS(string notificationsList)
     {   
-        ScreenPrinter.Print(notificationsList);
         var list = MiniJSON.Json.DeserializeArrayNoRecursion(notificationsList);
         foreach (var notifJson in list)
         {
-            ScreenPrinter.Print(notifJson);
             InfobipPushNotification notification = new InfobipPushNotification(notifJson as String);
             InfobipPush.OnUnreceivedNotificationReceived(notification);
         }
+    }
+
+    public void IBSignalTest(string test)
+    {
+        ScreenPrinter.Print(test);
+    }
+
+    public void TestJava()
+    {
+        GetCurrentActivity().Call("someNumber", new object[] { "test" });
+//        ScreenPrinter.Print("Int returned: " + result);
+    }
+
+    private static AndroidJavaObject GetCurrentActivity()
+    {
+        AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"); 
+        return unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
     }
 }
