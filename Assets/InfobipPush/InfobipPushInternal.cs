@@ -4,6 +4,7 @@ using System;
 
 public class InfobipPushInternal : MonoBehaviour
 {
+    override void Start() {}
 
     #region singleton game object
     private const string SINGLETON_GAME_OBJECT_NAME = "InfobipPushNotifications";
