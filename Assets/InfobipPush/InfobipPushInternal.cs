@@ -135,6 +135,16 @@ public class InfobipPushInternal : MonoBehaviour
         return GetCurrentActivity().Call<string>("getDeviceId", new object[] {});
     }
 
+    internal string GetUserId()
+    {
+        return GetCurrentActivity().Call<string>("getUserId", new object[] {});
+    }
+
+    internal void BeginSetUserId(string value)
+    {
+        GetCurrentActivity().Call("setUserId", new object[] { value });
+    }
+
     private static AndroidJavaObject GetCurrentActivity()
     {
         if (infobipPushJava == null)

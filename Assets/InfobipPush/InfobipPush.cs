@@ -248,6 +248,12 @@ public class InfobipPush : MonoBehaviour
            
     }
 
+    static IEnumerator BeginSetUserId_C(string value)
+    {
+        InfobipPushInternal.Instance.BeginSetUserId(value);
+        yield return true;
+    }
+
     public static string UserId
     {
         get
@@ -257,6 +263,8 @@ public class InfobipPush : MonoBehaviour
             {
                 return IBUserId();
             }
+            #elif UNITY_ANDROID
+            return InfobipPushInternal.Instance.GetUserId();
             #endif
             return null;
         }
@@ -268,6 +276,8 @@ public class InfobipPush : MonoBehaviour
                 InfobipPushInternal.GetInstance();
                 IBSetUserId(value);
             }
+            #elif UNITY_ANDROID
+            GetInstance().StartCoroutine(BeginSetUserId_C(value));
             #endif
         }
     }

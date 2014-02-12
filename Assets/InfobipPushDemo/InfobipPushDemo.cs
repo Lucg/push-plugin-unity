@@ -127,7 +127,7 @@ public class InfobipPushDemo : MonoBehaviour
         }
         if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY[3], buttonWidth, buttonHeight), "Set User Id"))
         {
-            InfobipPush.UserId = "Malisica";
+            InfobipPush.UserId = "Malisica " + UnityEngine.Random.value.ToString();
         }
 
         // Fourth row
