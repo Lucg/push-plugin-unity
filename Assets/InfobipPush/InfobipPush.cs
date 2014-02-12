@@ -127,6 +127,8 @@ public class InfobipPush : MonoBehaviour
             {
                 return IBIsLogModeEnabled();
             }
+            #elif UNITY_ANDROID
+            return InfobipPushInternal.Instance.GetLogModeEnabled();
             #endif
             return false;
         }

@@ -96,6 +96,11 @@ public class InfobipPushInternal : MonoBehaviour
         GetCurrentActivity().Call("setDebugMode", new object[] { enabled });
     }
 
+    public bool GetLogModeEnabled()
+    {
+        return GetCurrentActivity().Call<bool>("getDebugMode", new object[] { });
+    }
+
     internal void Initialize(string applicationId, string applicationSecret, InfobipPushRegistrationData registrationData) 
     {
         GetCurrentActivity().Call("initialize", new object[] {
