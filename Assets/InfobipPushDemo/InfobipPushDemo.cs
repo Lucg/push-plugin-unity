@@ -76,6 +76,9 @@ public class InfobipPushDemo : MonoBehaviour
             ScreenPrinter.Print("IBPush - Unreceived notification: ");
             ScreenPrinter.Print(notification);
         };
+        InfobipPush.OnRegisteredToChannels += () => {
+            ScreenPrinter.Print(("IBPush - Successfully registered to CHANNELS!"));
+        }
 
     }
 

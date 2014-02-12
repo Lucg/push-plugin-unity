@@ -327,18 +327,21 @@ public class InfobipPush : MonoBehaviour
         dict ["removeExistingChannels"] = remove;
         string channelsData = MiniJSON.Json.Serialize(dict);
 
-        IBRegisterToChannels(channelsData);
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            IBRegisterToChannels(channelsData);
+        }
+        #elif UNITY_ANDROID
+        InfobipPushInternal.Instance.RegisterToChannels(channelsData);
+        #endif
+
         yield return true;
     }
 
     public static void RegisterToChannels(string[] channels, bool removeExistingChannels = false)
     {
-        #if UNITY_IPHONE
-        if (Application.platform == RuntimePlatform.IPhonePlayer)
-        {
-            GetInstance().StartCoroutine(RegisterToChannels_C(channels, removeExistingChannels));
-        }
-        #endif
+        GetInstance().StartCoroutine(RegisterToChannels_C(channels, removeExistingChannels));
     }
 
     static IEnumerator BeginGetRegisteredChannels_C()

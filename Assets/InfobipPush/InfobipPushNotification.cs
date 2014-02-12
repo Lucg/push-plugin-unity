@@ -124,7 +124,7 @@ public class InfobipPushNotification
                 varInt = Convert.ToInt32(varObj);
                 Badge = varInt;
             }
-            ScreenPrinter.Print("BADGE: " + (Badge ?? (int)-1).ToString());
+//            ScreenPrinter.Print("BADGE: " + (Badge ?? (int)-1).ToString());
         }
         if (dictNotif.TryGetValue("sound", out varObj))
         {
