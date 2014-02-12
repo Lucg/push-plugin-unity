@@ -9,7 +9,8 @@ public class InfobipPushNotification
         get; 
         set; 
     }
-    
+
+    // iOS: path; Android: boolean string ("true" or "false")
     public string Sound
     {
         get;
@@ -23,12 +24,19 @@ public class InfobipPushNotification
     }
 
     // Android only
-    public Boolean Lights
+    public bool Lights
     {
         get;
         set;
     }
-    
+
+    // Android only
+    public bool Vibrate
+    {
+        get;
+        set;
+    }
+
     public object AdditionalInfo
     {
         get;
@@ -116,11 +124,14 @@ public class InfobipPushNotification
                 varInt = Convert.ToInt32(varObj);
                 Badge = varInt;
             }
-            ScreenPrinter.Print("BADGE: " + (Badge ?? (int) -1).ToString());
+            ScreenPrinter.Print("BADGE: " + (Badge ?? (int)-1).ToString());
         }
         if (dictNotif.TryGetValue("sound", out varObj))
         {
             Sound = (string)varObj;
+            #if UNITY_ANDROID
+
+            #endif
         }
         if (dictNotif.TryGetValue("mimeType", out varObj))
         {
@@ -130,14 +141,14 @@ public class InfobipPushNotification
         {
             Url = (string)varObj;
         }
-       if (dictNotif.TryGetValue("additionalInfo", out varObj))
+        if (dictNotif.TryGetValue("additionalInfo", out varObj))
         {
-            string additionalInfo= MiniJSON.Json.Serialize(varObj);
+            string additionalInfo = MiniJSON.Json.Serialize(varObj);
 //            ScreenPrinter.Print("additionalInfo real: " + additionalInfo);
             AdditionalInfo = varObj;
 //            ScreenPrinter.Print("additionalInfo real: " + MiniJSON.Json.Serialize(AdditionalInfo));
             // TODO: store this value in this.AdditionalInfo
-         }
+        }
         if (dictNotif.TryGetValue("mediaData", out varObj))
         {
             MediaData = (string)varObj;
@@ -148,7 +159,11 @@ public class InfobipPushNotification
         }
         if (dictNotif.TryGetValue("lights", out varObj))
         {
-            Lights = (Boolean) varObj;
+            Lights = (bool)varObj;
+        }
+        if (dictNotif.TryGetValue("vibrate", out varObj))
+        {
+            Vibrate = (bool)varObj;
         }
     }
     
