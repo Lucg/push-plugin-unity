@@ -118,6 +118,18 @@ public class InfobipPushInternal : MonoBehaviour
         GetCurrentActivity().Call("unregister", new object[] {});
     }
 
+    public void SetTimeZoneOffset(int offsetMinutes)
+    {
+        GetCurrentActivity().Call("setTimeZoneOffset", new object[] {offsetMinutes});
+       
+    }
+    public void SetTimeZoneAutomaticUpdateEnabled(bool isEnabled)
+    { 
+
+        GetCurrentActivity().Call("setTimeZoneAutomaticUpdateEnabled", new object[] {isEnabled});
+       
+    }
+
     internal string GetDeviceId()
     {
         return GetCurrentActivity().Call<string>("getDeviceId", new object[] {});

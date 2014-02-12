@@ -176,6 +176,8 @@ public class InfobipPush : MonoBehaviour
         {
             GetInstance().StartCoroutine(SetTimezoneOffsetInMinutes_C(offsetMinutes));
         }
+        #elif UNITY_ANDROID
+        InfobipPushInternal.Instance.SetTimeZoneOffset(offsetMinutes);
         #endif
     }
 
@@ -186,6 +188,8 @@ public class InfobipPush : MonoBehaviour
         {
             IBSetTimezoneOffsetAutomaticUpdateEnabled(isEnabled);
         }
+        #elif UNITY_ANDROID
+        InfobipPushInternal.Instance.SetTimeZoneAutomaticUpdateEnabled(isEnabled);
         #endif
     }
 
