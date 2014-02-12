@@ -108,6 +108,11 @@ public class InfobipPushInternal : MonoBehaviour
         return GetCurrentActivity().Call<bool>("isRegistered", new object[] {});
     }
 
+    internal void Unregister()
+    {
+        GetCurrentActivity().Call("unregister", new object[] {});
+    }
+
     internal string GetDeviceId()
     {
         return GetCurrentActivity().Call<string>("getDeviceId", new object[] {});

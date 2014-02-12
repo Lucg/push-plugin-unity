@@ -279,6 +279,8 @@ public class InfobipPush : MonoBehaviour
         {
             GetInstance().StartCoroutine(Unregister_C());
         }
+        #elif UNITY_ANDROID
+        InfobipPushInternal.Instance.Unregister();
         #endif
     }
 
