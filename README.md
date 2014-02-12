@@ -12,7 +12,7 @@ Requirements
 ------------
 
 * `Android™`
-	* Set minimal required Android SDK version to 8 because GCM push is enabled since that Android version.
+	* Set minimal required Android SDK version to 9 at least (if you have other plugins set it, else it is already set to 9 in AndroidManifest.xml).
 * `iOS™`
 	* Tested on iOS 6 and 7.
 
@@ -21,6 +21,15 @@ Basic Usage
 
 ### Initialization
 ### Registration
+
+On android, you need to set your sender id (project number from google cloud console) in AndroidManifest.xml, in meta-data element `"IB_PROJECT_ID"`, like this:
+
+	<meta-data
+	    	android:name="IB_PROJECT_ID"
+	    	android:value="S396503387923" />
+
+Value of project number should be preceeded with a single letter, ie. `android:value="p<PROJECT-NUMBER>"`.
+
 Advanced Usage
 --------------
 ### Debug Mode
@@ -55,9 +64,9 @@ If user ID is not set, an UUID is created and set as user ID. If you want to set
 
 	InfobipPush.UserId = "userId";
  	
-To check if the setting of userId was successful operation, you can use following code:	
+If setting of userId was successful operation, `InfobipPush.OnUserDataSaved` will be called, which you can implement:	
 
-	 InfobipPush.OnUserDataSaved = () => {
+	 InfobipPush.OnUserDataSaved += () => {
             ScreenPrinter.Print(("IBPush - User data saved"));
         };
   If the setting of userId wasn't susccessful you can use the following code to get error codes:
