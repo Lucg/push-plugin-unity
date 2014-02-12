@@ -18,19 +18,16 @@ public class InfobipPushDemo : MonoBehaviour
         locationService.Start();
 
         InfobipPush.OnNotificationReceived = (notif) => {
+            ScreenPrinter.Print("Notif: " + notif.Message);
             bool isMediaNotification = notif.isMediaNotification();
             ScreenPrinter.Print("IBPush - Is Media notification: " + isMediaNotification);
-            string mediaContent = notif.MediaData;
-            ScreenPrinter.Print("IBPush -  Media content: " + mediaContent);
-           // ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
-            Dictionary<string,object> addInfo=( Dictionary<string,object>)notif.AdditionalInfo;
-            object varObj=null;
-            addInfo.TryGetValue("ime1", out varObj);
-            ScreenPrinter.Print("IBPush - Notification received: " + varObj);
+            // ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
+            Dictionary<string,object> addInfo = (Dictionary<string,object>)notif.AdditionalInfo;
 
             if (isMediaNotification)
             {
-                ScreenPrinter.Print("Media Push");
+                string mediaContent = notif.MediaData;
+                ScreenPrinter.Print("IBPush -  Media content: " + mediaContent);
                 InfobipPushMediaViewCustomization customiz = new InfobipPushMediaViewCustomization 
                 {
                     X = 20,
@@ -162,9 +159,9 @@ public class InfobipPushDemo : MonoBehaviour
         // Seventh row
      
         if (GUI.Button(new Rect(centerX - 300, 380, 175, 50), "Enable Background Loc."))
-          {
-              InfobipPushLocation.BackgroundLocationUpdateModeEnabled = true;
-          }
+        {
+            InfobipPushLocation.BackgroundLocationUpdateModeEnabled = true;
+        }
         if (GUI.Button(new Rect(centerX - 100, 380, 175, 50), "Disable Background Loc."))
         {
             InfobipPushLocation.BackgroundLocationUpdateModeEnabled = false;
@@ -176,7 +173,7 @@ public class InfobipPushDemo : MonoBehaviour
         }
         // Eighth row
 
-        if (GUI.Button(new Rect(centerX  - 300, 435, 175, 50), "Time Update"))
+        if (GUI.Button(new Rect(centerX - 300, 435, 175, 50), "Time Update"))
         {
             int time = InfobipPushLocation.LocationUpdateTimeInterval;
             ScreenPrinter.Print(time);

@@ -21,6 +21,13 @@ public class InfobipPushNotification
         get;
         set;
     }
+
+    // Android only
+    public Boolean Lights
+    {
+        get;
+        set;
+    }
     
     public object AdditionalInfo
     {
@@ -36,11 +43,11 @@ public class InfobipPushNotification
     
     public bool isMediaNotification()
     {
-        if (MediaData != null)
+        if (String.IsNullOrEmpty(MediaData))
         {
-            return true;
+            return false;
         } 
-        return false;
+        return true;
     }
     
     public string Title
@@ -60,7 +67,8 @@ public class InfobipPushNotification
         get;
         set;
     }
-    
+
+    // iOS only
     public int? Badge
     {
         get;
@@ -124,10 +132,10 @@ public class InfobipPushNotification
         }
        if (dictNotif.TryGetValue("additionalInfo", out varObj))
         {
-            string  additionalInfo= MiniJSON.Json.Serialize(varObj);
-            ScreenPrinter.Print("additionalInfo real: " + additionalInfo);
-            AdditionalInfo =varObj;
-            ScreenPrinter.Print("additionalInfo real: " + MiniJSON.Json.Serialize(AdditionalInfo));
+            string additionalInfo= MiniJSON.Json.Serialize(varObj);
+//            ScreenPrinter.Print("additionalInfo real: " + additionalInfo);
+            AdditionalInfo = varObj;
+//            ScreenPrinter.Print("additionalInfo real: " + MiniJSON.Json.Serialize(AdditionalInfo));
             // TODO: store this value in this.AdditionalInfo
          }
         if (dictNotif.TryGetValue("mediaData", out varObj))
@@ -137,6 +145,10 @@ public class InfobipPushNotification
         if (dictNotif.TryGetValue("message", out varObj))
         {
             Message = (string)varObj;
+        }
+        if (dictNotif.TryGetValue("lights", out varObj))
+        {
+            Lights = (Boolean) varObj;
         }
     }
     
