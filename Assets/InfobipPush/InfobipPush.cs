@@ -138,8 +138,6 @@ public class InfobipPush : MonoBehaviour
                 IBSetLogModeEnabled(value);
             }
             #elif UNITY_ANDROID
-                ScreenPrinter.Print("will be: " + (value ? "true" : "false"));
-                ScreenPrinter.Print(string.Format("bundle: {0}", Application.persistentDataPath));
                 InfobipPushInternal.Instance.SetLogModeEnabled(value);
             #endif
         }
@@ -221,6 +219,8 @@ public class InfobipPush : MonoBehaviour
         {
            return IBIsRegistered();
         }
+        #elif UNITY_ANDROID
+        return InfobipPushInternal.Instance.IsRegistered();
         #endif
         return false;
     }
@@ -234,6 +234,8 @@ public class InfobipPush : MonoBehaviour
             {
                 return IBDeviceId();
             }
+            #elif UNITY_ANDROID
+            return InfobipPushInternal.Instance.GetDeviceId();
             #endif
             return null;
         }

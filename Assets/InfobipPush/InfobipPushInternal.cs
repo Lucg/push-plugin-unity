@@ -103,6 +103,16 @@ public class InfobipPushInternal : MonoBehaviour
         });
     }
 
+    internal bool IsRegistered()
+    {
+        return GetCurrentActivity().Call<bool>("isRegistered", new object[] {});
+    }
+
+    internal string GetDeviceId()
+    {
+        return GetCurrentActivity().Call<string>("getDeviceId", new object[] {});
+    }
+
     private static AndroidJavaObject GetCurrentActivity()
     {
         if (infobipPushJava == null)
