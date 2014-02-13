@@ -78,8 +78,7 @@ public class InfobipPushDemo : MonoBehaviour
         };
         InfobipPush.OnRegisteredToChannels += () => {
             ScreenPrinter.Print(("IBPush - Successfully registered to CHANNELS!"));
-        }
-
+        };
     }
 
     void OnGUI()
