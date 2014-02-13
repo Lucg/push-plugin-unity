@@ -194,7 +194,7 @@ public class InfobipPushDemo : MonoBehaviour
         }
         if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY[8], buttonWidth, buttonHeight), "Set Time Update"))
         {
-            InfobipPushLocation.LocationUpdateTimeInterval = 500;
+            InfobipPushLocation.LocationUpdateTimeInterval = 5;
         }
         if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY[8], buttonWidth, buttonHeight), "Share Location"))
         {

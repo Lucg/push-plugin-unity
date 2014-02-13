@@ -4,9 +4,11 @@ using System;
 
 public class InfobipPushInternal : MonoBehaviour
 {
-
+    private static AndroidJavaObject infobipPushJava = null;
+    
     #region singleton game object
     private const string SINGLETON_GAME_OBJECT_NAME = "InfobipPushNotifications";
+   
     
     public static InfobipPushInternal Instance
     {
@@ -166,5 +168,5 @@ public class InfobipPushInternal : MonoBehaviour
         return infobipPushJava;
     }
 
-    private static AndroidJavaObject infobipPushJava = null;
+   
 }

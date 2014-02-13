@@ -60,6 +60,7 @@ public class InfobipPushLocation : MonoBehaviour
     private static InfobipPushLocation _instance;
     private static readonly object synLock = new object();
     private const string SINGLETON_GAME_OBJECT_NAME = "InfobipPushLocation Instance";
+   
     
     public static InfobipPushLocation GetInstance()
     {
@@ -77,6 +78,13 @@ public class InfobipPushLocation : MonoBehaviour
             return _instance;
         }
     }
+  
+    
+    internal static void  AEnableLocation()
+    {
+        InfobipPushInternal.GetCurrentActivity().Call("enableLocation", new object[] {});
+     
+    }
 
     public static void EnableLocation()
     {
@@ -85,9 +93,15 @@ public class InfobipPushLocation : MonoBehaviour
         {
             IBEnableLocation();
         }
-        #endif
+    #elif UNITY_ANDROID
+        AEnableLocation();
+
+    #endif
     }
-    
+    internal static void  ADisableLocation()
+    {
+        InfobipPushInternal.GetCurrentActivity().Call("disableLocation", new object[] {});
+    }
     public static void DisableLocation()
     {
         #if UNITY_IPHONE
@@ -95,7 +109,10 @@ public class InfobipPushLocation : MonoBehaviour
         {
             IBDisableLocation();
         }
+        #elif UNITY_ANDROID
+        ADisableLocation();
         #endif
+
     }
     
     public static bool BackgroundLocationUpdateModeEnabled
@@ -108,6 +125,7 @@ public class InfobipPushLocation : MonoBehaviour
                 return IBBackgroundLocationUpdateModeEnabled ();
             }
             #endif
+
             return false;
         }
         
@@ -121,7 +139,14 @@ public class InfobipPushLocation : MonoBehaviour
             #endif
         }
     }
-    
+    internal static int  AGetLocationUpdateTimeInterval()
+    {
+        return InfobipPushInternal.GetCurrentActivity().Call<int>("getLocationUpdateTimeInterval", new object[] {});
+    }
+    internal static void  ASetLocationUpdateTimeInterval(int minutes)
+    {
+        InfobipPushInternal.GetCurrentActivity().Call("setLocationUpdateTimeInterval", new object[] {minutes});
+    }
     public static int LocationUpdateTimeInterval 
     {
         get {
@@ -129,6 +154,8 @@ public class InfobipPushLocation : MonoBehaviour
             if (Application.platform == RuntimePlatform.IPhonePlayer) {
                 return IBLocationUpdateTimeInterval();
             }
+            #elif UNITY_ANDROID
+            return AGetLocationUpdateTimeInterval();
             #endif
             return 0;
         }
@@ -137,10 +164,15 @@ public class InfobipPushLocation : MonoBehaviour
             if (Application.platform == RuntimePlatform.IPhonePlayer) {
                 IBSetLocationUpdateTimeInterval(value);
             }
+            #elif UNITY_ANDROID
+            ASetLocationUpdateTimeInterval(value);
             #endif
         }
     }
-
+    internal static bool  AisLocationEnabled()
+    {
+       return InfobipPushInternal.GetCurrentActivity().Call<bool>("isLocationEnabled", new object[] {});
+    }
     public static bool IsLocationEnabled()
     {
         #if UNITY_IPHONE
@@ -148,7 +180,10 @@ public class InfobipPushLocation : MonoBehaviour
         {
             return IBIsLocationEnabled();
         }
+        #elif UNITY_ANDROID
+       return AisLocationEnabled();
         #endif
+
         return false;
     }
     
