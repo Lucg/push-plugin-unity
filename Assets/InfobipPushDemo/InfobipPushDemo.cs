@@ -254,6 +254,7 @@ public class InfobipPushDemo : MonoBehaviour
         // Twelfth row
         if (GUI.Button(new Rect(buttonSpace, rowY[12], buttonWidth, buttonHeight), "Test JAVA"))
         {
+            ScreenPrinter.Print(InfobipPushInternal.Instance.GetNotifExtras());
         }
     }
 }

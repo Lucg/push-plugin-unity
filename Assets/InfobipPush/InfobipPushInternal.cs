@@ -91,7 +91,7 @@ public class InfobipPushInternal : MonoBehaviour
         }
     }
 
-    internal void SetLogModeEnabled(bool enabled) 
+    internal void SetLogModeEnabled(bool enabled)
     {
         GetCurrentActivity().Call("setDebugMode", new object[] { enabled });
     }
@@ -101,7 +101,7 @@ public class InfobipPushInternal : MonoBehaviour
         return GetCurrentActivity().Call<bool>("getDebugMode", new object[] { });
     }
 
-    internal void Initialize(string applicationId, string applicationSecret, InfobipPushRegistrationData registrationData) 
+    internal void Initialize(string applicationId, string applicationSecret, InfobipPushRegistrationData registrationData)
     {
         GetCurrentActivity().Call("initialize", new object[] {
             applicationId, applicationSecret, (registrationData != null ? registrationData.ToString() : "null")
@@ -123,6 +123,7 @@ public class InfobipPushInternal : MonoBehaviour
         GetCurrentActivity().Call("setTimeZoneOffset", new object[] {offsetMinutes});
        
     }
+
     public void SetTimeZoneAutomaticUpdateEnabled(bool isEnabled)
     { 
         GetCurrentActivity().Call("setTimeZoneAutomaticUpdateEnabled", new object[] {isEnabled});
@@ -136,6 +137,11 @@ public class InfobipPushInternal : MonoBehaviour
     internal string GetUserId()
     {
         return GetCurrentActivity().Call<string>("getUserId", new object[] {});
+    }
+
+    internal string GetNotifExtras()
+    {
+        return GetCurrentActivity().Call<string>("getNotifExtras", new object[] {});    
     }
 
     internal void BeginSetUserId(string value)
@@ -152,7 +158,7 @@ public class InfobipPushInternal : MonoBehaviour
     {
         if (infobipPushJava == null)
         {
-            using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer")) 
+            using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
             {
                 infobipPushJava = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
             } 
