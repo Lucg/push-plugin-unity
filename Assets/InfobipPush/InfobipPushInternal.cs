@@ -4,6 +4,7 @@ using System;
 
 public class InfobipPushInternal : MonoBehaviour
 {
+
     #region singleton game object
     private const string SINGLETON_GAME_OBJECT_NAME = "InfobipPushNotifications";
     
@@ -124,7 +125,9 @@ public class InfobipPushInternal : MonoBehaviour
     }
     public void SetTimeZoneAutomaticUpdateEnabled(bool isEnabled)
     { 
+
         GetCurrentActivity().Call("setTimeZoneAutomaticUpdateEnabled", new object[] {isEnabled});
+       
     }
 
     internal string GetDeviceId()
@@ -140,11 +143,6 @@ public class InfobipPushInternal : MonoBehaviour
     internal void BeginSetUserId(string value)
     {
         GetCurrentActivity().Call("setUserId", new object[] { value });
-    }
-
-    internal void RegisterToChannels(string channelData)
-    {
-        GetCurrentActivity().Call("registerToChannels", new object[] { channelData });
     }
 
     private static AndroidJavaObject GetCurrentActivity()
