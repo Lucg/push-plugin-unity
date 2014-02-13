@@ -125,9 +125,7 @@ public class InfobipPushInternal : MonoBehaviour
     }
     public void SetTimeZoneAutomaticUpdateEnabled(bool isEnabled)
     { 
-
         GetCurrentActivity().Call("setTimeZoneAutomaticUpdateEnabled", new object[] {isEnabled});
-       
     }
 
     internal string GetDeviceId()
@@ -145,7 +143,12 @@ public class InfobipPushInternal : MonoBehaviour
         GetCurrentActivity().Call("setUserId", new object[] { value });
     }
 
-    private static AndroidJavaObject GetCurrentActivity()
+    internal void RegisterToChannels(string value)
+    {
+        GetCurrentActivity().Call("registerToChannels", new object[] { value });
+    }
+
+    internal static AndroidJavaObject GetCurrentActivity()
     {
         if (infobipPushJava == null)
         {
