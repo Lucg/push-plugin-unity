@@ -263,13 +263,13 @@ public class InfobipPushDemo : MonoBehaviour
         }
 
         // Twelfth row
-        if (GUI.Button(new Rect(buttonSpace, rowY [12], buttonWidth, buttonHeight), "Test JAVA"))
-        {
-            
-        }
-        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [12], buttonWidth, buttonHeight), "Custom Location"))
+        if (GUI.Button(new Rect(buttonSpace, rowY [12], buttonWidth, buttonHeight), "Enable Custom Location"))
         {
             InfobipPushLocation.UseCustomLocationService(true);
+        }
+        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [12], buttonWidth, buttonHeight), "Disable Custom Location"))
+        {
+            InfobipPushLocation.UseCustomLocationService(false);
         }
         if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY [12], buttonWidth, buttonHeight), "Is Custom Location"))
         {
