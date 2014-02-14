@@ -250,7 +250,9 @@ public class InfobipPush : MonoBehaviour
 
     static IEnumerator BeginSetUserId_C(string value)
     {
+        #if UNITY_ANDROID
         InfobipPushInternal.Instance.BeginSetUserId(value);
+        #endif
         yield return true;
     }
 

@@ -78,13 +78,13 @@ public class InfobipPushLocation : MonoBehaviour
             return _instance;
         }
     }
-  
     
-    internal static void  AEnableLocation()
+    #if UNITY_ANDROID
+    internal static void AEnableLocation()
     {
         InfobipPushInternal.GetCurrentActivity().Call("enableLocation", new object[] {});
-     
     }
+    #endif
 
     public static void EnableLocation()
     {
@@ -93,15 +93,18 @@ public class InfobipPushLocation : MonoBehaviour
         {
             IBEnableLocation();
         }
-    #elif UNITY_ANDROID
+        #elif UNITY_ANDROID
         AEnableLocation();
-
-    #endif
+        #endif
     }
+    
+    #if UNITY_ANDROID
     internal static void  ADisableLocation()
     {
         InfobipPushInternal.GetCurrentActivity().Call("disableLocation", new object[] {});
     }
+    #endif
+
     public static void DisableLocation()
     {
         #if UNITY_IPHONE
@@ -139,14 +142,21 @@ public class InfobipPushLocation : MonoBehaviour
             #endif
         }
     }
+    
+    #if UNITY_ANDROID
     internal static int  AGetLocationUpdateTimeInterval()
     {
         return InfobipPushInternal.GetCurrentActivity().Call<int>("getLocationUpdateTimeInterval", new object[] {});
     }
+    #endif
+    
+    #if UNITY_ANDROID
     internal static void  ASetLocationUpdateTimeInterval(int minutes)
     {
         InfobipPushInternal.GetCurrentActivity().Call("setLocationUpdateTimeInterval", new object[] {minutes});
     }
+    #endif
+
     public static int LocationUpdateTimeInterval 
     {
         get {
@@ -169,10 +179,14 @@ public class InfobipPushLocation : MonoBehaviour
             #endif
         }
     }
-    internal static bool  AisLocationEnabled()
+    
+    #if UNITY_ANDROID
+    internal static bool AisLocationEnabled()
     {
        return InfobipPushInternal.GetCurrentActivity().Call<bool>("isLocationEnabled", new object[] {});
     }
+    #endif
+
     public static bool IsLocationEnabled()
     {
         #if UNITY_IPHONE
@@ -181,7 +195,7 @@ public class InfobipPushLocation : MonoBehaviour
             return IBIsLocationEnabled();
         }
         #elif UNITY_ANDROID
-       return AisLocationEnabled();
+        return AisLocationEnabled();
         #endif
 
         return false;

@@ -4,8 +4,10 @@ using System;
 
 public class InfobipPushInternal : MonoBehaviour
 {
+    #if UNITY_ANDROID
     private static AndroidJavaObject infobipPushJava = null;
-    
+    #endif
+
     #region singleton game object
     private const string SINGLETON_GAME_OBJECT_NAME = "InfobipPushNotifications";
    
@@ -46,6 +48,11 @@ public class InfobipPushInternal : MonoBehaviour
     public void IBPushDidReceiveRemoteNotification(string notification)
     {
         InfobipPush.OnNotificationReceived(new InfobipPushNotification(notification));
+    }
+
+    public void IBPushDidOpenRemoteNotification(string notification)
+    {
+        InfobipPush.OnNotificationOpened(new InfobipPushNotification(notification));
     }
 
     public void IBPushDidRegisterForRemoteNotificationsWithDeviceToken()
@@ -92,7 +99,8 @@ public class InfobipPushInternal : MonoBehaviour
             InfobipPush.OnUnreceivedNotificationReceived(notification);
         }
     }
-
+    
+    #if UNITY_ANDROID
     internal void SetLogModeEnabled(bool enabled)
     {
         GetCurrentActivity().Call("setDebugMode", new object[] { enabled });
@@ -170,6 +178,6 @@ public class InfobipPushInternal : MonoBehaviour
         }
         return infobipPushJava;
     }
-
+    #endif
    
 }

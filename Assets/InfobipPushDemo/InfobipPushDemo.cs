@@ -22,7 +22,6 @@ public class InfobipPushDemo : MonoBehaviour
 
     void Start()
     {   
-
         for (int i = 0; i < rowNumber; i++)
         {
             rowY[i] = i * (buttonHeight + buttonHeight / 4);
@@ -59,8 +58,11 @@ public class InfobipPushDemo : MonoBehaviour
                 InfobipPush.AddMediaView(notif, customiz);
             }
         };
-            
-    
+
+        InfobipPush.OnNotificationOpened = (notif) => {
+            ScreenPrinter.Print("Notif OPENED: " + notif.Message);
+        };
+
         InfobipPush.OnRegistered = () => {
             ScreenPrinter.Print(("IBPush - Successfully registered!"));
         };
@@ -263,7 +265,9 @@ public class InfobipPushDemo : MonoBehaviour
         // Twelfth row
         if (GUI.Button(new Rect(buttonSpace, rowY[12], buttonWidth, buttonHeight), "Test JAVA"))
         {
-            ScreenPrinter.Print(InfobipPushInternal.Instance.GetNotificationFromExtras());
+            #if UNITY_ANDROID
+            ScreenPrinter.Print(InfobipPushInternal.Instance.GetNotifExtras());
+            #endif
         }
     }
 }
