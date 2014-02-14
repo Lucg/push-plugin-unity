@@ -212,9 +212,8 @@ public class InfobipPushDemo : MonoBehaviour
         {
             ScreenPrinter.Print("IBPush - Location Enabled: " + (InfobipPushLocation.LocationEnabled ? "true" : "false"));
             LocationInfo location = locationService.lastData;
-            ScreenPrinter.Print(" uzeo lokaciju");
             InfobipPushLocation.ShareLocation(location);
-            ScreenPrinter.Print("Proslo u android ");
+           
         }
 
         // Ninth row

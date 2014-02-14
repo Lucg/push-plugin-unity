@@ -237,23 +237,12 @@ public class InfobipPushLocation : MonoBehaviour
     }
 
     #if UNITY_ANDROID
-    static IEnumerator ASharedLocation(LocationInfo location)
+    static void ASharedLocation(LocationInfo location)
     {
         float latitude = location.latitude;
         float longitude = location.longitude;
-        double timestamp = location.timestamp;
-     /*   IDictionary<string, object> locationDict = new Dictionary<string, object>(3);
-        locationDict ["latitude"] = location.latitude;
-        locationDict ["longitude"] = location.longitude;
-       // locationDict ["altitude"] = location.altitude;
-       // locationDict ["horizontalAccuracy"] = location.horizontalAccuracy;
-       // locationDict ["verticalAccuracy"] = location.verticalAccuracy;
-        DateTime date = InfobipPushInternal.UnixTimeStampToDateTime(location.timestamp);
-        locationDict ["timestamp"] = String.Format("{0:u}", date);
-        string locationString = MiniJSON.Json.Serialize(locationDict);
-      */  
-        InfobipPushInternal.GetCurrentActivity().Call("saveUserLocation", new object[] {latitude,longitude,timestamp});
-        yield return true;
+        InfobipPushInternal.GetCurrentActivity().Call("saveUserLocation", new object[] {latitude,longitude});
+       
     }
     #endif
 
@@ -280,7 +269,7 @@ public class InfobipPushLocation : MonoBehaviour
             GetInstance().StartCoroutine(ShareLocation_C(location));
         }
         #elif UNITY_ANDROID
-        GetInstance().StartCoroutine(ASharedLocation(location));
+        ASharedLocation(location);
         #endif
     }
 
