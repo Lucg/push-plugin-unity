@@ -209,9 +209,11 @@ public class InfobipPushDemo : MonoBehaviour
         }
         if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY[8], buttonWidth, buttonHeight), "Share Location"))
         {
-            ScreenPrinter.Print("IBPush - Location Enabled: " + (InfobipPushLocation.LocationEnabled ? "true" : "false"));
+           ScreenPrinter.Print("IBPush - Location Enabled: " + (InfobipPushLocation.LocationEnabled ? "true" : "false"));
             LocationInfo location = locationService.lastData;
+            ScreenPrinter.Print(" uzeo lokaciju");
             InfobipPushLocation.ShareLocation(location);
+            ScreenPrinter.Print("Proslo u android " );
         }
 
         // Ninth row
@@ -269,5 +271,15 @@ public class InfobipPushDemo : MonoBehaviour
             ScreenPrinter.Print(InfobipPushInternal.Instance.GetNotifExtras());
             #endif
         }
+        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY[12], buttonWidth, buttonHeight), "Custom Location"))
+        {
+            InfobipPushLocation.UseCustomLocationService(true);
+        }
+        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY[12], buttonWidth, buttonHeight), "Is Custom Location"))
+        {
+           bool custom = InfobipPushLocation.IsUsingCustomLocationService();
+            ScreenPrinter.Print("Use custom locatioin: " + custom);
+        }
+
     }
 }

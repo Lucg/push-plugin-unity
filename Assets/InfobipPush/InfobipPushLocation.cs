@@ -200,13 +200,50 @@ public class InfobipPushLocation : MonoBehaviour
 
         return false;
     }
-    
+    internal static void  AUseCustomLocationService(bool useCustomService)
+    {
+        InfobipPushInternal.GetCurrentActivity().Call("useCustomLocationService", new object[] {useCustomService});
+    }
+    public static void UseCustomLocationService(bool useCustomService)
+    {
+        #if UNITY_ANDROID
+         AUseCustomLocationService(useCustomService);
+        #endif
+    }
+    internal static bool  AIsUsingCustomLocationService()
+    {
+        return InfobipPushInternal.GetCurrentActivity().Call<bool>("isUsingCustomLocationService", new object[] {});
+    }
+    public static bool IsUsingCustomLocationService()
+    {
+        #if UNITY_ANDROID
+        return AIsUsingCustomLocationService();
+        #endif
+    }
     public static bool LocationEnabled
     {
         get { return IsLocationEnabled(); }
         set { if (value) EnableLocation(); else DisableLocation(); }
     }
 
+    static IEnumerator ASharedLocation(LocationInfo location)
+    {
+        float latitude = location.latitude;
+        float longitude = location.longitude;
+        double timestamp = location.timestamp;
+     /*   IDictionary<string, object> locationDict = new Dictionary<string, object>(3);
+        locationDict ["latitude"] = location.latitude;
+        locationDict ["longitude"] = location.longitude;
+       // locationDict ["altitude"] = location.altitude;
+       // locationDict ["horizontalAccuracy"] = location.horizontalAccuracy;
+       // locationDict ["verticalAccuracy"] = location.verticalAccuracy;
+        DateTime date = InfobipPushInternal.UnixTimeStampToDateTime(location.timestamp);
+        locationDict ["timestamp"] = String.Format("{0:u}", date);
+        string locationString = MiniJSON.Json.Serialize(locationDict);
+      */  
+        InfobipPushInternal.GetCurrentActivity().Call("saveUserLocation", new object[] {latitude,longitude,timestamp});
+        yield return true;
+    }
     static IEnumerator ShareLocation_C(LocationInfo location)
     {
         IDictionary<string, object> locationDict = new Dictionary<string, object>(6);
@@ -222,7 +259,6 @@ public class InfobipPushLocation : MonoBehaviour
         IBShareLocation(locationString);
         yield return true;
     }
-
     public static void ShareLocation(LocationInfo location)
     {
         #if UNITY_IPHONE
@@ -230,6 +266,8 @@ public class InfobipPushLocation : MonoBehaviour
         {
             GetInstance().StartCoroutine(ShareLocation_C(location));
         }
+        #elif UNITY_ANDROID
+        GetInstance().StartCoroutine(ASharedLocation(location));
         #endif
     }
 
