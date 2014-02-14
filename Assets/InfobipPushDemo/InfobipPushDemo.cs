@@ -24,7 +24,7 @@ public class InfobipPushDemo : MonoBehaviour
     {   
         for (int i = 0; i < rowNumber; i++)
         {
-            rowY[i] = i * (buttonHeight + buttonHeight / 4);
+            rowY [i] = i * (buttonHeight + buttonHeight / 4);
         }
         labelStyle.fontSize = 24;
         labelStyle.normal.textColor = Color.black;
@@ -89,7 +89,8 @@ public class InfobipPushDemo : MonoBehaviour
             ScreenPrinter.Print(("IBPush - Successfully registered to CHANNELS!"));
         };
 
-        ScreenPrinter.Print(InfobipPushInternal.Instance.GetNotificationFromExtras());
+//        ScreenPrinter.Print(InfobipPushInternal.Instance.GetNotificationFromExtras());
+
     }
 
     void OnGUI()
@@ -99,17 +100,17 @@ public class InfobipPushDemo : MonoBehaviour
         GUI.Label(new Rect(centerX - buttonWidth * 2, 0, Screen.width, buttonHeight), "Infobip Push Demo TWO", labelStyle);
 
         // First row
-        if (GUI.Button(new Rect(centerX - buttonWidth - buttonSpace, rowY[1], buttonWidth, buttonHeight), "Enable Debug Mode"))
+        if (GUI.Button(new Rect(centerX - buttonWidth - buttonSpace, rowY [1], buttonWidth, buttonHeight), "Enable Debug Mode"))
         {
             InfobipPush.LogMode = true;
         }
-        if (GUI.Button(new Rect(centerX + buttonSpace, rowY[1], buttonWidth, buttonHeight), "Disable Debug Mode"))
+        if (GUI.Button(new Rect(centerX + buttonSpace, rowY [1], buttonWidth, buttonHeight), "Disable Debug Mode"))
         {
             InfobipPush.LogMode = false;
         }
         
         // Second row
-        if (GUI.Button(new Rect(buttonSpace, rowY[2], buttonWidth, buttonHeight), "Initialize Push"))
+        if (GUI.Button(new Rect(buttonSpace, rowY [2], buttonWidth, buttonHeight), "Initialize Push"))
         {
             InfobipPushRegistrationData regData = new InfobipPushRegistrationData {
                 UserId = "test New User", 
@@ -117,34 +118,34 @@ public class InfobipPushDemo : MonoBehaviour
             };
             InfobipPush.Initialize("063bdab564eb", "a5cf819f36e2", regData);
         }
-        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY[2], buttonWidth, buttonHeight), "Is Registered"))
+        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [2], buttonWidth, buttonHeight), "Is Registered"))
         {
             bool isRegistered = InfobipPush.IsRegistered();
             ScreenPrinter.Print(isRegistered);
         }
-        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY[2], buttonWidth, buttonHeight), "Unregister"))
+        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY [2], buttonWidth, buttonHeight), "Unregister"))
         {
             InfobipPush.Unregister();
         }
 
         // Third row
-        if (GUI.Button(new Rect(buttonSpace, rowY[3], buttonWidth, buttonHeight), "Device Id"))
+        if (GUI.Button(new Rect(buttonSpace, rowY [3], buttonWidth, buttonHeight), "Device Id"))
         {
             string deviceId = InfobipPush.DeviceId;
             ScreenPrinter.Print(deviceId);
         }
-        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY[3], buttonWidth, buttonHeight), "User Id"))
+        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [3], buttonWidth, buttonHeight), "User Id"))
         {
             string userId = InfobipPush.UserId;
             ScreenPrinter.Print(userId);
         }
-        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY[3], buttonWidth, buttonHeight), "Set User Id"))
+        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY [3], buttonWidth, buttonHeight), "Set User Id"))
         {
             InfobipPush.UserId = "Malisica " + UnityEngine.Random.value.ToString();
         }
 
         // Fourth row
-        if (GUI.Button(new Rect(centerX - buttonWidth - buttonSpace, rowY[4], buttonWidth, buttonHeight), "Register To Channels"))
+        if (GUI.Button(new Rect(centerX - buttonWidth - buttonSpace, rowY [4], buttonWidth, buttonHeight), "Register To Channels"))
         {
             string[] channels = new string[8] {
                 "a", "b", "c", "d", "e",
@@ -152,98 +153,98 @@ public class InfobipPushDemo : MonoBehaviour
             };
             InfobipPush.RegisterToChannels(channels, false);
         }
-        if (GUI.Button(new Rect(centerX + buttonSpace, rowY[4], buttonWidth, buttonHeight), "Get Registered Channels"))
+        if (GUI.Button(new Rect(centerX + buttonSpace, rowY [4], buttonWidth, buttonHeight), "Get Registered Channels"))
         {
             InfobipPush.BeginGetRegisteredChannels();
         }
 
         // Fifth row
-        if (GUI.Button(new Rect(centerX - buttonWidth - buttonSpace, rowY[5], buttonWidth, buttonHeight), "Get Unreceived Notifications"))
+        if (GUI.Button(new Rect(centerX - buttonWidth - buttonSpace, rowY [5], buttonWidth, buttonHeight), "Get Unreceived Notifications"))
         {
             InfobipPush.GetListOfUnreceivedNotifications();
         }
-        if (GUI.Button(new Rect(centerX + buttonSpace, rowY[5], buttonWidth, buttonHeight), "Set Badge Number"))
+        if (GUI.Button(new Rect(centerX + buttonSpace, rowY [5], buttonWidth, buttonHeight), "Set Badge Number"))
         {
             InfobipPush.SetBadgeNumber(0);
         }
 
         // Sixth row
-        if (GUI.Button(new Rect(buttonSpace, rowY[6], buttonWidth, buttonHeight), "Enable Location"))
+        if (GUI.Button(new Rect(buttonSpace, rowY [6], buttonWidth, buttonHeight), "Enable Location"))
         {
             InfobipPushLocation.EnableLocation();
         }
-        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY[6], buttonWidth, buttonHeight), "Disable Location"))
+        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [6], buttonWidth, buttonHeight), "Disable Location"))
         {
             InfobipPushLocation.DisableLocation();
         }
-        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY[6], buttonWidth, buttonHeight), "Is Loc. Enabled"))
+        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY [6], buttonWidth, buttonHeight), "Is Loc. Enabled"))
         {
             bool isLocation = InfobipPushLocation.IsLocationEnabled();
             ScreenPrinter.Print("isLocation = " + isLocation);
         }
     
         // Seventh row
-        if (GUI.Button(new Rect(buttonSpace, rowY[7], buttonWidth, buttonHeight), "Enable Background Loc."))
+        if (GUI.Button(new Rect(buttonSpace, rowY [7], buttonWidth, buttonHeight), "Enable Background Loc."))
         {
             InfobipPushLocation.BackgroundLocationUpdateModeEnabled = true;
         }
-        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY[7], buttonWidth, buttonHeight), "Disable Background Loc."))
+        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [7], buttonWidth, buttonHeight), "Disable Background Loc."))
         {
             InfobipPushLocation.BackgroundLocationUpdateModeEnabled = false;
         }
-        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY[7], buttonWidth, buttonHeight), "Background Location"))
+        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY [7], buttonWidth, buttonHeight), "Background Location"))
         {
             bool back = InfobipPushLocation.BackgroundLocationUpdateModeEnabled;
             ScreenPrinter.Print(back);
         }
 
         // Eighth row
-        if (GUI.Button(new Rect(buttonSpace, rowY[8], buttonWidth, buttonHeight), "Time Update"))
+        if (GUI.Button(new Rect(buttonSpace, rowY [8], buttonWidth, buttonHeight), "Time Update"))
         {
             int time = InfobipPushLocation.LocationUpdateTimeInterval;
             ScreenPrinter.Print(time);
         }
-        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY[8], buttonWidth, buttonHeight), "Set Time Update"))
+        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [8], buttonWidth, buttonHeight), "Set Time Update"))
         {
             InfobipPushLocation.LocationUpdateTimeInterval = 5;
         }
-        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY[8], buttonWidth, buttonHeight), "Share Location"))
+        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY [8], buttonWidth, buttonHeight), "Share Location"))
         {
-           ScreenPrinter.Print("IBPush - Location Enabled: " + (InfobipPushLocation.LocationEnabled ? "true" : "false"));
+            ScreenPrinter.Print("IBPush - Location Enabled: " + (InfobipPushLocation.LocationEnabled ? "true" : "false"));
             LocationInfo location = locationService.lastData;
             ScreenPrinter.Print(" uzeo lokaciju");
             InfobipPushLocation.ShareLocation(location);
-            ScreenPrinter.Print("Proslo u android " );
+            ScreenPrinter.Print("Proslo u android ");
         }
 
         // Ninth row
-        if (GUI.Button(new Rect(buttonSpace, rowY[9], buttonWidth, buttonHeight), "Enable Live Geo"))
+        if (GUI.Button(new Rect(buttonSpace, rowY [9], buttonWidth, buttonHeight), "Enable Live Geo"))
         {
             InfobipPushLocation.LiveGeo = true;
             ScreenPrinter.Print("Live geo is enabled");
         }
-        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY[9], buttonWidth, buttonHeight), "Disable Live Geo"))
+        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [9], buttonWidth, buttonHeight), "Disable Live Geo"))
         {
             InfobipPushLocation.LiveGeo = false;
             ScreenPrinter.Print("Live geo is disabled");
         }
-        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY[9], buttonWidth, buttonHeight), "Is Live Geo"))
+        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY [9], buttonWidth, buttonHeight), "Is Live Geo"))
         {
             ScreenPrinter.Print(InfobipPushLocation.LiveGeo);
         }
         
         // Tenth row
-        if (GUI.Button(new Rect(buttonSpace, rowY[10], buttonWidth, buttonHeight), "Number Of Regions"))
+        if (GUI.Button(new Rect(buttonSpace, rowY [10], buttonWidth, buttonHeight), "Number Of Regions"))
         {
             int regions = InfobipPushLocation.IBNumberOfCurrentLiveGeoRegions();
             ScreenPrinter.Print("Number Of Regions:" + regions.ToString());
         }
-        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY[10], buttonWidth, buttonHeight), "Stop Live Geo Monitoring"))
+        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [10], buttonWidth, buttonHeight), "Stop Live Geo Monitoring"))
         {
             int regions = InfobipPushLocation.IBStopLiveGeoMonitoringForAllRegions();
             ScreenPrinter.Print("Stop Live Geo Monitoring for all Regions" + regions.ToString());
         }
-        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY[10], buttonWidth, buttonHeight), "Set Accuracy"))
+        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY [10], buttonWidth, buttonHeight), "Set Accuracy"))
         {
             double accur = 100.43;
             InfobipPushLocation.IBSetLiveGeoAccuracy(accur);
@@ -251,33 +252,33 @@ public class InfobipPushDemo : MonoBehaviour
         }
 
         // Eleventh row
-        if (GUI.Button(new Rect(buttonSpace, rowY[11], buttonWidth, buttonHeight), "Enable Timezone Update"))
+        if (GUI.Button(new Rect(buttonSpace, rowY [11], buttonWidth, buttonHeight), "Enable Timezone Update"))
         {
             InfobipPush.SetTimezoneOffsetAutomaticUpdateEnabled(true);
         }
-        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY[11], buttonWidth, buttonHeight), "Disable Timezone Update"))
+        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [11], buttonWidth, buttonHeight), "Disable Timezone Update"))
         {
             InfobipPush.SetTimezoneOffsetAutomaticUpdateEnabled(false);
         }
-        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY[11], buttonWidth, buttonHeight), "Set Timezone Offset"))
+        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY [11], buttonWidth, buttonHeight), "Set Timezone Offset"))
         {
             InfobipPush.SetTimezoneOffsetInMinutes(5);
         }
 
         // Twelfth row
-        if (GUI.Button(new Rect(buttonSpace, rowY[12], buttonWidth, buttonHeight), "Test JAVA"))
+        if (GUI.Button(new Rect(buttonSpace, rowY [12], buttonWidth, buttonHeight), "Test JAVA"))
         {
             #if UNITY_ANDROID
             ScreenPrinter.Print(InfobipPushInternal.Instance.GetNotifExtras());
             #endif
         }
-        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY[12], buttonWidth, buttonHeight), "Custom Location"))
+        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [12], buttonWidth, buttonHeight), "Custom Location"))
         {
             InfobipPushLocation.UseCustomLocationService(true);
         }
-        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY[12], buttonWidth, buttonHeight), "Is Custom Location"))
+        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY [12], buttonWidth, buttonHeight), "Is Custom Location"))
         {
-           bool custom = InfobipPushLocation.IsUsingCustomLocationService();
+            bool custom = InfobipPushLocation.IsUsingCustomLocationService();
             ScreenPrinter.Print("Use custom locatioin: " + custom);
         }
 

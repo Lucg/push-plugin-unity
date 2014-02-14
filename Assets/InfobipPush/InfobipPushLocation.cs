@@ -200,32 +200,43 @@ public class InfobipPushLocation : MonoBehaviour
 
         return false;
     }
+
+    #if UNITY_ANDROID
     internal static void  AUseCustomLocationService(bool useCustomService)
     {
         InfobipPushInternal.GetCurrentActivity().Call("useCustomLocationService", new object[] {useCustomService});
     }
+    #endif
+
     public static void UseCustomLocationService(bool useCustomService)
     {
         #if UNITY_ANDROID
          AUseCustomLocationService(useCustomService);
         #endif
     }
-    internal static bool  AIsUsingCustomLocationService()
+
+    #if UNITY_ANDROID
+    internal static bool AIsUsingCustomLocationService()
     {
         return InfobipPushInternal.GetCurrentActivity().Call<bool>("isUsingCustomLocationService", new object[] {});
     }
+    #endif
+
     public static bool IsUsingCustomLocationService()
     {
         #if UNITY_ANDROID
         return AIsUsingCustomLocationService();
         #endif
+        return false;
     }
+
     public static bool LocationEnabled
     {
         get { return IsLocationEnabled(); }
         set { if (value) EnableLocation(); else DisableLocation(); }
     }
 
+    #if UNITY_ANDROID
     static IEnumerator ASharedLocation(LocationInfo location)
     {
         float latitude = location.latitude;
@@ -244,6 +255,8 @@ public class InfobipPushLocation : MonoBehaviour
         InfobipPushInternal.GetCurrentActivity().Call("saveUserLocation", new object[] {latitude,longitude,timestamp});
         yield return true;
     }
+    #endif
+
     static IEnumerator ShareLocation_C(LocationInfo location)
     {
         IDictionary<string, object> locationDict = new Dictionary<string, object>(6);
