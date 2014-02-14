@@ -89,8 +89,6 @@ public class InfobipPushDemo : MonoBehaviour
             ScreenPrinter.Print(("IBPush - Successfully registered to CHANNELS!"));
         };
 
-//        ScreenPrinter.Print(InfobipPushInternal.Instance.GetNotificationFromExtras());
-
     }
 
     void OnGUI()
@@ -267,9 +265,7 @@ public class InfobipPushDemo : MonoBehaviour
         // Twelfth row
         if (GUI.Button(new Rect(buttonSpace, rowY [12], buttonWidth, buttonHeight), "Test JAVA"))
         {
-            #if UNITY_ANDROID
-
-            #endif
+            
         }
         if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [12], buttonWidth, buttonHeight), "Custom Location"))
         {
