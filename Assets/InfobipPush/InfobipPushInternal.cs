@@ -141,9 +141,12 @@ public class InfobipPushInternal : MonoBehaviour
         return GetCurrentActivity().Call<string>("getUserId", new object[] {});
     }
 
-    internal string GetNotifExtras()
+    internal string GetNotificationFromExtras()
     {
-        return GetCurrentActivity().Call<string>("getNotifExtras", new object[] {});    
+        ScreenPrinter.Print("Hasan Seckano!");
+        string notif = GetCurrentActivity().Call<string>("getNotificationFromExtras", new object[] {});    
+        ScreenPrinter.Print(notif);
+        return notif;
     }
 
     internal void BeginSetUserId(string value)

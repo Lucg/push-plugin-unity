@@ -14,8 +14,15 @@ public class InfobipPushDemo : MonoBehaviour
     private float[] rowY = new float[rowNumber];
     private LocationService locationService = new LocationService();
 
+    void OnApplicationFocus()
+    {
+        // TODO fix problems with double trigering of this method
+//        ScreenPrinter.Print(InfobipPushInternal.Instance.GetNotificationFromExtras());
+    }
+
     void Start()
     {   
+
         for (int i = 0; i < rowNumber; i++)
         {
             rowY[i] = i * (buttonHeight + buttonHeight / 4);
@@ -79,13 +86,15 @@ public class InfobipPushDemo : MonoBehaviour
         InfobipPush.OnRegisteredToChannels += () => {
             ScreenPrinter.Print(("IBPush - Successfully registered to CHANNELS!"));
         };
+
+        ScreenPrinter.Print(InfobipPushInternal.Instance.GetNotificationFromExtras());
     }
 
     void OnGUI()
     {
 
         // Title
-        GUI.Label(new Rect(centerX - buttonWidth * 2, 0, Screen.width, buttonHeight), "Infobip Push Demo", labelStyle);
+        GUI.Label(new Rect(centerX - buttonWidth * 2, 0, Screen.width, buttonHeight), "Infobip Push Demo TWO", labelStyle);
 
         // First row
         if (GUI.Button(new Rect(centerX - buttonWidth - buttonSpace, rowY[1], buttonWidth, buttonHeight), "Enable Debug Mode"))
@@ -254,7 +263,7 @@ public class InfobipPushDemo : MonoBehaviour
         // Twelfth row
         if (GUI.Button(new Rect(buttonSpace, rowY[12], buttonWidth, buttonHeight), "Test JAVA"))
         {
-            ScreenPrinter.Print(InfobipPushInternal.Instance.GetNotifExtras());
+            ScreenPrinter.Print(InfobipPushInternal.Instance.GetNotificationFromExtras());
         }
     }
 }
