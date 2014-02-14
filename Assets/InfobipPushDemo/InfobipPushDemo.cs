@@ -269,7 +269,7 @@ public class InfobipPushDemo : MonoBehaviour
         if (GUI.Button(new Rect(buttonSpace, rowY [12], buttonWidth, buttonHeight), "Test JAVA"))
         {
             #if UNITY_ANDROID
-            ScreenPrinter.Print(InfobipPushInternal.Instance.GetNotifExtras());
+
             #endif
         }
         if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [12], buttonWidth, buttonHeight), "Custom Location"))
