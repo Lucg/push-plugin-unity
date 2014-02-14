@@ -5,6 +5,9 @@ using System;
 
 public class InfobipPushDemo : MonoBehaviour
 {   
+    private const string applicationID = "063bdab564eb";
+    private const string applicationSecret = "a5cf819f36e2";
+
     private const int rowNumber = 14;
     private GUIStyle labelStyle = new GUIStyle();
     private float centerX = Screen.width / 2;
@@ -22,6 +25,8 @@ public class InfobipPushDemo : MonoBehaviour
 
     void Start()
     {   
+        InfobipPush.Initialize(applicationID, applicationSecret);
+
         for (int i = 0; i < rowNumber; i++)
         {
             rowY [i] = i * (buttonHeight + buttonHeight / 4);
@@ -114,7 +119,7 @@ public class InfobipPushDemo : MonoBehaviour
                 UserId = "test New User", 
                 Channels = new string[] {"a", "b", "c", "d", "News"}
             };
-            InfobipPush.Initialize("063bdab564eb", "a5cf819f36e2", regData);
+            InfobipPush.Initialize(applicationID, applicationSecret, regData);
         }
         if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [2], buttonWidth, buttonHeight), "Is Registered"))
         {
