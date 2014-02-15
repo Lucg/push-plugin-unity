@@ -119,7 +119,7 @@ public class InfobipPushDemo : MonoBehaviour
                 UserId = "test New User", 
                 Channels = new string[] {"a", "b", "c", "d", "News"}
             };
-            InfobipPush.Register("063bdab564eb", "a5cf819f36e2", regData);
+            InfobipPush.Register(applicationID, applicationSecret, regData);
         }
         if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [2], buttonWidth, buttonHeight), "Is Registered"))
         {
