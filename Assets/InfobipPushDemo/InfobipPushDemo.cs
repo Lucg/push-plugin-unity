@@ -25,7 +25,7 @@ public class InfobipPushDemo : MonoBehaviour
 
     void Start()
     {   
-        InfobipPush.Initialize(applicationID, applicationSecret);
+        InfobipPush.Initialize();
 
         for (int i = 0; i < rowNumber; i++)
         {
@@ -42,7 +42,7 @@ public class InfobipPushDemo : MonoBehaviour
             bool isMediaNotification = notif.isMediaNotification();
             ScreenPrinter.Print("IBPush - Is Media notification: " + isMediaNotification);
             // ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
-            Dictionary<string,object> addInfo = (Dictionary<string,object>)notif.AdditionalInfo;
+//            Dictionary<string,object> addInfo = (Dictionary<string,object>)notif.AdditionalInfo;
 
             if (isMediaNotification)
             {
@@ -119,7 +119,7 @@ public class InfobipPushDemo : MonoBehaviour
                 UserId = "test New User", 
                 Channels = new string[] {"a", "b", "c", "d", "News"}
             };
-            InfobipPush.Initialize(applicationID, applicationSecret, regData);
+            InfobipPush.Register("063bdab564eb", "a5cf819f36e2", regData);
         }
         if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [2], buttonWidth, buttonHeight), "Is Registered"))
         {

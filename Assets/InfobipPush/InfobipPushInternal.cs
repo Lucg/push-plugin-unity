@@ -112,7 +112,7 @@ public class InfobipPushInternal : MonoBehaviour
         return GetCurrentActivity().Call<bool>("getDebugMode", new object[] { });
     }
 
-    internal void Initialize(string applicationId, string applicationSecret, InfobipPushRegistrationData registrationData)
+    internal void Register(string applicationId, string applicationSecret, InfobipPushRegistrationData registrationData)
     {
         GetCurrentActivity().Call("initialize", new object[] {
             applicationId, applicationSecret, (registrationData != null ? registrationData.ToString() : "null")

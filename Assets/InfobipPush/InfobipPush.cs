@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -193,7 +193,7 @@ public class InfobipPush : MonoBehaviour
         #endif
     }
 
-    static IEnumerator Initialize_C(string applicationId, string applicationSecret, InfobipPushRegistrationData registrationData = null)
+    static IEnumerator Register_C(string applicationId, string applicationSecret, InfobipPushRegistrationData registrationData = null)
     {
         InfobipPushInternal.GetInstance();
         if (registrationData == null) 
@@ -206,21 +206,23 @@ public class InfobipPush : MonoBehaviour
         yield return true;
     }
 
-    public static void Initialize(string applicationId, string applicationSecret, InfobipPushRegistrationData registrationData = null)
+    public static void Register(string applicationId, string applicationSecret, InfobipPushRegistrationData registrationData = null)
     {
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            GetInstance().StartCoroutine(Initialize_C(applicationId, applicationSecret, registrationData));
+            GetInstance().StartCoroutine(Register_C(applicationId, applicationSecret, registrationData));
         }
         #elif UNITY_ANDROID
-        InfobipPushInternal.GetInstance();
-
-        if(!IsRegistered())
-        {
-            InfobipPushInternal.Instance.Initialize(applicationId, applicationSecret, registrationData);
-        }
+        InfobipPushInternal.Instance.Register(applicationId, applicationSecret, registrationData);
         #endif
+    }
+
+    public static void Initialize()
+    {
+        InfobipPushInternal.GetInstance();
+        InfobipPushLocation.GetInstance(); 
+        InfobipPush.GetInstance();
     }
 
     public static bool IsRegistered()
