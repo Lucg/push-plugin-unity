@@ -355,18 +355,21 @@ public class InfobipPush : MonoBehaviour
 
     static IEnumerator BeginGetRegisteredChannels_C()
     {
-        IBGetRegisteredChannels();
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            IBGetRegisteredChannels();
+        }
+        #elif UNITY_ANDROID
+        InfobipPushInternal.Instance.BeginGetRegisteredChannels();
+        #endif
+
         yield return true;
     }
 
     public static void BeginGetRegisteredChannels()
     {
-        #if UNITY_IPHONE
-        if (Application.platform == RuntimePlatform.IPhonePlayer)
-        {
-            GetInstance().StartCoroutine(BeginGetRegisteredChannels_C());
-        }
-        #endif
+        GetInstance().StartCoroutine(BeginGetRegisteredChannels_C());
     }
 
     static IEnumerator GetListOfUnreceivedNotifications_C()

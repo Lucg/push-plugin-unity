@@ -107,7 +107,7 @@ public class InfobipPushInternal : MonoBehaviour
         GetCurrentActivity().Call("setDebugMode", new object[] { enabled });
     }
 
-    public bool GetLogModeEnabled()
+    internal bool GetLogModeEnabled()
     {
         return GetCurrentActivity().Call<bool>("getDebugMode", new object[] { });
     }
@@ -129,13 +129,12 @@ public class InfobipPushInternal : MonoBehaviour
         GetCurrentActivity().Call("unregister", new object[] {});
     }
 
-    public void SetTimeZoneOffset(int offsetMinutes)
+    internal void SetTimeZoneOffset(int offsetMinutes)
     {
-        GetCurrentActivity().Call("setTimeZoneOffset", new object[] {offsetMinutes});
-       
+        GetCurrentActivity().Call("setTimeZoneOffset", new object[] {offsetMinutes});  
     }
 
-    public void SetTimeZoneAutomaticUpdateEnabled(bool isEnabled)
+    internal void SetTimeZoneAutomaticUpdateEnabled(bool isEnabled)
     { 
         GetCurrentActivity().Call("setTimeZoneAutomaticUpdateEnabled", new object[] {isEnabled});
     }
@@ -158,6 +157,11 @@ public class InfobipPushInternal : MonoBehaviour
     internal void RegisterToChannels(string value)
     {
         GetCurrentActivity().Call("registerToChannels", new object[] { value });
+    }
+
+    internal void BeginGetRegisteredChannels()
+    {
+        GetCurrentActivity().Call("getRegisteredChannels", new object[] { });
     }
 
     internal static AndroidJavaObject GetCurrentActivity()
