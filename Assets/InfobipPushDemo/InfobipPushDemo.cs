@@ -238,13 +238,13 @@ public class InfobipPushDemo : MonoBehaviour
         // Tenth row
         if (GUI.Button(new Rect(buttonSpace, rowY [10], buttonWidth, buttonHeight), "Number Of Regions"))
         {
-            int regions = InfobipPushLocation.IBNumberOfCurrentLiveGeoRegions();
-            ScreenPrinter.Print("Number Of Regions:" + regions.ToString());
+            int regions = InfobipPushLocation.NumberOfCurrentLiveGeoRegions();
+            ScreenPrinter.Print("Number Of Regions: " + regions.ToString());
         }
         if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [10], buttonWidth, buttonHeight), "Stop Live Geo Monitoring"))
         {
-            int regions = InfobipPushLocation.IBStopLiveGeoMonitoringForAllRegions();
-            ScreenPrinter.Print("Stop Live Geo Monitoring for all Regions" + regions.ToString());
+            int regions = InfobipPushLocation.StopLiveGeoMonitoringForAllRegions();
+            ScreenPrinter.Print("Stop Live Geo Monitoring for all Regions: " + regions.ToString());
         }
         if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY [10], buttonWidth, buttonHeight), "Set Accuracy"))
         {

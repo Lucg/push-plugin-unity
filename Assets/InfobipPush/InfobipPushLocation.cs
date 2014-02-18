@@ -275,6 +275,19 @@ public class InfobipPushLocation : MonoBehaviour
 
 
     // Live Geo
+    internal static void AEnableLiveGeo()
+    {
+        InfobipPushInternal.GetCurrentActivity().Call("enableLiveGeo", new object[] {});
+    }
+    internal static void ADisableLiveGeo()
+    {
+        InfobipPushInternal.GetCurrentActivity().Call("disableLiveGeo", new object[] {});
+    }
+    internal static bool AIsLiveGeoEnabled()
+    {
+        return InfobipPushInternal.GetCurrentActivity().Call<bool>("isLiveGeoEnabled", new object[] {});
+    }
+    
     public static bool LiveGeo
     {
         get
@@ -284,6 +297,8 @@ public class InfobipPushLocation : MonoBehaviour
             {
                 return IBLiveGeoEnabled();
             }
+            #elif UNITY_ANDROID
+            return AIsLiveGeoEnabled();
             #endif
             return false;
         }
@@ -298,9 +313,21 @@ public class InfobipPushLocation : MonoBehaviour
                     IBDisableLiveGeo();
                 }
             }
+            #elif UNITY_ANDROID
+            if(value) {
+                AEnableLiveGeo();
+            } else {
+                ADisableLiveGeo();
+            }
             #endif
         }
     }
+    
+    internal static int AGetActiveLiveGeoAreasNumber()
+    {
+        return InfobipPushInternal.GetCurrentActivity().Call<int>("getActiveLiveGeoAreasNumber", new object[] {});
+    }
+
 
     public static int NumberOfCurrentLiveGeoRegions()
     {
@@ -309,9 +336,16 @@ public class InfobipPushLocation : MonoBehaviour
         {
             return IBNumberOfCurrentLiveGeoRegions();
         }
+        #elif UNITY_ANDROID
+        return AGetActiveLiveGeoAreasNumber();
         #endif
         return 0;
     }
+    internal static int AStopMonitoringLiveGeoAreas()
+    {
+        return InfobipPushInternal.GetCurrentActivity().Call<int>("stopMonitoringLiveGeoAreas", new object[] {});
+    }
+
 
     public static int StopLiveGeoMonitoringForAllRegions()
     {
@@ -320,7 +354,10 @@ public class InfobipPushLocation : MonoBehaviour
         {
             return IBStopLiveGeoMonitoringForAllRegions(); 
         }
+        #elif UNITY_ANDROID
+        return AStopMonitoringLiveGeoAreas();
         #endif
+
         return 0;
     }
 
