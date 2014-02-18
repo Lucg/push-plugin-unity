@@ -391,4 +391,11 @@ public class InfobipPush : MonoBehaviour
         GetInstance().StartCoroutine(GetListOfUnreceivedNotifications_C());  
     }
 
+
+    public static void SetOverrideDefaultMessageHandling(bool enable)
+    {
+        #if UNITY_ANDROID
+        InfobipPushInternal.Instance.OverrideDefaultMessageHandling(enable);
+        #endif
+    }
 }

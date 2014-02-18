@@ -169,6 +169,11 @@ public class InfobipPushInternal : MonoBehaviour
         GetCurrentActivity().Call("getUnreceivedNotifications", new object[] { });
     }
 
+    internal void OverrideDefaultMessageHandling(bool isEnabled)
+    {
+        GetCurrentActivity().Call("overrideDefaultMessageHandling", new object[] {isEnabled});
+    }
+
     internal static AndroidJavaObject GetCurrentActivity()
     {
         if (infobipPushJava == null)

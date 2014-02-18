@@ -282,5 +282,22 @@ public class InfobipPushDemo : MonoBehaviour
             ScreenPrinter.Print("Use custom locatioin: " + custom);
         }
 
+        // Thirteenth row
+        if (GUI.Button(new Rect(buttonSpace, rowY [13], buttonWidth, buttonHeight), "Enable Override MesgHandling"))
+        {
+            InfobipPush.SetOverrideDefaultMessageHandling(true);
+            ScreenPrinter.Print("Override Message Handling is enabled");
+        }
+        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [13], buttonWidth, buttonHeight), "Disable Override MesgHandling"))
+        {
+            InfobipPush.SetOverrideDefaultMessageHandling(false);
+            ScreenPrinter.Print("Override Message Handling is disbled");
+        }
+//        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY [13], buttonWidth, buttonHeight), "Is Custom Location"))
+//        {
+//            bool custom = InfobipPushLocation.IsUsingCustomLocationService();
+//            ScreenPrinter.Print("Use custom locatioin: " + custom);
+//        }
+
     }
 }
