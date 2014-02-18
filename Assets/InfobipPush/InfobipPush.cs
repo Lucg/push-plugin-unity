@@ -105,7 +105,7 @@ public class InfobipPush : MonoBehaviour
     {
         lock (synLock)
         {
-            if (_instance == null) 
+            if (_instance == null)
             {
                 _instance = FindObjectOfType(typeof(InfobipPush)) as InfobipPush;
                 if (_instance == null)
@@ -196,10 +196,11 @@ public class InfobipPush : MonoBehaviour
     static IEnumerator Register_C(string applicationId, string applicationSecret, InfobipPushRegistrationData registrationData = null)
     {
         InfobipPushInternal.GetInstance();
-        if (registrationData == null) 
+        if (registrationData == null)
         {
             IBInitialization(applicationId, applicationSecret);
-        } else {
+        } else
+        {
             var regdata = registrationData.ToString();
             IBInitializationWithRegistrationData(applicationId, applicationSecret, regdata);
         }
@@ -374,18 +375,20 @@ public class InfobipPush : MonoBehaviour
 
     static IEnumerator GetListOfUnreceivedNotifications_C()
     {
-        IBGetUnreceivedNotifications();
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            IBGetUnreceivedNotifications(); 
+        }
+        #elif UNITY_ANDROID
+        InfobipPushInternal.Instance.BeginGetUnreceivedNotifications();
+        #endif
         yield return true;
     }
 
     public static void GetListOfUnreceivedNotifications()
     {
-        #if UNITY_IPHONE
-        if (Application.platform == RuntimePlatform.IPhonePlayer)
-        {
-            GetInstance().StartCoroutine(GetListOfUnreceivedNotifications_C());
-        }
-        #endif
+        GetInstance().StartCoroutine(GetListOfUnreceivedNotifications_C());  
     }
 
 }

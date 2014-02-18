@@ -164,6 +164,11 @@ public class InfobipPushInternal : MonoBehaviour
         GetCurrentActivity().Call("getRegisteredChannels", new object[] { });
     }
 
+    internal void BeginGetUnreceivedNotifications()
+    {
+        GetCurrentActivity().Call("getUnreceivedNotifications", new object[] { });
+    }
+
     internal static AndroidJavaObject GetCurrentActivity()
     {
         if (infobipPushJava == null)
