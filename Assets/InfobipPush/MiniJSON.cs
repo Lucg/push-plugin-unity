@@ -92,11 +92,14 @@ namespace MiniJSON
             return Parser.Parse(json);
         }
 
-        public static List<object> DeserializeArrayNoRecursion(string json) 
+        public static List<object> DeserializeArrayNoRecursion(string json)
         {
             if (json == null)
             {
                 return null;
+            } else if (json == "")
+            {
+                return new List<object>(0);
             }
 
             Parser parser = new Parser(json);

@@ -320,7 +320,7 @@ public class InfobipPush : MonoBehaviour
         #endif
     }
 
-    public static void AddMediaView(InfobipPushNotification notif, InfobipPushMediaViewCustomization customiz)
+    public static void AddMediaView(InfobipPushNotification notif, InfobipPushMediaViewCustomization customiz = null)
     {
         #if UNITY_IPHONE
         if (Application.platform == RuntimePlatform.IPhonePlayer)

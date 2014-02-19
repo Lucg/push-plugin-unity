@@ -39,16 +39,21 @@ public class InfobipPushDemo : MonoBehaviour
 
         InfobipPush.OnNotificationReceived = (notif) => {
             ScreenPrinter.Print("Notif: " + notif.Message);
+            // ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
+            //            Dictionary<string,object> addInfo = (Dictionary<string,object>)notif.AdditionalInfo;
+            string mediaContent = notif.MediaData;
+            ScreenPrinter.Print("IBPush -  Media content: " + mediaContent);
+        };
+
+        InfobipPush.OnNotificationOpened = (notif) => {
+            ScreenPrinter.Print("Notif OPENED: " + notif.Message);
             bool isMediaNotification = notif.isMediaNotification();
             ScreenPrinter.Print("IBPush - Is Media notification: " + isMediaNotification);
-            // ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
-//            Dictionary<string,object> addInfo = (Dictionary<string,object>)notif.AdditionalInfo;
 
             if (isMediaNotification)
             {
                 string mediaContent = notif.MediaData;
                 ScreenPrinter.Print("IBPush -  Media content: " + mediaContent);
-            #if UNITY_IPHONE
                 InfobipPushMediaViewCustomization customiz = new InfobipPushMediaViewCustomization 
                 {
                     X = 20,
@@ -58,19 +63,14 @@ public class InfobipPushDemo : MonoBehaviour
                     Shadow = false,
                     Radius = 50,
                     DismissButtonSize = 25,
-                ForegroundColor = new Color(1.0f, 0, 0, 1.0f),
-                BackgroundColor = new Color(0, 1.0f, 0, 1.0f)
+                    ForegroundColor = new Color(1.0f, 0, 0, 1.0f),
+                    BackgroundColor = new Color(0, 1.0f, 0, 1.0f)
                 };
+                #if UNITY_ANDROID
+                customiz = null;
+                #endif
                 InfobipPush.AddMediaView(notif, customiz);
-            #elif UNITY_ANDROID
-                InfobipPushMediaViewCustomization customiz = new InfobipPushMediaViewCustomization();
-                InfobipPush.AddMediaView(notif, customiz);
-            #endif
             }
-        };
-
-        InfobipPush.OnNotificationOpened = (notif) => {
-            ScreenPrinter.Print("Notif OPENED: " + notif.Message);
         };
 
         InfobipPush.OnRegistered = () => {
