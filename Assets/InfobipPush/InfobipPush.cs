@@ -89,6 +89,9 @@ public class InfobipPush : MonoBehaviour
     public static InfobipPushDelegate OnLocationShared = delegate
     {
     };
+    public static InfobipPushDelegate OnNotifyNotificationOpened = delegate
+    {
+    };
     public static InfobipPushDelegateWithStringArg OnGetChannelsFinished = delegate
     {
     };
@@ -391,6 +394,20 @@ public class InfobipPush : MonoBehaviour
     public static void GetListOfUnreceivedNotifications()
     {
         GetInstance().StartCoroutine(GetListOfUnreceivedNotifications_C());  
+    }
+
+
+    static IEnumerator NotifyNotificationOpened_C(string id)
+    {
+        #if UNITY_ANDROID
+        InfobipPushInternal.Instance.BeginNotifyNotificationOpened(id);
+        #endif
+        yield return true;
+    }
+
+    public static void NotifyNotificationOpened(string notificationId)
+    {
+        GetInstance().StartCoroutine(NotifyNotificationOpened_C(notificationId));
     }
 
 

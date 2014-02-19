@@ -71,6 +71,8 @@ public class InfobipPushDemo : MonoBehaviour
                 #endif
                 InfobipPush.AddMediaView(notif, customiz);
             }
+            InfobipPush.NotifyNotificationOpened(notif.NotificationId);
+            ScreenPrinter.Print("Notify notification opened, with id: " + notif.NotificationId);
         };
 
         InfobipPush.OnRegistered = () => {

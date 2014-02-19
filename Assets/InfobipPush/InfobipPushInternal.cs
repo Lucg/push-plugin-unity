@@ -100,6 +100,11 @@ public class InfobipPushInternal : MonoBehaviour
             InfobipPush.OnUnreceivedNotificationReceived(notification);
         }
     }
+
+    public void IBNotufyNotificationOpened_SUCCESS()
+    {
+        InfobipPush.OnNotifyNotificationOpened();
+    }
     
     #if UNITY_ANDROID
     internal void SetLogModeEnabled(bool enabled)
@@ -177,6 +182,12 @@ public class InfobipPushInternal : MonoBehaviour
     {
         GetCurrentActivity().Call("addMediaView", new object[] {notif.MediaData});
     }
+
+    internal void BeginNotifyNotificationOpened(string notificationId)
+    {
+        GetCurrentActivity().Call("notifyNotificationOpened", new object[] {notificationId});
+    }
+
 
     internal static AndroidJavaObject GetCurrentActivity()
     {

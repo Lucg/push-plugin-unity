@@ -104,7 +104,7 @@ public class InfobipPushNotification
         IDictionary<string, object> dictNotif = MiniJSON.Json.Deserialize(notif) as Dictionary<string,object>;
         object varObj = null;
         int varInt;
-        if (dictNotif.TryGetValue("notificationId", out varObj))
+        if (dictNotif.TryGetValue("id", out varObj))
         {
             NotificationId = (string)varObj;
         }
