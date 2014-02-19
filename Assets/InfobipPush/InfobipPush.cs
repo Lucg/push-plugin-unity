@@ -327,6 +327,8 @@ public class InfobipPush : MonoBehaviour
         {
             IBAddMediaView(notif.ToString(), customiz.ToString());
         }
+        #elif UNITY_ANDROID
+        InfobipPushInternal.Instance.AddMediaView(notif);
         #endif
     }
 

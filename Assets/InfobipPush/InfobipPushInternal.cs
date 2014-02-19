@@ -173,6 +173,10 @@ public class InfobipPushInternal : MonoBehaviour
     {
         GetCurrentActivity().Call("overrideDefaultMessageHandling", new object[] {isEnabled});
     }
+    internal void AddMediaView(InfobipPushNotification notif)
+    {
+        GetCurrentActivity().Call("addMediaView", new object[] {notif.MediaData});
+    }
 
     internal static AndroidJavaObject GetCurrentActivity()
     {

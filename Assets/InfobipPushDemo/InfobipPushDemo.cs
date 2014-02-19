@@ -48,6 +48,7 @@ public class InfobipPushDemo : MonoBehaviour
             {
                 string mediaContent = notif.MediaData;
                 ScreenPrinter.Print("IBPush -  Media content: " + mediaContent);
+            #if UNITY_IPHONE
                 InfobipPushMediaViewCustomization customiz = new InfobipPushMediaViewCustomization 
                 {
                     X = 20,
@@ -61,6 +62,10 @@ public class InfobipPushDemo : MonoBehaviour
                 BackgroundColor = new Color(0, 1.0f, 0, 1.0f)
                 };
                 InfobipPush.AddMediaView(notif, customiz);
+            #elif UNITY_ANDROID
+                InfobipPushMediaViewCustomization customiz = new InfobipPushMediaViewCustomization();
+                InfobipPush.AddMediaView(notif, customiz);
+            #endif
             }
         };
 
