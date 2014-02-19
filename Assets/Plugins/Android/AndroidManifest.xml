@@ -123,9 +123,10 @@
 	    <!-- REQUIRED RECEIVERS -->
 
 	    <!-- REQUIRED METADATA TAG -->
+	    <!-- Hardcoded due to shipped google-play-services version. Unity can't resolve this on it's own. -->
 	    <meta-data
 	        android:name="com.google.android.gms.version"
-	        android:value="@+integer/google_play_services_version" />
+	        android:value="4132500" />
 	    <meta-data
 	    	android:name="IB_PROJECT_ID"
 	    	android:value="S396503387923" />

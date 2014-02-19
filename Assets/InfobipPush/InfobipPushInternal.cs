@@ -93,6 +93,7 @@ public class InfobipPushInternal : MonoBehaviour
 
     public void IBGetUnreceivedNotifications_SUCCESS(string notificationsList)
     {   
+        ScreenPrinter.Print("e jeste primio: __" + notificationsList + "__");
         var list = MiniJSON.Json.DeserializeArrayNoRecursion(notificationsList);
         foreach (var notifJson in list)
         {
