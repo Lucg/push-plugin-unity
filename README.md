@@ -85,7 +85,7 @@ In order to get userId use the following code:
 
 Device Id is unique device identifier in the Infobip Push system, for one application it will be generated only once. It can be used to send push notifications to a specific user.
 
-To get it, use the following method: 
+To get it, use the following property: 
  
 	string deviceId = InfobipPush.DeviceId;
 
@@ -108,6 +108,72 @@ If you manually set timezone offset then the default automatic timezone offset u
     InfobipPush.SetTimezoneOffsetAutomaticUpdateEnabled(true);
 
 ### Location
+
+In our Unity Infobip Push Notification Plugin  we use our own location service that acquires your user's latest location and periodically sends it to the Infobip Push service in the background. By using this service, your location can be retrieved with all the location providers: GPS, NETWORK or PASSIVE provider and you can sent push notifications to users in specific locations.
+
+
+#### Enable/Disable Location 
+
+To enable location service and track your user's location use the following method:
+
+	InfobipPushLocation.EnableLocation();
+	
+If you want to stop location service you shoud use method:
+
+	InfobipPushLocation.DisableLocation();
+
+To check if Infobip's Push location service is enabled use the following method:
+
+	InfobipPushLocation.IsLocationEnabled();
+	
+By default, location updates are disabled.
+
+#### Enable/Disable Background Location(IOS only)
+
+On IOS `InfobipPushLocation.EnableLocation()`method will start location updates only when the application is active. Background location updates are disabled by default. To enable background location updates also, use the following property: 
+	
+	InfobipPushLocation.BackgroundLocationUpdateModeEnabled = true;
+
+At any time you can disable and enable background location updates. To disable background location updates use the property: 
+
+	InfobipPushLocation.BackgroundLocationUpdateModeEnabled = false;
+	
+To check the status of background location updates there is a method `InfobipPushLocation.BackgroundLocationUpdateModeEnabled` which returns `true` if the background location updates are enabled, otherwise it returns `false`.
+
+Location updates, even if the application is active or in background, can be disabled with the method `InfobipPushLocation.DisableLocation()`.
+
+ By default, location updates in background are disabled.
+
+
+#### Location Update Time Interval
+
+Once started, Push location service periodically sends location updates to the Infobip's Push service (every 15 minutes by default). Time interval between these location updates can be set by the following property:
+
+	InfobipPushLocation.LocationUpdateTimeInterval = interval;
+	
+`interval` is integer value in minutes. 
+
+Default time interval is 15 minutes, so every next location will be send 15 minuts after previous one. Minimum time interval is 5 minutes. Please consider setting the interval to as long as possible to prevent battery draining.
+
+If you want to get current location update time interval use the following property:
+
+	int timeInterval = InfobipPushLocation.LocationUpdateTimeInterval;
+ 
+#### Share Location
+
+You do not have to use our location service but instead you can fetch locations by your own services and share fetched locations to our services.
+
+To share location to our services you can use the following code: 
+
+            LocationInfo location = locationService.lastData;
+            InfobipPushLocation.ShareLocation(location);
+
+Or if you want to check if the request was successful or not use the similar method with the block parameter:
+
+
+
+
+
 ### Media Notifications
 
 From Infobip Push service you can sent Media notification with media content.
