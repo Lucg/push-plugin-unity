@@ -97,7 +97,7 @@ namespace MiniJSON
             if (json == null)
             {
                 return null;
-            } else if (json == "")
+            } else if (json == "" || json == "[]")
             {
                 return new List<object>(0);
             }

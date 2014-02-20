@@ -89,7 +89,7 @@ public class InfobipPush : MonoBehaviour
     public static InfobipPushDelegate OnLocationShared = delegate
     {
     };
-    public static InfobipPushDelegate OnNotifyNotificationOpened = delegate
+    public static InfobipPushDelegate OnNotifyNotificationOpenedFinished = delegate
     {
     };
     public static InfobipPushDelegateWithStringArg OnGetChannelsFinished = delegate
@@ -416,5 +416,13 @@ public class InfobipPush : MonoBehaviour
         #if UNITY_ANDROID
         InfobipPushInternal.Instance.OverrideDefaultMessageHandling(enable);
         #endif
+    }
+
+    public static bool IsDefaultMessageHandlingOverriden()
+    {
+        #if UNITY_ANDROID
+        return InfobipPushInternal.Instance.IsDefaultMessageHandlingOverriden();
+        #endif
+        return false;
     }
 }

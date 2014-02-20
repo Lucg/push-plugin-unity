@@ -93,18 +93,20 @@ public class InfobipPushInternal : MonoBehaviour
 
     public void IBGetUnreceivedNotifications_SUCCESS(string notificationsList)
     {   
-        ScreenPrinter.Print("e jeste primio: __" + notificationsList + "__");
         var list = MiniJSON.Json.DeserializeArrayNoRecursion(notificationsList);
+        ScreenPrinter.Print("unreceived LIST: " + notificationsList);
         foreach (var notifJson in list)
         {
+            string notifJsonString = (notifJson as String);
+            ScreenPrinter.Print("unreceived: " + notifJsonString);
             InfobipPushNotification notification = new InfobipPushNotification(notifJson as String);
             InfobipPush.OnUnreceivedNotificationReceived(notification);
         }
     }
 
-    public void IBNotufyNotificationOpened_SUCCESS()
+    public void IBNotifyNotificationOpened_SUCCESS()
     {
-        InfobipPush.OnNotifyNotificationOpened();
+        InfobipPush.OnNotifyNotificationOpenedFinished();
     }
     
     #if UNITY_ANDROID
@@ -179,6 +181,12 @@ public class InfobipPushInternal : MonoBehaviour
     {
         GetCurrentActivity().Call("overrideDefaultMessageHandling", new object[] {isEnabled});
     }
+
+    internal bool IsDefaultMessageHandlingOverriden()
+    {
+        return GetCurrentActivity().Call<bool>("isDefaultMessageHandlingOverriden", new object[] {});
+    }
+
     internal void AddMediaView(InfobipPushNotification notif)
     {
         GetCurrentActivity().Call("addMediaView", new object[] {notif.MediaData});

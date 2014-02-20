@@ -38,11 +38,16 @@ public class InfobipPushDemo : MonoBehaviour
         locationService.Start();
 
         InfobipPush.OnNotificationReceived = (notif) => {
-            ScreenPrinter.Print("Notif: " + notif.Message);
+            ScreenPrinter.Print("Notif: " + notif.Message + " #" + UnityEngine.Random.value);
             // ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
             //            Dictionary<string,object> addInfo = (Dictionary<string,object>)notif.AdditionalInfo;
             string mediaContent = notif.MediaData;
             ScreenPrinter.Print("IBPush -  Media content: " + mediaContent);
+            if (InfobipPush.IsDefaultMessageHandlingOverriden())
+            {
+                ScreenPrinter.Print("IBPush - Default message handling overriden, notifying notif opened w/ id: " + notif.NotificationId);
+                InfobipPush.NotifyNotificationOpened(notif.NotificationId);
+            }
         };
 
         InfobipPush.OnNotificationOpened = (notif) => {
@@ -71,7 +76,6 @@ public class InfobipPushDemo : MonoBehaviour
                 #endif
                 InfobipPush.AddMediaView(notif, customiz);
             }
-            InfobipPush.NotifyNotificationOpened(notif.NotificationId);
             ScreenPrinter.Print("Notify notification opened, with id: " + notif.NotificationId);
         };
 
@@ -99,6 +103,9 @@ public class InfobipPushDemo : MonoBehaviour
         };
         InfobipPush.OnRegisteredToChannels += () => {
             ScreenPrinter.Print(("IBPush - Successfully registered to CHANNELS!"));
+        };
+        InfobipPush.OnNotifyNotificationOpenedFinished = () => {
+            ScreenPrinter.Print(("IBPush - Successfully notified notification opened event to IB server!"));
         };
 
     }

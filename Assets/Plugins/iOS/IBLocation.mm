@@ -36,12 +36,12 @@ bool IBBackgroundLocationUpdateModeEnabled() {
     return (bool) 0;
 }
 
-void IBSetLocationUpdateTimeInterval(const int seconds) {
-    [InfobipPush setLocationUpdateTimeInterval:seconds];
+void IBSetLocationUpdateTimeInterval(const int minutes) {
+    [InfobipPush setLocationUpdateTimeInterval:minutes * 60];
 }
 
 int IBLocationUpdateTimeInterval() {
-    return [InfobipPush locationUpdateTimeInterval];
+    return 60 * [InfobipPush locationUpdateTimeInterval];
 }
 
 void IBShareLocation(const char *locationCharArray) {
