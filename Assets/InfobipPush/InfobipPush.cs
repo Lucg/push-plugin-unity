@@ -133,7 +133,6 @@ public class InfobipPush : MonoBehaviour
             #elif UNITY_ANDROID
             return InfobipPushInternal.Instance.GetLogModeEnabled();
             #endif
-            return false;
         }
         set
         {
@@ -239,7 +238,6 @@ public class InfobipPush : MonoBehaviour
         #elif UNITY_ANDROID
         return InfobipPushInternal.Instance.IsRegistered();
         #endif
-        return false;
     }
 
     public static string DeviceId
@@ -254,10 +252,44 @@ public class InfobipPush : MonoBehaviour
             #elif UNITY_ANDROID
             return InfobipPushInternal.Instance.GetDeviceId();
             #endif
-            return null;
         }
            
     }
+
+    public static void SetBuilderData(InfobipPushBuilder builder)
+    {
+        #if UNITY_ANDROID
+        InfobipPushInternal.Instance.SetBuilderData(builder.ToString());
+        #endif
+    }
+
+    public static InfobipPushBuilder GetBuilderData()
+    {
+        #if UNITY_ANDROID
+        return InfobipPushInternal.Instance.GetBuilderData();
+        #endif
+    }
+
+    public static void RemoveSavedData()
+    {
+        #if UNITY_ANDROID
+        InfobipPushInternal.Instance.RemoveBuilderSavedData();
+        #endif
+    }
+
+    public static void SetBuilderQuietTimeEnabled(bool isEnabled)
+    {
+        #if UNITY_ANDROID
+        InfobipPushInternal.Instance.SetBuilderQuietTimeEnabled(isEnabled);
+        #endif
+    }
+
+    public static bool IsBuilderInQuietTime() {
+        #if UNITY_ANDROID
+        return InfobipPushInternal.Instance.IsBuilderInQuietTime();
+        #endif
+    }
+
 
     static IEnumerator BeginSetUserId_C(string value)
     {
@@ -279,7 +311,6 @@ public class InfobipPush : MonoBehaviour
             #elif UNITY_ANDROID
             return InfobipPushInternal.Instance.GetUserId();
             #endif
-            return null;
         }
         set
         {

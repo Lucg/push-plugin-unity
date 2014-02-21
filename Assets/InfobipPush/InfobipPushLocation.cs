@@ -167,7 +167,7 @@ public class InfobipPushLocation : MonoBehaviour
             #elif UNITY_ANDROID
             return AGetLocationUpdateTimeInterval();
             #endif
-            return 0;
+
         }
         set {
             #if UNITY_IPHONE
@@ -197,8 +197,6 @@ public class InfobipPushLocation : MonoBehaviour
         #elif UNITY_ANDROID
         return AisLocationEnabled();
         #endif
-
-        return false;
     }
 
     #if UNITY_ANDROID
@@ -227,7 +225,6 @@ public class InfobipPushLocation : MonoBehaviour
         #if UNITY_ANDROID
         return AIsUsingCustomLocationService();
         #endif
-        return false;
     }
 
     public static bool LocationEnabled
@@ -300,7 +297,6 @@ public class InfobipPushLocation : MonoBehaviour
             #elif UNITY_ANDROID
             return AIsLiveGeoEnabled();
             #endif
-            return false;
         }
         set
         {
@@ -339,7 +335,6 @@ public class InfobipPushLocation : MonoBehaviour
         #elif UNITY_ANDROID
         return AGetActiveLiveGeoAreasNumber();
         #endif
-        return 0;
     }
     internal static int AStopMonitoringLiveGeoAreas()
     {
@@ -357,8 +352,6 @@ public class InfobipPushLocation : MonoBehaviour
         #elif UNITY_ANDROID
         return AStopMonitoringLiveGeoAreas();
         #endif
-
-        return 0;
     }
 
     public static double LiveGeoAccuracy

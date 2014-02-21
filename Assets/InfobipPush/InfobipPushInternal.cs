@@ -180,13 +180,7 @@ public class InfobipPushInternal : MonoBehaviour
     internal void OverrideDefaultMessageHandling(bool isEnabled)
     {
         GetCurrentActivity().Call("overrideDefaultMessageHandling", new object[] {isEnabled});
-    }
-
-    internal bool IsDefaultMessageHandlingOverriden()
-    {
-        return GetCurrentActivity().Call<bool>("isDefaultMessageHandlingOverriden", new object[] {});
-    }
-
+    } 
     internal void AddMediaView(InfobipPushNotification notif)
     {
         GetCurrentActivity().Call("addMediaView", new object[] {notif.MediaData});
@@ -197,6 +191,36 @@ public class InfobipPushInternal : MonoBehaviour
         GetCurrentActivity().Call("notifyNotificationOpened", new object[] {notificationId});
     }
 
+    // Builder
+    internal void SetBuilderData(string data)
+    {
+        GetCurrentActivity().Call("builderSetData", new object[] {data});
+    }
+
+    internal InfobipPushBuilder GetBuilderData()
+    {
+        string json = GetCurrentActivity().Call<string>("builderGetData", new object[] {});
+        InfobipPushBuilder builder = new InfobipPushBuilder(json);
+        // TODO remove this - testing
+        ScreenPrinter.Print(json);
+        return builder;
+    }
+
+    internal void RemoveBuilderSavedData()
+    {
+        GetCurrentActivity().Call("builderRemoveSavedData", new object[] {});
+    }
+
+    internal void SetBuilderQuietTimeEnabled(bool isEnabled)
+    {
+        GetCurrentActivity().Call("builderSetQuietTimeEnabled", new object[] {isEnabled});
+    }
+
+    internal bool IsBuilderInQuietTime()
+    {
+        return GetCurrentActivity().Call<bool>("builderIsInQuietTime", new object[] {});
+    }
+    // END Builder
 
     internal static AndroidJavaObject GetCurrentActivity()
     {
