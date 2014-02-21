@@ -293,7 +293,7 @@ public class InfobipPushDemo : MonoBehaviour
         if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY [12], buttonWidth, buttonHeight), "Is Custom Location"))
         {
             bool custom = InfobipPushLocation.IsUsingCustomLocationService();
-            ScreenPrinter.Print("Use custom locatioin: " + custom);
+            ScreenPrinter.Print("Use custom location: " + custom);
         }
 
         // Thirteenth row
@@ -306,12 +306,7 @@ public class InfobipPushDemo : MonoBehaviour
         {
             InfobipPush.SetOverrideDefaultMessageHandling(false);
             ScreenPrinter.Print("Override Message Handling is disbled");
-        }
-//        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY [13], buttonWidth, buttonHeight), "Is Custom Location"))
-//        {
-//            bool custom = InfobipPushLocation.IsUsingCustomLocationService();
-//            ScreenPrinter.Print("Use custom locatioin: " + custom);
-//        }
+        }    
 
     }
 }

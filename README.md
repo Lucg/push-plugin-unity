@@ -66,7 +66,7 @@ If user ID is not set, an UUID is created and set as user ID. If you want to set
  	
 If setting of userId was successful operation, `InfobipPush.OnUserDataSaved` will be called, which you can implement:	
 
-	 InfobipPush.OnUserDataSaved += () => {
+	 InfobipPush.OnUserDataSave = () => {
             ScreenPrinter.Print(("IBPush - User data saved"));
         };
   If the setting of userId wasn't susccessful you can use the following code to get error codes:
@@ -168,9 +168,52 @@ To share location to our services you can use the following code:
             LocationInfo location = locationService.lastData;
             InfobipPushLocation.ShareLocation(location);
 
-Or if you want to check if the request was successful or not use the similar method with the block parameter:
+On `IOS` if you want to check if the request was successful or not use the following code:
+
+		InfobipPush.OnRegistered = () => {
+            ScreenPrinter.Print(("IBPush - Successfully registered!"));
+        };
+        InfobipPush.OnError = (errorCode) => {
+            ScreenPrinter.Print(("IBPush - ERROR: " + errorCode));
+        };
 
 
+If you want to use share location for `android` devices you have to enable custom location with method:
+
+	InfobipPushLocation.UseCustomLocationService(true);
+	
+To disable custom location just set parametar to `false`, like this:
+
+	InfobipPushLocation.UseCustomLocationService(false);
+	
+To check the status of custom location (only for android) there is a method `InfobipPushLocation.IsUsingCustomLocationService()` which returns `true` if the custom location are enabled, otherwise it returns `false`.
+
+### Live Geo
+ 
+Live geo support is disabled by default. Live geo can be enabled using a property:
+
+		InfobipPushLocation.LiveGeo = true;
+	
+If you want to disable live geo or even check the current status for live geo support you can use the following properties:	
+
+		InfobipPushLocation.LiveGeo = false;
+	
+		InfobipPushLocation.LiveGeo;
+		
+		
+When you disable live geo, then all active live geo regions will be stopped. At any time you can check how many active live geo regions are there for particular user by calling the method:
+
+	 int regions = InfobipPushLocation.NumberOfCurrentLiveGeoRegions();	
+To stop all active live geo regions you need to call method `InfobipPushLocation.StopLiveGeoMonitoringForAllRegions()`. Method returns the number of stopped live geo regions:
+
+	int regions = InfobipPushLocation.StopLiveGeoMonitoringForAllRegions();
+	
+Live geo monitoring accuracy is set to hundred meters (contant kCLLocationAccuracyHundredMeters) by default. You can change the accuracy by calling method `InfobipPushLocation.IBSetLiveGeoAccuracy(accuracy)` and check the current live geo accuracy by calling `InfobipPushLocation.IBLiveGeoAccuracy()`. Be careful when setting accuracy because of Apple restrictions according location accuracy and usage in mobile applications.
+
+Set the live geo location accuracy to be the best one with method:
+
+	double accur = 100.43;
+	InfobipPushLocation.IBSetLiveGeoAccuracy(accuracy);
 
 
 
