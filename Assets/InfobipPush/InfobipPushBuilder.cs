@@ -2,18 +2,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-
 public class InfobipPushBuilder
 {
     public InfobipPushBuilder()
-    {}
+    {
+    }
 
     public InfobipPushBuilder(string json)
     {
-        this.setBuilderFromJson(json);
+        InitializeFromJson(json);
     }
    
     private string myTickerText = null;
+
     public string TickerText
     {
         get { return this.myTickerText; }
@@ -21,14 +22,15 @@ public class InfobipPushBuilder
     }
     
     private string myApplicationName = null;
+
     public string ApplicationName
     {
         get { return this.myApplicationName; }
         set { this.myApplicationName = value; }
     }
     
-    
     private int mySound = -1;
+
     public int Sound
     {
         get { return this.mySound; }
@@ -36,6 +38,7 @@ public class InfobipPushBuilder
     }
     
     private int myVibrate = -1;
+
     public int Vibrate
     {
         get { return this.myVibrate; }
@@ -43,6 +46,7 @@ public class InfobipPushBuilder
     }
     
     private int myLights = -1;
+
     public int Lights
     {
         get { return this.myLights; }
@@ -50,6 +54,7 @@ public class InfobipPushBuilder
     }
 
     private int[] myVibrationPattern;
+
     public int[] VibrationPattern
     {
         get { return this.myVibrationPattern; }
@@ -57,6 +62,7 @@ public class InfobipPushBuilder
     }
     
     private int myLightsColor = -1;
+
     public int LightsColor
     {
         get { return this.myLightsColor; }
@@ -64,6 +70,7 @@ public class InfobipPushBuilder
     }
     
     private int myLightsOnDurationInMs = -1;
+
     public int LightsOnDurationInMs
     {
         get { return this.myLightsOnDurationInMs; }
@@ -71,6 +78,7 @@ public class InfobipPushBuilder
     }
     
     private int myLightsOffDurationInMs = -1;
+
     public int LightsOffDurationInMs
     {
         get { return this.myLightsOffDurationInMs; }
@@ -78,6 +86,7 @@ public class InfobipPushBuilder
     }
 
     private TimeSpan? myQuietTimeStart = null;
+
     public TimeSpan? QuietTimeStart
     {
         get { return this.myQuietTimeStart; }
@@ -85,6 +94,7 @@ public class InfobipPushBuilder
     }
 
     private TimeSpan? myQuietTimeEnd = null;
+
     public TimeSpan? QuietTimeEnd
     {
         get { return this.myQuietTimeEnd; }
@@ -92,6 +102,7 @@ public class InfobipPushBuilder
     }
 
     private bool myQuietTimeEnabled;
+
     public bool QuietTimeEnabled
     {
         get { return this.myQuietTimeEnabled; }
@@ -101,16 +112,18 @@ public class InfobipPushBuilder
     public override string ToString()
     {
         IDictionary<string, int> lightsOnOff = new Dictionary<string, int>();
-        if(LightsOnDurationInMs != -1) lightsOnOff.Add("on", LightsOnDurationInMs);
-        if(LightsOffDurationInMs != -1) lightsOnOff.Add("off", LightsOffDurationInMs);
+        if (LightsOnDurationInMs != -1)
+            lightsOnOff.Add("on", LightsOnDurationInMs);
+        if (LightsOffDurationInMs != -1)
+            lightsOnOff.Add("off", LightsOffDurationInMs);
        
         IDictionary<string, int> quietTime = new Dictionary<string, int>();
-        if(this.QuietTimeStart != null) 
+        if (this.QuietTimeStart != null)
         {
             quietTime.Add("startHour", this.QuietTimeStart.Value.Hours);
             quietTime.Add("startMinute", this.QuietTimeStart.Value.Minutes);
         }
-        if(this.QuietTimeEnd != null)
+        if (this.QuietTimeEnd != null)
         {
             quietTime.Add("endHour", this.QuietTimeEnd.Value.Hours);
             quietTime.Add("endMinute", this.QuietTimeEnd.Value.Minutes);
@@ -118,15 +131,24 @@ public class InfobipPushBuilder
 
         
         IDictionary<string, object> builder = new Dictionary<string, object>(9);
-        if(TickerText != null)      builder ["tickerText"] = TickerText;
-        if(ApplicationName != null) builder ["applicationName"] = ApplicationName;
-        if(Sound != -1)             builder ["sound"] = Sound;
-        if(Vibrate != -1)           builder ["vibration"] = Vibrate;
-        if(Lights != -1)            builder ["light"] = Lights;
-        if(VibrationPattern != null)builder ["vibrationPattern"] = VibrationPattern;
-        if(LightsColor != -1)       builder ["lightsColor"] = LightsColor;
-        if(lightsOnOff.Count > 0)   builder ["lightsOnOffMS"] = lightsOnOff;
-        if(quietTime.Count > 0)     builder ["quietTime"] = quietTime;
+        if (TickerText != null)
+            builder ["tickerText"] = TickerText;
+        if (ApplicationName != null)
+            builder ["applicationName"] = ApplicationName;
+        if (Sound != -1)
+            builder ["sound"] = Sound;
+        if (Vibrate != -1)
+            builder ["vibration"] = Vibrate;
+        if (Lights != -1)
+            builder ["light"] = Lights;
+        if (VibrationPattern != null)
+            builder ["vibrationPattern"] = VibrationPattern;
+        if (LightsColor != -1)
+            builder ["lightsColor"] = LightsColor;
+        if (lightsOnOff.Count > 0)
+            builder ["lightsOnOffMS"] = lightsOnOff;
+        if (quietTime.Count > 0)
+            builder ["quietTime"] = quietTime;
         // TODO add Quiet time enabled (bool)
 
         return MiniJSON.Json.Serialize(builder);
@@ -144,13 +166,8 @@ public class InfobipPushBuilder
         this.LightsOffDurationInMs = off;
     }
 
-
-
-
-    private void setBuilderFromJson(string json)
+    private void InitializeFromJson(string json)
     {
-        ScreenPrinter.Print("setBuilderFromJson: " + json);
-
         IDictionary<string, object> dictBuilder = MiniJSON.Json.Deserialize(json) as Dictionary<string,object>;
         object varObj = null;
 
@@ -178,7 +195,6 @@ public class InfobipPushBuilder
         {
             this.Vibrate = Convert.ToInt32(varObj);
         }
-
 
         if (dictBuilder.TryGetValue("vibrationPattern", out varObj))
         {
@@ -243,7 +259,5 @@ public class InfobipPushBuilder
         {
             this.QuietTimeEnabled = (bool)varObj;
         }
-
-
     }
 }
