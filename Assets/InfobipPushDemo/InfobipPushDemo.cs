@@ -318,7 +318,6 @@ public class InfobipPushDemo : MonoBehaviour
             builder.SetQuietTime(startTime, endTime);
             builder.SetLightsOnOffDurationsMs(2000, 200);
             builder.ApplicationName = "Arfgttt!App";
-
             InfobipPush.SetBuilderData(builder);
         }
 
