@@ -181,14 +181,20 @@ public class InfobipPushInternal : MonoBehaviour
     {
         GetCurrentActivity().Call("overrideDefaultMessageHandling", new object[] {isEnabled});
     } 
-    internal void AddMediaView(InfobipPushNotification notif)
+
+    internal bool IsDefaultMessageHandlingOverriden()
     {
-        GetCurrentActivity().Call("addMediaView", new object[] {notif.MediaData});
+        return GetCurrentActivity().Call<bool>("isDefaultMessageHandlingOverriden", new object[] {});
     }
 
     internal void BeginNotifyNotificationOpened(string notificationId)
     {
         GetCurrentActivity().Call("notifyNotificationOpened", new object[] {notificationId});
+    }
+
+    internal void AddMediaView(InfobipPushNotification notif)
+    {
+        GetCurrentActivity().Call("addMediaView", new object[] {notif.MediaData});
     }
 
     // Builder
