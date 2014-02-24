@@ -270,7 +270,7 @@ public class InfobipPush : MonoBehaviour
         #endif
     }
 
-    public static void RemoveSavedData()
+    public static void RemoveBuilderSavedData()
     {
         #if UNITY_ANDROID
         InfobipPushInternal.Instance.RemoveBuilderSavedData();

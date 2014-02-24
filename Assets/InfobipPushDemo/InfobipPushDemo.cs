@@ -8,7 +8,7 @@ public class InfobipPushDemo : MonoBehaviour
     private const string applicationID = "063bdab564eb";
     private const string applicationSecret = "a5cf819f36e2";
 
-    private const int rowNumber = 14;
+    private const int rowNumber = 15;
     private GUIStyle labelStyle = new GUIStyle();
     private float centerX = Screen.width / 2;
     private float buttonWidth = Screen.width / 4;
@@ -312,13 +312,31 @@ public class InfobipPushDemo : MonoBehaviour
             ScreenPrinter.Print("Push Notification Builder");
             InfobipPushBuilder builder = new InfobipPushBuilder();
             builder.TickerText = "bla AAAAAAA ticker text";
-            ScreenPrinter.Print(builder.ToString());
             TimeSpan startTime = new TimeSpan(12,0,0);
             TimeSpan endTime = new TimeSpan(8,50,0);
             builder.SetQuietTime(startTime, endTime);
             builder.SetLightsOnOffDurationsMs(2000, 200);
             builder.ApplicationName = "Arfgttt!App";
+            builder.VibrationPattern = new int[2] {1000, 100};
+            ScreenPrinter.Print(builder.ToString());
             InfobipPush.SetBuilderData(builder);
+        }
+
+        // Fourteenth row
+        if (GUI.Button(new Rect(buttonSpace, rowY [14], buttonWidth, buttonHeight), "Get Builder Data"))
+        {
+            InfobipPushBuilder builder =  InfobipPush.GetBuilderData();
+            ScreenPrinter.Print("BuilderData is: " + builder.ToString());
+        }
+        if (GUI.Button(new Rect(centerX - buttonWidth / 2.0f, rowY [14], buttonWidth, buttonHeight), "Remove Builder data"))
+        {
+            InfobipPush.RemoveBuilderSavedData();
+            ScreenPrinter.Print("Remove builder saved Data");
+        }
+        if (GUI.Button(new Rect(centerX + buttonWidth / 2.0f + buttonSpace, rowY [14], buttonWidth, buttonHeight), "Set Quiet Time Enabled"))
+        {
+            InfobipPush.SetBuilderQuietTimeEnabled(true);
+            ScreenPrinter.Print("Set Builder Quiet Time Enabled");
         }
 
     }

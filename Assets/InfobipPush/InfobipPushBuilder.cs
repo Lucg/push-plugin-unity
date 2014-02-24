@@ -149,6 +149,8 @@ public class InfobipPushBuilder
 
     private void setBuilderFromJson(string json)
     {
+        ScreenPrinter.Print("setBuilderFromJson: " + json);
+
         IDictionary<string, object> dictBuilder = MiniJSON.Json.Deserialize(json) as Dictionary<string,object>;
         object varObj = null;
 
@@ -180,8 +182,12 @@ public class InfobipPushBuilder
 
         if (dictBuilder.TryGetValue("vibrationPattern", out varObj))
         {
-            List<int> pattern = (List<int>)varObj;
-            this.VibrationPattern = pattern.ToArray();
+            List<int> tempVibArray = new List<int>();
+            List<object> patternList = (List<object>) varObj;
+            foreach (var item in patternList) {
+                tempVibArray.Add(Convert.ToInt32(item));
+            }
+            this.VibrationPattern = tempVibArray.ToArray();
         }
 
         if (dictBuilder.TryGetValue("lightsColor", out varObj))
@@ -191,12 +197,15 @@ public class InfobipPushBuilder
 
         if (dictBuilder.TryGetValue("lightsOnOffMS", out varObj))
         {
-            Dictionary<string, int> lights = (Dictionary<string, int>)varObj;
+            Dictionary<string, object> lights = (Dictionary<string, object>)varObj;
             int on, off;
-            if(lights.TryGetValue("on", out on)) 
+            object onObj, offObj;
+            if(lights.TryGetValue("on", out onObj)) 
             {
-                if(lights.TryGetValue("off", out off)) 
+                on = Convert.ToInt32(onObj);
+                if(lights.TryGetValue("off", out offObj)) 
                 {
+                    off = Convert.ToInt32(offObj);
                     this.SetLightsOnOffDurationsMs(on, off);
                 }
             }
@@ -204,21 +213,26 @@ public class InfobipPushBuilder
 
         if (dictBuilder.TryGetValue("quietTime", out varObj))
         {
-            Dictionary<string, int> quietTime = (Dictionary<string, int>)varObj;
+            Dictionary<string, object> quietTime = (Dictionary<string, object>)varObj;
             int sh, sm, eh, em;
+            object shObj, smObj, ehObj, emObj;
             TimeSpan start = new TimeSpan(); 
             TimeSpan end = new TimeSpan();
-            if(quietTime.TryGetValue("startHour", out sh)) 
+            if(quietTime.TryGetValue("startHour", out shObj)) 
             {
-                if(quietTime.TryGetValue("startMinute", out sm)) 
+                sh = Convert.ToInt32(shObj);
+                if(quietTime.TryGetValue("startMinute", out smObj)) 
                 {
+                    sm = Convert.ToInt32(smObj);
                     start = new TimeSpan(sh, sm, 0);
                 }
             }
-            if(quietTime.TryGetValue("endHour", out eh)) 
+            if(quietTime.TryGetValue("endHour", out ehObj)) 
             {
-                if(quietTime.TryGetValue("endMinute", out em)) 
+                eh = Convert.ToInt32(ehObj);
+                if(quietTime.TryGetValue("endMinute", out emObj)) 
                 {
+                    em = Convert.ToInt32(emObj);
                     end = new TimeSpan(eh, em, 0);
                 }
             }
