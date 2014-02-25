@@ -317,8 +317,12 @@ public class InfobipPushDemo : MonoBehaviour
             builder.SetQuietTime(startTime, endTime);
             builder.SetLightsOnOffDurationsMs(2000, 200);
             builder.ApplicationName = "Arfgttt!App";
-            builder.VibrationPattern = new int[2] {1000, 100};
-            ScreenPrinter.Print(builder.ToString());
+           // builder.SetLayoutId("notification_layout","layout","com.infobip.unity.demo");
+            //builder.SetTextId("text","id","com.infobip.unity.demo");
+           // builder.SetImageId("image");
+          //  builder.SetImageDrawableId("ic_launcher","drawable");
+           // builder.SetTitleId("title");
+            // builder.SetTextId(("image");fileTextName
             InfobipPush.SetBuilderData(builder);
         }
 

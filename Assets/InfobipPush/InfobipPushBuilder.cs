@@ -130,25 +130,24 @@ public class InfobipPushBuilder
         }
 
         
-        IDictionary<string, object> builder = new Dictionary<string, object>(9);
-        if (TickerText != null)
-            builder ["tickerText"] = TickerText;
-        if (ApplicationName != null)
-            builder ["applicationName"] = ApplicationName;
-        if (Sound != -1)
-            builder ["sound"] = Sound;
-        if (Vibrate != -1)
-            builder ["vibration"] = Vibrate;
-        if (Lights != -1)
-            builder ["light"] = Lights;
-        if (VibrationPattern != null)
-            builder ["vibrationPattern"] = VibrationPattern;
-        if (LightsColor != -1)
-            builder ["lightsColor"] = LightsColor;
-        if (lightsOnOff.Count > 0)
-            builder ["lightsOnOffMS"] = lightsOnOff;
-        if (quietTime.Count > 0)
-            builder ["quietTime"] = quietTime;
+        IDictionary<string, object> builder = new Dictionary<string, object>(12);
+        if(TickerText != null)      builder ["tickerText"] = TickerText;
+        if(ApplicationName != null) builder ["applicationName"] = ApplicationName;
+        if(Sound != -1)             builder ["sound"] = Sound;
+        if(Vibrate != -1)           builder ["vibration"] = Vibrate;
+        if(Lights != -1)            builder ["light"] = Lights;
+        if(VibrationPattern != null)builder ["vibrationPattern"] = VibrationPattern;
+        if(LightsColor != -1)       builder ["lightsColor"] = LightsColor;
+        if(lightsOnOff.Count > 0)   builder ["lightsOnOffMS"] = lightsOnOff;
+        if(quietTime.Count > 0)     builder ["quietTime"] = quietTime;
+        if(layoutIdName != null)      builder ["layoutIdName"] = layoutIdName;
+        if(fileLayoutName != null)      builder ["fileLayoutName"] = fileLayoutName;
+        if(packageName != null)      builder ["packageName"] = packageName;
+        if(textIdName != null)      builder ["textIdName"] = textIdName;
+        if(fileTextName != null)      builder ["fileTextName"] = fileTextName;
+        if(imageIdName != null)      builder ["imageIdName"] = imageIdName;
+        if(imageName != null)      builder ["imageName"] = imageName;
+        if(fileName != null)      builder ["fileName"] = fileName;
         // TODO add Quiet time enabled (bool)
 
         return MiniJSON.Json.Serialize(builder);
@@ -166,7 +165,38 @@ public class InfobipPushBuilder
         this.LightsOffDurationInMs = off;
     }
 
-    private void InitializeFromJson(string json)
+    
+    private string layoutIdName;
+    private string fileLayoutName;
+    private string packageName;
+    public void SetLayoutId(string layoutName,string fileLayoutName,string packageName)
+    {
+        this.layoutIdName = layoutName;
+        this.fileLayoutName = fileLayoutName;
+        this.packageName = packageName;
+    } 
+    private string textIdName;
+    private string fileTextName;
+    public void SetTextId(string textIdName,string fileTextName,string packageName)
+    {
+        this.textIdName = textIdName;
+        this.fileTextName = fileTextName;
+        this.packageName = packageName;
+    }
+    
+    private string imageIdName;
+    public void SetImageId(string imageName)
+    {
+        this.imageIdName = imageName;
+    }
+    private string imageName;
+    private string fileName;
+    public void SetImageDrawableId(string imageName, string fileName)
+    {
+        this.imageName = imageName;
+        this.fileName=fileName;
+    }
+    private void setBuilderFromJson(string json)
     {
         IDictionary<string, object> dictBuilder = MiniJSON.Json.Deserialize(json) as Dictionary<string,object>;
         object varObj = null;
