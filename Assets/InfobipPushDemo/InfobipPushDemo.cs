@@ -323,6 +323,12 @@ public class InfobipPushDemo : MonoBehaviour
           //  builder.SetImageDrawableId("ic_launcher","drawable");
            // builder.SetTitleId("title");
             // builder.SetTextId(("image");fileTextName
+            builder.VibrationPattern = new int[2] {1000, 100};
+            builder.LightsColor = Color.red;
+            builder.Lights = 1;
+            builder.Vibrate = 1;
+            builder.Sound = 1;
+            ScreenPrinter.Print(builder.ToString());
             InfobipPush.SetBuilderData(builder);
         }
 

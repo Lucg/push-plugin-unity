@@ -8,9 +8,16 @@ public class InfobipPushBuilder
     {
     }
 
+    private int ConvertToJavaHexColor(Color? clr)
+    {
+        int hex = 0x0;
+        hex |= (byte)(Math.Round(255 * clr.Value.r)) << 4 * 4 | (byte)(Math.Round(255 * clr.Value.g)) << 4 * 2 | (byte)(Math.Round(255 * clr.Value.b));
+        return hex;
+    }
+
     public InfobipPushBuilder(string json)
     {
-        InitializeFromJson(json);
+        this.setBuilderFromJson(json);
     }
    
     private string myTickerText = null;
@@ -61,9 +68,8 @@ public class InfobipPushBuilder
         set { this.myVibrationPattern = value; }
     }
     
-    private int myLightsColor = -1;
-
-    public int LightsColor
+    private Color myLightsColor;
+    public Color LightsColor
     {
         get { return this.myLightsColor; }
         set { this.myLightsColor = value; }
@@ -137,7 +143,7 @@ public class InfobipPushBuilder
         if(Vibrate != -1)           builder ["vibration"] = Vibrate;
         if(Lights != -1)            builder ["light"] = Lights;
         if(VibrationPattern != null)builder ["vibrationPattern"] = VibrationPattern;
-        if(LightsColor != -1)       builder ["lightsColor"] = LightsColor;
+        if(LightsColor != null)     builder ["lightsColor"] = this.ConvertToJavaHexColor(LightsColor);
         if(lightsOnOff.Count > 0)   builder ["lightsOnOffMS"] = lightsOnOff;
         if(quietTime.Count > 0)     builder ["quietTime"] = quietTime;
         if(layoutIdName != null)      builder ["layoutIdName"] = layoutIdName;
@@ -223,7 +229,7 @@ public class InfobipPushBuilder
 
         if (dictBuilder.TryGetValue("light", out varObj))
         {
-            this.Vibrate = Convert.ToInt32(varObj);
+            this.Lights = Convert.ToInt32(varObj);
         }
 
         if (dictBuilder.TryGetValue("vibrationPattern", out varObj))
@@ -238,7 +244,10 @@ public class InfobipPushBuilder
 
         if (dictBuilder.TryGetValue("lightsColor", out varObj))
         {
-            this.Vibrate = Convert.ToInt32(varObj);
+            int color = Convert.ToInt32(varObj);
+            byte[] values = BitConverter.GetBytes(color);
+            if(!BitConverter.IsLittleEndian) Array.Reverse(values);
+            this.LightsColor = new Color(values[0], values[1], values[2]);
         }
 
         if (dictBuilder.TryGetValue("lightsOnOffMS", out varObj))
