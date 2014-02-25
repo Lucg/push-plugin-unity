@@ -151,9 +151,18 @@ public class InfobipPushBuilder
         if(packageName != null)      builder ["packageName"] = packageName;
         if(textIdName != null)      builder ["textIdName"] = textIdName;
         if(fileTextName != null)      builder ["fileTextName"] = fileTextName;
+        if(titleIdName != null)      builder ["titleIdName"] = titleIdName;
+        if(fileTitleName != null)      builder ["fileTitleName"] = fileTitleName;
         if(imageIdName != null)      builder ["imageIdName"] = imageIdName;
         if(imageName != null)      builder ["imageName"] = imageName;
-        if(fileName != null)      builder ["fileName"] = fileName;
+        if(fileImageName != null)      builder ["fileImageName"] = fileImageName;
+        if(fileImageIdName != null)      builder ["fileImageIdName"] = fileImageIdName;
+        if(iconIdName != null)      builder ["iconIdName"] = iconIdName;
+        if(fileIconName != null)      builder ["fileIconName"] = fileIconName;
+        if(soundIdName != null)      builder ["soundIdName"] = soundIdName;
+        if(fileSoundName != null)      builder ["fileSoundName"] = fileSoundName;
+        if(dateIdName != null)      builder ["dateIdName"] = dateIdName;
+        if(fileDateName != null)      builder ["fileDateName"] = fileDateName;
         // TODO add Quiet time enabled (bool)
 
         return MiniJSON.Json.Serialize(builder);
@@ -175,9 +184,9 @@ public class InfobipPushBuilder
     private string layoutIdName;
     private string fileLayoutName;
     private string packageName;
-    public void SetLayoutId(string layoutName,string fileLayoutName,string packageName)
+    public void SetLayoutId(string layoutIdName,string fileLayoutName,string packageName)
     {
-        this.layoutIdName = layoutName;
+        this.layoutIdName = layoutIdName;
         this.fileLayoutName = fileLayoutName;
         this.packageName = packageName;
     } 
@@ -189,18 +198,53 @@ public class InfobipPushBuilder
         this.fileTextName = fileTextName;
         this.packageName = packageName;
     }
-    
-    private string imageIdName;
-    public void SetImageId(string imageName)
+    private string dateIdName;
+    private string fileDateName;
+    public void SetDateId(string dateIdName,string fileDateName,string packageName)
     {
-        this.imageIdName = imageName;
+        this.dateIdName = dateIdName;
+        this.fileDateName = fileDateName;
+        this.packageName = packageName;
+    }
+    private string titleIdName;
+    private string fileTitleName;
+    public void SetTitleId(string titleIdName,string fileTitleName,string packageName)
+    {
+        this.titleIdName = titleIdName;
+        this.fileTitleName = fileTitleName;
+        this.packageName = packageName;
+    }
+    private string imageIdName;
+    private string fileImageIdName;
+    public void SetImageId(string imageIdName, string fileImageIdName, string packageName)
+    {
+        this.imageIdName = imageIdName;
+        this.fileImageIdName = fileImageIdName;
+        this.packageName = packageName;
     }
     private string imageName;
-    private string fileName;
-    public void SetImageDrawableId(string imageName, string fileName)
+    private string fileImageName;
+    public void SetImageDrawableId(string imageName, string fileImageName, string packageName)
     {
         this.imageName = imageName;
-        this.fileName=fileName;
+        this.fileImageName=fileImageName;
+        this.packageName = packageName;
+    }
+    private string iconIdName;
+    private string fileIconName;
+    public void SetIconDrawableId(string iconIdName, string fileIconName, string packageName)
+    {
+        this.iconIdName = iconIdName;
+        this.fileIconName=fileIconName;
+        this.packageName = packageName;
+    }
+    private string soundIdName;
+    private string fileSoundName;
+    public void SetSoundResourceId(string soundIdName, string fileSoundName, string packageName)
+    {
+        this.soundIdName = soundIdName;
+        this.fileSoundName=fileSoundName;
+        this.packageName = packageName;
     }
     private void setBuilderFromJson(string json)
     {

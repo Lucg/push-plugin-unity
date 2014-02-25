@@ -317,6 +317,14 @@ public class InfobipPushDemo : MonoBehaviour
             builder.SetQuietTime(startTime, endTime);
             builder.SetLightsOnOffDurationsMs(2000, 200);
             builder.ApplicationName = "Arfgttt!App";
+            builder.SetLayoutId("notification_layout","layout","com.infobip.unity.demo");
+            builder.SetTextId("textDoista","id","com.infobip.unity.demo");
+            builder.SetImageId("image", "id","com.infobip.unity.demo");
+            builder.SetImageDrawableId("ic_launcher","drawable","com.infobip.unity.demo");
+            builder.SetTitleId("title", "id","com.infobip.unity.demo");
+            builder.SetDateId("date", "id", "com.infobip.unity.demo");
+            builder.SetIconDrawableId("ic_launcher","drawable","com.infobip.unity.demo");
+            builder.SetSoundResourceId("push_sound","raw","com.infobip.unity.demo");
            // builder.SetLayoutId("notification_layout","layout","com.infobip.unity.demo");
             //builder.SetTextId("text","id","com.infobip.unity.demo");
            // builder.SetImageId("image");

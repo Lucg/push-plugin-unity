@@ -41,19 +41,31 @@
             android:layout_marginRight="10dp"
             android:ellipsize="marquee"
             android:singleLine="true"
-            android:text="text" />
+            android:text="PREFIX" />
             
             <TextView
-            android:id="@+id/text1"
+            android:id="@+id/textDoista"
             style="@style/NotificationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/title"
+            android:layout_toRightOf="@+id/text"
             android:layout_below="@+id/title"
             android:layout_marginRight="10dp"
             android:ellipsize="marquee"
             android:singleLine="true"
             android:text="text1" />
+            
+            <TextView
+            android:id="@+id/textOdista"
+            style="@style/NotificationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/textDoista"
+            android:layout_below="@+id/title"
+            android:layout_marginRight="10dp"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:text="POSTFIX" />
 
         <TextView
             android:id="@+id/date"
