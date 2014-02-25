@@ -94,11 +94,9 @@ public class InfobipPushInternal : MonoBehaviour
     public void IBGetUnreceivedNotifications_SUCCESS(string notificationsList)
     {   
         var list = MiniJSON.Json.DeserializeArrayNoRecursion(notificationsList);
-        ScreenPrinter.Print("unreceived LIST: " + notificationsList);
         foreach (var notifJson in list)
         {
             string notifJsonString = (notifJson as String);
-            ScreenPrinter.Print("unreceived: " + notifJsonString);
             InfobipPushNotification notification = new InfobipPushNotification(notifJson as String);
             InfobipPush.OnUnreceivedNotificationReceived(notification);
         }
