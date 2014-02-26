@@ -311,12 +311,12 @@ public class InfobipPushDemo : MonoBehaviour
         {
             ScreenPrinter.Print("Push Notification Builder");
             InfobipPushBuilder builder = new InfobipPushBuilder();
-            builder.TickerText = "bla AAAAAAA ticker text";
+            builder.TickerText = "New ticker text";
             TimeSpan startTime = new TimeSpan(12,0,0);
             TimeSpan endTime = new TimeSpan(8,50,0);
             builder.SetQuietTime(startTime, endTime);
             builder.SetLightsOnOffDurationsMs(2000, 200);
-            builder.ApplicationName = "Arfgttt!App";
+            builder.ApplicationName = "New application name";
             builder.SetLayoutId("notification_layout","layout","com.infobip.unity.demo");
             builder.SetTextId("textDoista","id","com.infobip.unity.demo");
             builder.SetImageId("image", "id","com.infobip.unity.demo");
@@ -330,7 +330,7 @@ public class InfobipPushDemo : MonoBehaviour
             builder.Lights = 1;
             builder.Vibrate = 1;
             builder.Sound = 1;
-            ScreenPrinter.Print(builder.ToString());
+           // ScreenPrinter.Print(builder.ToString());
             InfobipPush.SetBuilderData(builder);
         }
 
