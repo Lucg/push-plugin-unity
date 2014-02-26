@@ -133,6 +133,7 @@ public class InfobipPush : MonoBehaviour
             #elif UNITY_ANDROID
             return InfobipPushInternal.Instance.GetLogModeEnabled();
             #endif
+            return false;
         }
         set
         {
@@ -238,6 +239,7 @@ public class InfobipPush : MonoBehaviour
         #elif UNITY_ANDROID
         return InfobipPushInternal.Instance.IsRegistered();
         #endif
+        return false;
     }
 
     public static string DeviceId
@@ -252,6 +254,7 @@ public class InfobipPush : MonoBehaviour
             #elif UNITY_ANDROID
             return InfobipPushInternal.Instance.GetDeviceId();
             #endif
+            return null;
         }
            
     }
@@ -268,6 +271,7 @@ public class InfobipPush : MonoBehaviour
         #if UNITY_ANDROID
         return InfobipPushInternal.Instance.GetBuilderData();
         #endif
+        return null;
     }
 
     public static void RemoveBuilderSavedData()
@@ -288,6 +292,7 @@ public class InfobipPush : MonoBehaviour
         #if UNITY_ANDROID
         return InfobipPushInternal.Instance.IsBuilderInQuietTime();
         #endif
+        return false;
     }
 
 
@@ -311,6 +316,7 @@ public class InfobipPush : MonoBehaviour
             #elif UNITY_ANDROID
             return InfobipPushInternal.Instance.GetUserId();
             #endif
+            return null;
         }
         set
         {
