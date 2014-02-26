@@ -325,12 +325,6 @@ public class InfobipPushDemo : MonoBehaviour
             builder.SetDateId("date", "id", "com.infobip.unity.demo");
             builder.SetIconDrawableId("ic_launcher","drawable","com.infobip.unity.demo");
             builder.SetSoundResourceId("push_sound","raw","com.infobip.unity.demo");
-           // builder.SetLayoutId("notification_layout","layout","com.infobip.unity.demo");
-            //builder.SetTextId("text","id","com.infobip.unity.demo");
-           // builder.SetImageId("image");
-          //  builder.SetImageDrawableId("ic_launcher","drawable");
-           // builder.SetTitleId("title");
-            // builder.SetTextId(("image");fileTextName
             builder.VibrationPattern = new int[2] {1000, 100};
             builder.LightsColor = Color.red;
             builder.Lights = 1;
