@@ -7,8 +7,9 @@ public class InfobipPushDemo : MonoBehaviour
 {   
     private const string applicationID = "063bdab564eb";
     private const string applicationSecret = "a5cf819f36e2";
-
-    private const int rowNumber = 15;
+    InfobipPushMediaViewCustomization customiz=null;
+        
+        private const int rowNumber = 15;
     private GUIStyle labelStyle = new GUIStyle();
     private float centerX = Screen.width / 2;
     private float buttonWidth = Screen.width / 4;
@@ -48,18 +49,13 @@ public class InfobipPushDemo : MonoBehaviour
                 ScreenPrinter.Print("IBPush - Default message handling overriden, notifying notif opened w/ id: " + notif.NotificationId);
                 InfobipPush.NotifyNotificationOpened(notif.NotificationId);
             }
-        };
-
-        InfobipPush.OnNotificationOpened = (notif) => {
-            ScreenPrinter.Print("Notif OPENED: " + notif.Message);
+            #if UNITY_IPHONE
             bool isMediaNotification = notif.isMediaNotification();
             ScreenPrinter.Print("IBPush - Is Media notification: " + isMediaNotification);
-
             if (isMediaNotification)
             {
-                string mediaContent = notif.MediaData;
                 ScreenPrinter.Print("IBPush -  Media content: " + mediaContent);
-                InfobipPushMediaViewCustomization customiz = new InfobipPushMediaViewCustomization 
+                customiz = new InfobipPushMediaViewCustomization 
                 {
                     X = 20,
                     Y = 20,
@@ -71,11 +67,20 @@ public class InfobipPushDemo : MonoBehaviour
                     ForegroundColor = new Color(1.0f, 0, 0, 1.0f),
                     BackgroundColor = new Color(0, 1.0f, 0, 1.0f)
                 };
-                #if UNITY_ANDROID
-                customiz = null;
-                #endif
                 InfobipPush.AddMediaView(notif, customiz);
             }
+               #endif
+        };
+
+        InfobipPush.OnNotificationOpened = (notif) => {
+            ScreenPrinter.Print("Notif OPENED: " + notif.Message);
+            bool isMediaNotification = notif.isMediaNotification();
+            ScreenPrinter.Print("IBPush - Is Media notification: " + isMediaNotification);
+            #if UNITY_ANDROID
+            if (isMediaNotification){
+                 InfobipPush.AddMediaView(notif, customiz);
+            }
+            #endif
             ScreenPrinter.Print("Notify notification opened, with id: " + notif.NotificationId);
         };
 
@@ -280,7 +285,7 @@ public class InfobipPushDemo : MonoBehaviour
         {
             InfobipPush.SetTimezoneOffsetInMinutes(5);
         }
-
+        #if UNITY_ANDROID
         // Twelfth row
         if (GUI.Button(new Rect(buttonSpace, rowY [12], buttonWidth, buttonHeight), "Enable Custom Location"))
         {
@@ -350,6 +355,7 @@ public class InfobipPushDemo : MonoBehaviour
             InfobipPush.SetBuilderQuietTimeEnabled(true);
             ScreenPrinter.Print("Set Builder Quiet Time Enabled");
         }
+        #endif
 
     }
 }

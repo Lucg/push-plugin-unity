@@ -54,6 +54,7 @@ public class InfobipPushInternal : MonoBehaviour
     public void IBPushDidOpenRemoteNotification(string notification)
     {
         InfobipPush.OnNotificationOpened(new InfobipPushNotification(notification));
+
     }
 
     public void IBPushDidRegisterForRemoteNotificationsWithDeviceToken()
