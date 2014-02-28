@@ -38,11 +38,11 @@ Advanced Usage
 
 On `android` debug mode is disabled by default. Enable it by setting boolean value to true with `InfobipPush.LogMode` property, preferably at the beginning of the application, like this:
 
-	InfobipPush.LogMode=true;
+	InfobipPush.LogMode = true;
 	
 If you want to disable log mode set this property to false, like this:
 
-	InfobipPush.LogMode=false;
+	InfobipPush.LogMode = false;
 	
 Once you enable the debug mode, you will see all the logging performed by the library in your LogCat. You can filter it by "Push library" tag.
 
@@ -67,7 +67,7 @@ To find out if the log is enabled or disabled only on `iOS`, method `IsLogModeEn
 
 #### Is Registered
 
-To retrieve the information if user is registered to Infobip Push or not, use the following method call which returns bool value `true` if the user is registered to Infobip Push, otherwise the bool value `false` is returned:
+To retrieve the information if user is registered to Infobip Push or not, use the following method call which returns boolean value `true` if the user is registered to Infobip Push, otherwise the boolean value `false` is returned:
 
 	InfobipPush.IsRegistered();	
 
@@ -104,7 +104,7 @@ If user ID is not set, an UUID is created and set as user ID. If you want to set
 
 	InfobipPush.UserId = "userId";
  	
-If setting of userId was successful operation, `InfobipPush.OnUserDataSaved` will be called, which you can implement:	
+Only on `iOS` if setting of userId was successful operation, `InfobipPush.OnUserDataSaved` will be called, which you can implement:	
 
 	 InfobipPush.OnUserDataSave = () => {
             ScreenPrinter.Print(("IBPush - User data saved"));
@@ -147,8 +147,8 @@ If you manually set timezone offset then the default automatic timezone offset u
 #### Get registered channels
 
 ###Notification handling
-#### Builder(only Android)
-#### Customize notification display in the notification drawer(only Android)
+#### Builder (only Android)
+#### Customize notification display in the notification drawer (only Android)
 #### Badge Number (IOS only)
 
 iOS will automatically set the application badge to the badge number received in the push notification. Your responsibility is to handle the badge number within the app according to unread notifications count. Use this code anywhere in the app to set the badge number:
@@ -176,7 +176,7 @@ To check if Infobip's Push location service is enabled use the following method:
 	
 By default, location updates are disabled.
 
-#### Enable/Disable Background Location(IOS only)
+#### Enable/Disable Background Location (IOS only)
 
 On IOS `InfobipPushLocation.EnableLocation()`method will start location updates only when the application is active. Background location updates are disabled by default. To enable background location updates also, use the following property: 
 	
@@ -216,7 +216,7 @@ To share location to our services you can use the following code:
             LocationInfo location = locationService.lastData;
             InfobipPushLocation.ShareLocation(location);
 
-On `IOS` if you want to check if the request was successful or not use the following code:
+On `iOS` if you want to check if the request was successful or not use the following code:
 
 		InfobipPush.OnRegistered = () => {
             ScreenPrinter.Print(("IBPush - Successfully registered!"));
@@ -256,7 +256,7 @@ To stop all active live geo regions you need to call method `InfobipPushLocation
 
 	int regions = InfobipPushLocation.StopLiveGeoMonitoringForAllRegions();
 	
-Only on `IOS` you can use live geo accuracy live geo monitoring accuracy is set to hundred meters (contant kCLLocationAccuracyHundredMeters) by default. You can change the accuracy by calling method `InfobipPushLocation.IBSetLiveGeoAccuracy(accuracy)` and check the current live geo accuracy by calling `InfobipPushLocation.IBLiveGeoAccuracy()`. Be careful when setting accuracy because of Apple restrictions according location accuracy and usage in mobile applications.
+Only on `iOS` you can use live geo accuracy live geo monitoring accuracy is set to hundred meters (contant kCLLocationAccuracyHundredMeters) by default. You can change the accuracy by calling method `InfobipPushLocation.IBSetLiveGeoAccuracy(accuracy)` and check the current live geo accuracy by calling `InfobipPushLocation.IBLiveGeoAccuracy()`. Be careful when setting accuracy because of Apple restrictions according location accuracy and usage in mobile applications.
 
 Set the live geo location accuracy to be the best one with method:
 
@@ -290,7 +290,7 @@ Example of usage:
 
 Using Infobip Media View is optional which means that at any time you can create your own Media View where you will show the media content from the media push notification. 
 
-For `IOS` Infobip Media View offers basic functionality of showing media content inside rounded view with the default shadow around it. View also has a dismiss button through which the user can dismiss the Media View. Any of these fields can be changed according to your application needs, so for instance you can change dismiss button; enable or disable the default shadow or even change corner radius size of the view.
+For `iOS` Infobip Media View offers basic functionality of showing media content inside rounded view with the default shadow around it. View also has a dismiss button through which the user can dismiss the Media View. Any of these fields can be changed according to your application needs, so for instance you can change dismiss button; enable or disable the default shadow or even change corner radius size of the view.
 
 
 To use Infobip Media View call function below:
@@ -343,7 +343,7 @@ Example of usage:
                 InfobipPush.AddMediaView(notif, customiz);
             }
         };
-On `Android` our plug in start new MediaActivity which displays your media content using the same method as iOS:
+On `android` our plug in start new MediaActivity which displays your media content using the same method as iOS:
 
 	InfobipPush.AddMediaView(notification, customization);
 	
@@ -362,6 +362,394 @@ Example of usage:
             }
  
         };
+        
+Error Codes
+-----------
+### Android error codes	 
+		 	 
+<table><tr>
+    <th>
+        Reason
+    </th>
+    <th>
+        Performed operation
+    </th>
+    <th>
+        Description
+    </th>
+    <th>
+        Value
+    </th>
+</tr>
+<tbody>
+<tr>
+    <td>
+        OPERATION_FAILED
+    </td>
+    <td>
+        <code>register</code>
+        <code>unregister</code>
+        <code>registerToChannels</code>
+        <code>getRegisteredChannels</code>
+        <code>notifyNotificationOpened</code>
+        <code>getUnreceivedNotifications</code>
+        <code>saveNewUserId</code>
+    </td>
+    <td>
+        Performed operation failed.
+    </td>
+    <td>
+        12
+    </td>
+</tr>
+<tr>
+    <td>
+        INTERNET_NOT_AVAILABLE
+    </td>
+    <td>
+        <code>register</code>
+        <code>unregister</code>
+        <code>registerToChannels</code>
+        <code>getRegisteredChannels</code>
+        <code>notifyNotificationOpened</code>
+        <code>getUnreceivedNotifications</code>
+        <code>saveNewUserId</code>
+    </td>
+    <td>
+        Internet access is unavailable.
+    </td>
+    <td>
+        1
+    </td>
+</tr>
+<tr>
+    <td>
+        PUSH_SERVICE_NOT_AVAILABLE
+    </td>
+    <td>
+        <code>register</code>
+        <code>unregister</code>
+        <code>registerToChannels</code>
+        <code>getRegisteredChannels</code>
+        <code>notifyNotificationOpened</code>
+        <code>getUnreceivedNotifications</code>
+        <code>saveNewUserId</code>
+    </td>
+    <td>
+        Infobip Push service is currently unavailable.
+    </td>
+    <td>
+        2
+    </td>
+</tr>
+<tr>
+    <td>
+        USER_NOT_REGISTERED
+    </td>
+    <td>
+        <code>unregister</code>
+        <code>registerToChannels</code>
+        <code>getRegisteredChannels</code>
+        <code>notifyNotificationOpened</code>
+        <code>getUnreceivedNotifications</code>
+        <code>saveNewUserId</code>
+    </td>
+    <td>
+        User is not registered for receiving push notifications.
+    </td>
+    <td>
+        4
+    </td>
+</tr>
+<tr>
+    <td>
+        GCM_ACCOUNT_MISSING
+    </td>
+    <td>
+        <code>register</code>
+    </td>
+    <td>
+        Google account is missing on the phone.
+    </td>
+    <td>
+        8
+    </td>
+</tr>
+<tr>
+    <td>
+        GCM_AUTHENTICATION_FAILED
+    </td>
+    <td>
+        <code>register</code>
+    </td>
+    <td>
+        Authentication failed – your user's Google account password is invalid.
+    </td>
+    <td>
+        16
+    </td>
+</tr>
+<tr>
+    <td>
+        GCM_INVALID_SENDER
+    </td>
+    <td>
+        <code>register</code>
+    </td>
+    <td>
+        Invalid GCM sender ID.
+    </td>
+    <td>
+        32
+    </td>
+</tr>
+<tr>
+    <td>
+        GCM_PHONE_REGISTRATION_ERROR
+    </td>
+    <td>
+        <code>register</code>
+    </td>
+    <td>
+        Phone registration error occurred.
+    </td>
+    <td>
+        64
+    </td>
+</tr>
+<tr>
+    <td>
+        GCM_INVALID_PARAMETERS
+    </td>
+    <td>
+        <code>register</code>
+    </td>
+    <td>
+        Invalid parameters are sent.
+    </td>
+    <td>
+        128
+    </td>
+</tr>
+<tr>
+    <td>
+        GCM_SERVICE_NOT_AVAILABLE
+    </td>
+    <td>
+        <code>register</code>
+    </td>
+    <td>
+        GCM service is unavailable.
+    </td>
+    <td>
+        256
+    </td>
+</tr>
+<tr>
+    <td>
+        LIBRARY_NOT_INITIALIZED
+    </td>
+    <td>
+        <code>register</code>
+        <code>unregister</code>
+        <code>registerToChannels</code>
+        <code>getRegisteredChannels</code>
+        <code>notifyNotificationOpened</code>
+        <code>getUnreceivedNotifications</code>
+        <code>saveNewUserId</code>
+    </td>
+    <td>
+        Library is not initialized.
+    </td>
+    <td>
+        512
+    </td>
+</tr>
+<tr>
+    <td>
+        USER_ALREADY_REGISTERED
+    </td>
+    <td>
+        <code>register</code>
+    </td>
+    <td>
+        User is already registered.
+    </td>
+    <td>
+        1024
+    </td>
+</tr>
+</tbody>
+</table>
+
+### IOS error codes
+
+<table><tr>
+    <th>
+        Reason
+    </th>
+    <th>
+        Description
+    </th>
+    <th>
+        Value
+    </th>
+</tr>
+<tbody>
+<tr>
+    <td>
+       IPPushNetworkError         
+    </td>
+ 
+    <td>
+        An error when something is wrong with network, either no network or server error.
+    </td>
+    <td>
+        0
+    </td>
+</tr>
+<tr>
+    <td>
+        IPPushNoMessageIDError 
+    </td>
+ 
+    <td>
+        An error when there's no messageID in push notification and library can't execute an operation without it.
+
+
+    </td>
+    <td>
+        1
+    </td>
+</tr>
+<tr>
+    <td>
+        IPPushJSONError
+    </td>
+        <td>
+        An error with JSON encoding/decoding.
+    </td>
+    <td>
+        2
+    </td>
+</tr>
+<tr>
+    <td>
+        IPPushNoLocationError 
+    </td>
+       <td>
+        An error when library can't get user location.
+    </td>
+    <td>
+        3
+    </td>
+</tr>
+<tr>
+    <td>
+        IPPushLocationServiceDisabledError
+    </td>
+ 
+    <td>
+        An error when location services are disabled.
+    </td>
+    <td>
+        4
+    </td>
+</tr>
+<tr>
+    <td>
+        IPPushNoDeviceTokenError
+    </td>
+        <td>
+        An error when there's no device token and library can't execute an operation without it.
+    </td>
+    <td>
+        5
+    </td>
+</tr>
+<tr>
+    <td>
+       IPPushNotificationChannelsArrayEmptyError 
+    </td>
+       <td>
+        An error when channels array is empty.
+       </td>
+    <td>
+        6
+    </td>
+</tr>
+<tr>
+    <td>
+        IPPushSilentNotification 
+    </td>
+        <td>
+        An silent notification was used.    
+        </td>
+    <td>
+        7
+    </td>
+</tr>
+<tr>
+    <td>
+ 		IPPushUserNotRegisteredError       
+     </td>
+        <td>
+        An error when user is not registered to Infobip Push.
+
+    </td>
+    <td>
+        8
+    </td>
+</tr>
+<tr>
+    <td>
+      
+        IPPushUserIDNotDefinedError 
+    </td>
+    <td>
+        An error when userID is not defined.
+    </td>
+    <td>
+        9
+    </td>
+</tr>
+<tr>
+    <td>
+        IPPushDeviceTokenNotDefinedError
+    </td>
+       <td>
+        An error when device token from APNS is not defined.
+    </td>
+    <td>
+        10
+    </td>
+</tr>
+<tr>
+    <td>
+        IPPushChannelsNotDefinedError
+    </td>
+        <td>
+        An error when channels are not defined.
+    </td>
+    <td>
+        11
+    </td>
+</tr>
+<tr>
+    <td>
+        IPPushChannelNameEmptyError 
+    </td>
+        <td>
+    	An error when channel name is empty string.
+    </td>
+    <td>
+        12
+    </td>
+</tr>
+
+</tbody>
+</table>
+
             
 Owners
 -----------
