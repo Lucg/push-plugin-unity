@@ -165,7 +165,16 @@ public class InfobipPush : MonoBehaviour
             InfobipPushInternal.Instance.SetLogModeEnabled(isEnabled);
         #endif
     }
-
+    public static bool IsLogModeEnabled()
+    {
+        #if UNITY_IPHONE
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            return IBIsLogModeEnabled();
+        }
+        #endif
+        return false;
+    }
     static IEnumerator SetTimezoneOffsetInMinutes_C(int offsetMinutes)
     {
         IBSetTimezoneOffsetInMinutes(offsetMinutes);

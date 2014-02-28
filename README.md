@@ -15,6 +15,8 @@ Requirements
 	* Set minimal required Android SDK version to 9 at least (if you have other plugins set it, else it is already set to 9 in AndroidManifest.xml).
 * `iOS™`
 	* Tested on iOS 6 and 7.
+	
+	//TODO: Set requirements for Ruby
 
 Basic Usage
 -----------
@@ -32,8 +34,36 @@ Value of project number should be preceeded with a single letter, ie. `android:v
 
 Advanced Usage
 --------------
-### Debug Mode
-### Registration
+### Debugging
+
+On `android` debug mode is disabled by default. Enable it by setting boolean value to true with `InfobipPush.LogMode` property, preferably at the beginning of the application, like this:
+
+	InfobipPush.LogMode=true;
+	
+If you want to disable log mode set this property to false, like this:
+
+	InfobipPush.LogMode=false;
+	
+Once you enable the debug mode, you will see all the logging performed by the library in your LogCat. You can filter it by "Push library" tag.
+
+For `iOS` log output is available in our plug in and it is disabled by default. Log can be enabled or disabled using the same property as for android `InfobipPush.LogMode`.
+
+With the above method log will be enabled with the log level INFO, so there will be visible logs for Info, Warn and Error messages. You can set whatever log level you want with the method: 
+
+	InfobipPush.SetLogModeEnabled(bool isEnabled, int logLevel);
+	
+`isEnabled` set to true if you want to enable debug mode or to false if you want to disable it,
+`logLevel` is integer that can take on values form 0 to 3(0 is for all level, 1 for Info level, 2 for Warn and 3 for Error level). This works only on `iOS`.
+
+To find out if the log is enabled or disabled only on `iOS`, method `IsLogModeEnabled` can be used:
+
+	if(InfobipPush.IsLogModeEnabled()) {
+    // Log output is enabled
+	} else {
+    // Log output in not enabled
+	}
+
+### Registering/Unregistering from Infobip push
 
 #### Is Registered
 
@@ -58,7 +88,17 @@ If you want to check if the response was successful or not, use the following co
             ScreenPrinter.Print(("IBPush - ERROR: " + errorCode));
         };
         
-### User Id
+        
+ 
+### User management
+
+There are two ways of providing user related data to the Infobip Push service:
+
+1. When registering for push, you can provide a user ID and the channel list in `RegistrationData` for distinguishing your users. Timezone offset and device ID will also be transmitted to Infobip Push. After unregistration, user related data you provided are deleted from the library.
+2. When your user is already registered for push, you can change his data from your code at any time.
+
+
+#### User Id
 
 If user ID is not set, an UUID is created and set as user ID. If you want to set a custom user ID, use the property  `UserId` from `InfobipPush`:
 
@@ -81,7 +121,7 @@ In order to get userId use the following code:
 	string userId = InfobipPush.UserId;
 
  	
-### Device Id
+#### Device Id
 
 Device Id is unique device identifier in the Infobip Push system, for one application it will be generated only once. It can be used to send push notifications to a specific user.
 
@@ -89,13 +129,8 @@ To get it, use the following property:
  
 	string deviceId = InfobipPush.DeviceId;
 
-### Badge Number (IOS only)
-
-iOS will automatically set the application badge to the badge number received in the push notification. Your responsibility is to handle the badge number within the app according to unread notifications count. Use this code anywhere in the app to set the badge number:
-   
-    InfobipPush.SetBadgeNumber(int number);
     
-### Timezone offset
+#### Timezone offset
 
 Automatic timezone offset updates are enabled by default. The value of the timezone offset is the time difference in minutes between GMT and user's current location. Information on timezone offset for each user can be useful when sending a scheduled notification for which you want each user to receive it in the specific time according to the timezone they are in.
 
@@ -106,7 +141,20 @@ You can manually set timezone offset in minutes using following method:
 If you manually set timezone offset then the default automatic timezone offset updates will be disabled. Also if you enable automatic timezone offset updates again, then the manually timezone offset value will be overridden by automatic updates. To enable automatic timezone offset updates you should use method:
 
     InfobipPush.SetTimezoneOffsetAutomaticUpdateEnabled(true);
+    
+###Channels
+#### Subscribe to channels
+#### Get registered channels
 
+###Notification handling
+#### Builder(only Android)
+#### Customize notification display in the notification drawer(only Android)
+#### Badge Number (IOS only)
+
+iOS will automatically set the application badge to the badge number received in the push notification. Your responsibility is to handle the badge number within the app according to unread notifications count. Use this code anywhere in the app to set the badge number:
+   
+    InfobipPush.SetBadgeNumber(int number);
+    
 ### Location
 
 In our Unity Infobip Push Notification Plugin  we use our own location service that acquires your user's latest location and periodically sends it to the Infobip Push service in the background. By using this service, your location can be retrieved with all the location providers: GPS, NETWORK or PASSIVE provider and you can sent push notifications to users in specific locations.
@@ -208,7 +256,7 @@ To stop all active live geo regions you need to call method `InfobipPushLocation
 
 	int regions = InfobipPushLocation.StopLiveGeoMonitoringForAllRegions();
 	
-Live geo monitoring accuracy is set to hundred meters (contant kCLLocationAccuracyHundredMeters) by default. You can change the accuracy by calling method `InfobipPushLocation.IBSetLiveGeoAccuracy(accuracy)` and check the current live geo accuracy by calling `InfobipPushLocation.IBLiveGeoAccuracy()`. Be careful when setting accuracy because of Apple restrictions according location accuracy and usage in mobile applications.
+Only on `IOS` you can use live geo accuracy live geo monitoring accuracy is set to hundred meters (contant kCLLocationAccuracyHundredMeters) by default. You can change the accuracy by calling method `InfobipPushLocation.IBSetLiveGeoAccuracy(accuracy)` and check the current live geo accuracy by calling `InfobipPushLocation.IBLiveGeoAccuracy()`. Be careful when setting accuracy because of Apple restrictions according location accuracy and usage in mobile applications.
 
 Set the live geo location accuracy to be the best one with method:
 
@@ -242,7 +290,7 @@ Example of usage:
 
 Using Infobip Media View is optional which means that at any time you can create your own Media View where you will show the media content from the media push notification. 
 
-Infobip Media View offers basic functionality of showing media content inside rounded view with the default shadow around it. View also has a dismiss button through which the user can dismiss the Media View. Any of these fields can be changed according to your application needs, so for instance you can change dismiss button; enable or disable the default shadow or even change corner radius size of the view.
+For `IOS` Infobip Media View offers basic functionality of showing media content inside rounded view with the default shadow around it. View also has a dismiss button through which the user can dismiss the Media View. Any of these fields can be changed according to your application needs, so for instance you can change dismiss button; enable or disable the default shadow or even change corner radius size of the view.
 
 
 To use Infobip Media View call function below:
@@ -295,9 +343,26 @@ Example of usage:
                 InfobipPush.AddMediaView(notif, customiz);
             }
         };
+On `Android` our plug in start new MediaActivity which displays your media content using the same method as iOS:
+
+	InfobipPush.AddMediaView(notification, customization);
+	
+where the `notification` is media notification received from Infobip Push server and the `customization` is set to null:
+	
+	InfobipPushMediaViewCustomization customiz=null;
+
+Example of usage:
+	
+	InfobipPush.OnNotificationOpened = (notif) => {
+            bool isMediaNotification = notif.isMediaNotification();
+            ScreenPrinter.Print("IBPush - Is Media notification: " + 	isMediaNotification);
+            if (isMediaNotification){
+            InfobipPushMediaViewCustomization customiz=null;
+                 InfobipPush.AddMediaView(notif, customiz);
+            }
+ 
+        };
             
-
-
 Owners
 -----------
 Framework Integration Team @ Belgrade, Serbia
