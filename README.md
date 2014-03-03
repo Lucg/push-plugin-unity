@@ -15,8 +15,7 @@ Requirements
 	* Set minimal required Android SDK version to 9 at least (if you have other plugins set it, else it is already set to 9 in AndroidManifest.xml).
 * `iOS™`
 	* Tested on iOS 6 and 7.
-	
-	//TODO: Set requirements for Ruby
+	* For running PostprocessBuildPlayer (after-build script) you should have Ruby installed, and it's packages: 'rubygems', 'pathname', 'xcoder', 'rexml'. This script is used to automatize adding remote-notifications feature to your .plist file and for including additional frameworks needed by our plugin.
 
 Basic Usage
 -----------
@@ -36,7 +35,7 @@ Advanced Usage
 --------------
 ### Debugging
 
-On `android` debug mode is disabled by default. Enable it by setting boolean value to true with `InfobipPush.LogMode` property, preferably at the beginning of the application, like this:
+Debug mode on both `Android` and `iOS` is disabled by default. Enable it by setting boolean value to true with `InfobipPush.LogMode` property, preferably at the beginning of the application, like this:
 
 	InfobipPush.LogMode = true;
 	
@@ -46,21 +45,21 @@ If you want to disable log mode set this property to false, like this:
 	
 Once you enable the debug mode, you will see all the logging performed by the library in your LogCat. You can filter it by "Push library" tag.
 
-For `iOS` log output is available in our plug in and it is disabled by default. Log can be enabled or disabled using the same property as for android `InfobipPush.LogMode`.
+For `iOS` log output is available in our plugin and it is disabled by default. Log can be enabled or disabled using the same property as for android - `InfobipPush.LogMode`.
 
-With the above method log will be enabled with the log level INFO, so there will be visible logs for Info, Warn and Error messages. You can set whatever log level you want with the method: 
+With the above method, logging will be enabled with the log level INFO, so there will be visible logs for Info, Warn and Error messages. You can set whatever log level you want with the method: 
 
 	InfobipPush.SetLogModeEnabled(bool isEnabled, int logLevel);
 	
-`isEnabled` set to true if you want to enable debug mode or to false if you want to disable it,
-`logLevel` is integer that can take on values form 0 to 3(0 is for all level, 1 for Info level, 2 for Warn and 3 for Error level). This works only on `iOS`.
+Parameter `isEnabled` should be set to true if you want to enable debug mode, or to false if you want to disable it.
+Parameter `logLevel` is an integer that can take values from 0 to 3 (0 is for all levels, 1 for Info level, 2 for Warn and 3 for Error level). This works only on `iOS`.
 
-To find out if the log is enabled or disabled only on `iOS`, method `IsLogModeEnabled` can be used:
+To find out if the log is enabled or disabled (only on `iOS`), you can read `InfobipPush.LogMode` property or call `InfobipPush.IsLogModeEnabled` method like this:
 
-	if(InfobipPush.IsLogModeEnabled()) {
-    // Log output is enabled
+	if (InfobipPush.IsLogModeEnabled()) {
+    	// Log output is enabled
 	} else {
-    // Log output in not enabled
+    	// Log output in not enabled
 	}
 
 ### Registering/Unregistering from Infobip push
@@ -78,7 +77,7 @@ To unregister user from Infobip Push use the folowing method:
 
 	InfobipPush.Unregister();
 	
-If you want to check if the response was successful or not, use the following code:
+Upon unregistering, one of two following delegates will be invoked `InfobipPush.OnUnregistered`, or `InfobipPush.OnError`. You may instantiate (or combine) them with your implementation like the following:
 	
      InfobipPush.OnUnregistered = () => {
             ScreenPrinter.Print(("IBPush - Successfully unregistered!"));
@@ -87,7 +86,6 @@ If you want to check if the response was successful or not, use the following co
       InfobipPush.OnError = (errorCode) => {
             ScreenPrinter.Print(("IBPush - ERROR: " + errorCode));
         };
-        
         
  
 ### User management
@@ -104,26 +102,28 @@ If user ID is not set, an UUID is created and set as user ID. If you want to set
 
 	InfobipPush.UserId = "userId";
  	
-Only on `iOS` if setting of userId was successful operation, `InfobipPush.OnUserDataSaved` will be called, which you can implement:	
+If setting of user ID was successful operation, `InfobipPush.OnUserDataSaved` will be called, which you can implement like the following:	
 
 	 InfobipPush.OnUserDataSave = () => {
-            ScreenPrinter.Print(("IBPush - User data saved"));
+            // Your code goes here
         };
-  If the setting of userId wasn't susccessful you can use the following code to get error codes:
+        
+  If the setting of userId wasn't successful, `InfobipPush.OnError` delegate will be invoked, which you can hook on like this:
   
-    InfobipPush.OnError = (errorCode) => {
-            ScreenPrinter.Print(("IBPush - ERROR: " + errorCode));
+    InfobipPush.OnError += (errorCode) => {
+            // Handle error represented with 'errorCode' integer parameter
         };
+        
 All error codes are described in Error Code chapter.
  	
-In order to get userId use the following code:
+In order to get user ID use the following code (`UserId` field getter):
 
 	string userId = InfobipPush.UserId;
 
  	
 #### Device Id
 
-Device Id is unique device identifier in the Infobip Push system, for one application it will be generated only once. It can be used to send push notifications to a specific user.
+Device Id is an unique device identifier in the Infobip Push system. It can be used to send push notifications to a specific user.
 
 To get it, use the following property: 
  
@@ -138,7 +138,7 @@ You can manually set timezone offset in minutes using following method:
 
 	InfobipPush.SetTimezoneOffsetInMinutes(int minutes);
 	
-If you manually set timezone offset then the default automatic timezone offset updates will be disabled. Also if you enable automatic timezone offset updates again, then the manually timezone offset value will be overridden by automatic updates. To enable automatic timezone offset updates you should use method:
+If you manually set timezone offset, then the default automatic timezone offset updates will be disabled. Also, if you enable automatic timezone offset updates again, then the manually timezone offset value will be overridden by automatic updates. To enable automatic timezone offset updates you should use method:
 
     InfobipPush.SetTimezoneOffsetAutomaticUpdateEnabled(true);
     
@@ -149,19 +149,20 @@ If you manually set timezone offset then the default automatic timezone offset u
 
 
 
-###Notification handling
+### Notification handling
 #### Builder (Android only)
 
-![alt tag](https://push.infobip.com/images/content/statusbar.png)
+Notification in status bar:
+![Notification in status bar](https://push.infobip.com/images/content/statusbar.png)
 
-Notification in status bar
+Notification in drawer:
+![Push notification displayed in expanded notification drawer](https://push.infobip.com/images/content/drawer.png)
 
-![alt tag](https://push.infobip.com/images/content/drawer.png)
 
-Notification in drawer
 ##### Customize status bar notification
 ##### Customize notification display in the notification drawer (Android only)
-For the notification drawer customization you will need to create your own layout to be used as a remote view. In your Unity project's Assets/Plugins/Android/res` folder add layout folder and create new XML layout file in it.
+
+For the notification drawer customization you will need to create your own layout to be used as a remote view. In your Unity project's `Assets/Plugins/Android/res` folder, add `layout` folder and create new XML layout file in it.
 
 Here's an example of one:
 
@@ -229,63 +230,39 @@ What you need to provide to `InfobipPushBuilder` instance are the resource IDs c
 
 	InfobipPushBuilder builder = new InfobipPushBuilder();
 	
-1. the resource ID of the layout file – builder.setLayoutId("layout_file_name","folder_name","your_package_name")
-2. the resource ID of the image view – builder.setImageId("image_name","folder_name","your_package_name")
-3. the resource ID of a drawable to use as the image – builder.setImageDrawableId("image_name","folder_name","your_package_name")
-4. the resource ID of the 'title' view – builder.setTitleId("title_name","folder_name","your_package_name")
-5. the resource ID of the 'text' view – builder.setTextId("text_name","folder_name","your_package_name")
-6. the resource ID of the 'date' view – builder.setDateId("date_name","folder_name","your_package_name")
+1. the resource ID of the layout file – `builder.setLayoutId("layout_file_name","folder_name","your_package_name")`
+2. the resource ID of the image view – `builder.setImageId("image_name","folder_name","your_package_name")`
+3. the resource ID of a drawable to use as the image – `builder.setImageDrawableId("image_name","folder_name","your_package_name")`
+4. the resource ID of the 'title' view – `builder.setTitleId("title_name","folder_name","your_package_name")`
+5. the resource ID of the 'text' view – `builder.setTextId("text_name","folder_name","your_package_name")`
+6. the resource ID of the 'date' view – `builder.setDateId("date_name","folder_name","your_package_name")`
 
 
-The only ID that you must provide is the layout ID. If you don't want to display some of these views, don't provide their IDs, and their values won't be set to your remote view. When you provied all IDs that you want use the following method: 
+The only ID that you must provide is the layout ID. If you don't want to display some of these views, don't provide their IDs, and their values won't be set to your remote view. When you have provided all IDs that you want, use the following method: 
 
 	InfobipPush.SetBuilderData(builder);
 
-![alt tag](https://push.infobip.com/images/content/notificationlayout.jpg)
+![Customized notification in notification drawer](https://push.infobip.com/images/content/notificationlayout.jpg)
 
-Example if usage:
+Example of usage:
 
-	 {
-            ScreenPrinter.Print("Push Notification Builder");
             InfobipPushBuilder builder = new InfobipPushBuilder();
-                        builder.SetLayoutId("notification_layout","layout","com.infobip.unity.demo");
+            builder.SetLayoutId("notification_layout","layout","com.infobip.unity.demo");
             builder.SetTextId("text","id","com.infobip.unity.demo");
             builder.SetImageId("image", "id","com.infobip.unity.demo");
             builder.SetImageDrawableId("ic_launcher","drawable","com.infobip.unity.demo");
             builder.SetTitleId("title", "id","com.infobip.unity.demo");
             builder.SetDateId("date", "id", "com.infobip.unity.demo");
             InfobipPush.SetBuilderData(builder);
-        }
-
 
 ##### Notification title and text style
 
-Since API level 9, Android introduced built-in styles for notification layout text styling. However, if you're building your application for minimum Android version 8, you will have to implement your own styles.
+Since API level 9, Android introduced built-in styles for notification layout text styling.
 
 For our remote view layout example, we used NotificationTitle and NotificationText styles.
 
-In the `res` folder create `values` and `values-v9` folders if you already don't have them in your application. Create `styles.xml` file in each folder.
+In the `/Assets/Plugins/Android/res` folder create `values-v9` folder if you already don't have them in your application. Create `styles.xml` file in it.
 
-Copy these two styles to your styles.xml file located in values folder (OS version 2.3-):
-
-	<resources>
-    
-    <!--
-     Base application theme, dependent on API level. This theme is replaced
-     by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-     -->
-    <style name="NotificationText">
-        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
-    </style>
-    
-    <style name="NotificationTitle">
-        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-    
-	</resources>
- 
-	
 Copy these two styles to your styles.xml located in values-v9 folder (OS version 2.3+):
 
 	<resources>
@@ -308,41 +285,39 @@ iOS will automatically set the application badge to the badge number received in
     
 ### Location
 
-In our Unity Infobip Push Notification Plugin  we use our own location service that acquires your user's latest location and periodically sends it to the Infobip Push service in the background. By using this service, your location can be retrieved with all the location providers: GPS, NETWORK or PASSIVE provider and you can sent push notifications to users in specific locations.
-
+In our Infobip Push Notification Plugin for Unity we use our own location service that acquires your user's latest location and periodically sends it to the Infobip Push service in the background. By using this service, your location can be retrieved with all the location providers: GPS, NETWORK or PASSIVE provider, and you can send push notifications to users in specific locations.
 
 #### Enable/Disable Location 
 
-To enable location service and track your user's location use the following method:
+To enable location service and track your user's location, use the following method:
 
 	InfobipPushLocation.EnableLocation();
 	
-If you want to stop location service you shoud use method:
+If you want to stop location service, you shoud use method:
 
 	InfobipPushLocation.DisableLocation();
 
-To check if Infobip's Push location service is enabled use the following method:
+To check if Infobip's Push location service is enabled, use the following method:
 
 	InfobipPushLocation.IsLocationEnabled();
 	
 By default, location updates are disabled.
 
-#### Enable/Disable Background Location (IOS only)
+#### Enable/Disable Background Location (iOS only)
 
-On IOS `InfobipPushLocation.EnableLocation()`method will start location updates only when the application is active. Background location updates are disabled by default. To enable background location updates also, use the following property: 
+On iOS `InfobipPushLocation.EnableLocation()` method will start location updates only when the application is active. Background location updates are disabled by default. To enable background location updates use the following property setter: 
 	
 	InfobipPushLocation.BackgroundLocationUpdateModeEnabled = true;
 
-At any time you can disable and enable background location updates. To disable background location updates use the property: 
+At any time you can disable and enable background location updates. To disable background location updates use the same property's setter: 
 
 	InfobipPushLocation.BackgroundLocationUpdateModeEnabled = false;
 	
-To check the status of background location updates there is a method `InfobipPushLocation.BackgroundLocationUpdateModeEnabled` which returns `true` if the background location updates are enabled, otherwise it returns `false`.
+To check the status of background location updates, check the same property `InfobipPushLocation.BackgroundLocationUpdateModeEnabled` which will return `true` if the background location updates are enabled, otherwise it'll return `false`.
 
 Location updates, even if the application is active or in background, can be disabled with the method `InfobipPushLocation.DisableLocation()`.
 
- By default, location updates in background are disabled.
-
+By default, location updates in background are disabled.
 
 #### Location Update Time Interval
 
@@ -364,20 +339,12 @@ You do not have to use our location service but instead you can fetch locations 
 
 To share location to our services you can use the following code: 
 
-            LocationInfo location = locationService.lastData;
-            InfobipPushLocation.ShareLocation(location);
+	    LocationService locationService = new LocationService();
+        locationService.Start();
+        LocationInfo location = locationService.lastData;
+        InfobipPushLocation.ShareLocation(location);
 
-On `iOS` if you want to check if the request was successful or not use the following code:
-
-		InfobipPush.OnRegistered = () => {
-            ScreenPrinter.Print(("IBPush - Successfully registered!"));
-        };
-        InfobipPush.OnError = (errorCode) => {
-            ScreenPrinter.Print(("IBPush - ERROR: " + errorCode));
-        };
-
-
-If you want to use share location for `android` devices you have to enable custom location with method:
+If you want to use share location for `Android` devices you have to enable custom location with method:
 
 	InfobipPushLocation.UseCustomLocationService(true);
 	
@@ -399,7 +366,6 @@ If you want to disable live geo or even check the current status for live geo su
 	
 		InfobipPushLocation.LiveGeo;
 		
-		
 When you disable live geo, then all active live geo regions will be stopped. At any time you can check how many active live geo regions are there for particular user by calling the method:
 
 	 int regions = InfobipPushLocation.NumberOfCurrentLiveGeoRegions();	
@@ -407,19 +373,12 @@ To stop all active live geo regions you need to call method `InfobipPushLocation
 
 	int regions = InfobipPushLocation.StopLiveGeoMonitoringForAllRegions();
 	
-Only on `iOS` you can use live geo accuracy live geo monitoring accuracy is set to hundred meters (contant kCLLocationAccuracyHundredMeters) by default. You can change the accuracy by calling method `InfobipPushLocation.IBSetLiveGeoAccuracy(accuracy)` and check the current live geo accuracy by calling `InfobipPushLocation.IBLiveGeoAccuracy()`. Be careful when setting accuracy because of Apple restrictions according location accuracy and usage in mobile applications.
-
-Set the live geo location accuracy to be the best one with method:
-
-	double accur = 100.43;
-	InfobipPushLocation.IBSetLiveGeoAccuracy(accuracy);
-
-
+Only on `iOS` you can use live geo accuracy. Live geo monitoring accuracy is set to hundred meters by default. You can change the accuracy by setting  `InfobipPushLocation.LiveGeoAccuracy` field and check the current live geo accuracy by getting the same field (type double). Be careful when setting accuracy because of Apple's restrictions regarding location accuracy and usage in mobile applications.
 
 ### Media Notifications
 
-From Infobip Push service you can sent Media notification with media content.
-Media content referes to multimedia content (image, video, audio) wrapped inside HTML tags. 
+From Infobip Push service you can send Media notification with media content.
+Media content refers to multimedia content (image, video, audio) wrapped inside HTML tags. 
 
 #### Media Content from Media Notifcation
 
@@ -434,41 +393,40 @@ Example of usage:
             ScreenPrinter.Print("IBPush - Is Media notification: " + isMediaNotif);
             string mediaContent = notification.MediaData;
             ScreenPrinter.Print("IBPush -  Media content: " + mediaContent);
-
+	}
 
 	
 #### Media View
 
 Using Infobip Media View is optional which means that at any time you can create your own Media View where you will show the media content from the media push notification. 
 
-For `iOS` Infobip Media View offers basic functionality of showing media content inside rounded view with the default shadow around it. View also has a dismiss button through which the user can dismiss the Media View. Any of these fields can be changed according to your application needs, so for instance you can change dismiss button; enable or disable the default shadow or even change corner radius size of the view.
-
+For `iOS` Infobip Media View offers basic functionality of showing media content inside rounded view with the default shadow around it. View also has a dismiss button through which the user can dismiss the Media View. Any of these fields can be changed according to your application's needs. So, for instance, you can change dismiss button, enable or disable the default shadow or change corner radius size of the view.
 
 To use Infobip Media View call function below:
 
 	InfobipPush.AddMediaView(notification, customization);
 
-the `notification` is media notification received from Infobip Push server and the `customization` is JSON Object to customize media view outlook and contains next fields:
+the `notification` is media notification received from Infobip Push server and the `customization` is `InfobipPushMediaViewCustomization` object used to customize media view outlook and may be used like the following:
 
-	           {
-                    X = 20,
-                    Y = 20,
-                    Width = 250,
-                    Height = 350,
-                    Shadow = false,
-                    Radius = 50,
-                    DismissButtonSize = 25,
-                    ForegroundColor = new Color(1.0f, 0, 0, 1.0f),
-                    BackgroundColor = new Color(0, 1.0f, 0, 1.0f)
-                };
+	InfobipPushMediaViewCustomization customization = new InfobipPushMediaViewCustomization() {
+        X = 20,
+        Y = 20,
+        Width = 250,
+        Height = 350,
+        Shadow = false,
+        Radius = 50,
+        DismissButtonSize = 25,
+        ForegroundColor = new Color(1.0f, 0, 0, 1.0f),
+        BackgroundColor = new Color(0, 1.0f, 0, 1.0f)
+    };
                 
- `X`,`Y`,`Width`,`Height` fields are used to set up the size of the frame for Media View.
+ `X`,`Y`,`Width`,`Height` fields are used to set up the size and position (top, left) of the frame for Media View.
  
-By default the size of the dismiss button is 30. Size can be changed with the `DismissButtonSize` field.
+By default the size of the dismiss button is 30 (pixels in diameter). Size can be changed with the `DismissButtonSize` field.
 
-Along with the size, if background color of black and foreground color of white not suits you the best, you can change the colors as well with the BackgroundColor and andForegroundColor field.
+Along with the size, if background color of black and foreground color of white not suits you the best, you can change the colors as well with the BackgroundColor and and ForegroundColor field.
 
-Shadow is enabled as default because the initial idea of Infobip Media View is not to be shown in the full screen, so the shadow is by default shown around the view. Therefore, shadow can be disabled with `Shadow = false`, to get back shadow just set `Shadow` field to `true`.
+Shadow is enabled as default because the initial idea of Infobip Media View is not to be shown in the full screen, so the shadow is by default shown around the view. Therefore, shadow can be disabled with `Shadow = false`. To get back shadow just set `Shadow` field to `true`.
 
 Infobip Media View has a corner radius of size 15 by default. If you want to change the corner radius of the view you should set field `Radius`.
 
@@ -476,7 +434,7 @@ Example of usage:
 
 	 InfobipPush.OnNotificationReceived = (notification) => {
             bool isMediaNotification = notif.isMediaNotification();
-           if (isMediaNotification)
+            if (isMediaNotification)
             {
                 ScreenPrinter.Print("Media Push");
                 InfobipPushMediaViewCustomization customiz = new InfobipPushMediaViewCustomization 
@@ -494,13 +452,14 @@ Example of usage:
                 InfobipPush.AddMediaView(notif, customiz);
             }
         };
-On `android` our plug in start new MediaActivity which displays your media content using the same method as iOS:
+        
+On `Android` our plugin starts new `MediaActivity` which displays your media content using the same method as on `iOS`:
 
 	InfobipPush.AddMediaView(notification, customization);
 	
-where the `notification` is media notification received from Infobip Push server and the `customization` is set to null:
+where the `notification` is media notification received from Infobip Push server and the `customization` may be omitted, as it is not used on `Android`. It defaults to `null`:
 	
-	InfobipPushMediaViewCustomization customiz=null;
+	InfobipPushMediaViewCustomization customiz = null;
 
 Example of usage:
 	
@@ -508,8 +467,9 @@ Example of usage:
             bool isMediaNotification = notif.isMediaNotification();
             ScreenPrinter.Print("IBPush - Is Media notification: " + 	isMediaNotification);
             if (isMediaNotification){
-            InfobipPushMediaViewCustomization customiz=null;
+            InfobipPushMediaViewCustomization customiz = null;
                  InfobipPush.AddMediaView(notif, customiz);
+                 // or InfobipPush.AddMediaView(notif);
             }
  
         };
@@ -911,4 +871,4 @@ Framework Integration Team @ Belgrade, Serbia
 *IOS is a trademark of Cisco in the U.S. and other countries and is used under license.*
 
 
-© 2013-2014, Infobip Ltd
+© 2013-2014, Infobip Ltd.
