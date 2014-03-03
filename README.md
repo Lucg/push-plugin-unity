@@ -143,13 +143,34 @@ If you manually set timezone offset, then the default automatic timezone offset 
     InfobipPush.SetTimezoneOffsetAutomaticUpdateEnabled(true);
     
 ###Channels
+ 
+ TODO description
+ 
 #### Subscribe to channels
+
+You may subscribe to channels using the following method:
+
+	InfobipPush.RegisterToChannels(channels, removeExistingChannels)
+	
+First parameter is `string[]` and represents an array of channel names to which you wish to subscribe. Second parameter tells us whether to replace users channels (that he is already registered to) with new ones or to just unite old and newly provided channels. 
+
+Upon successfully completing this operation, `InfobipPush.OnRegisteredToChannels()` delegate will be called. You can implement or combine your code to it, like the following:
+
+	InfobipPush.OnRegisteredToChannels += () => {
+		// Your code goes here
+	}
+
+If there is an error during this operation, delegate `InfobipPush.OnError(errorCode)` will be invoked with error code integer as the only argument.
+
 #### Get registered channels
 
-
+Getting registered channels is done via async getter `InfobipPush.BeginGetRegisteredChannels()`. Result will be provided on `InfobipPush.OnGetChannelsFinished(channels)`, where the only parameter is JSON array of strings which represent channel names. Otherwise, if something goes wrong, `InfobipPush.OnError(errorCode)` will be invoked.
 
 
 ### Notification handling
+
+TODO
+
 #### Builder (Android only)
 
 Notification in status bar:
@@ -343,6 +364,8 @@ To share location to our services you can use the following code:
         locationService.Start();
         LocationInfo location = locationService.lastData;
         InfobipPushLocation.ShareLocation(location);
+
+Upon successfully sharing your location, `InfobipPush.OnLocationShared` delegate will be called.
 
 If you want to use share location for `Android` devices you have to enable custom location with method:
 
