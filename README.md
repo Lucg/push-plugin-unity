@@ -146,9 +146,160 @@ If you manually set timezone offset then the default automatic timezone offset u
 #### Subscribe to channels
 #### Get registered channels
 
+
+
+
 ###Notification handling
-#### Builder (only Android)
-#### Customize notification display in the notification drawer (only Android)
+#### Builder (Android only)
+
+![alt tag](https://push.infobip.com/images/content/statusbar.png)
+
+Notification in status bar
+
+![alt tag](https://push.infobip.com/images/content/drawer.png)
+
+Notification in drawer
+##### Customize status bar notification
+##### Customize notification display in the notification drawer (Android only)
+For the notification drawer customization you will need to create your own layout to be used as a remote view. In your Unity project's Assets/Plugins/Android/res` folder add layout folder and create new XML layout file in it.
+
+Here's an example of one:
+
+	<?xml version="1.0" encoding="utf-8"?>
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_launcher" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/image"
+        android:padding="5dp" >
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/NotificationTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/date"
+            android:ellipsize="marquee"
+            android:layout_marginRight="7dp"
+            android:singleLine="true"
+            android:text="title" />
+
+        <TextView
+            android:id="@+id/text"
+            style="@style/NotificationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/title"
+            android:layout_below="@+id/title"
+            android:layout_marginRight="10dp"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:text="text" />
+
+        <TextView
+            android:id="@+id/date"
+            style="@style/NotificationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="22:11"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+	</RelativeLayout>
+
+What you need to provide to `InfobipPushBuilder` instance are the resource IDs correlated with your remote view:
+
+	InfobipPushBuilder builder = new InfobipPushBuilder();
+	
+1. the resource ID of the layout file – builder.setLayoutId("layout_file_name","folder_name","your_package_name")
+2. the resource ID of the image view – builder.setImageId("image_name","folder_name","your_package_name")
+3. the resource ID of a drawable to use as the image – builder.setImageDrawableId("image_name","folder_name","your_package_name")
+4. the resource ID of the 'title' view – builder.setTitleId("title_name","folder_name","your_package_name")
+5. the resource ID of the 'text' view – builder.setTextId("text_name","folder_name","your_package_name")
+6. the resource ID of the 'date' view – builder.setDateId("date_name","folder_name","your_package_name")
+
+
+The only ID that you must provide is the layout ID. If you don't want to display some of these views, don't provide their IDs, and their values won't be set to your remote view. When you provied all IDs that you want use the following method: 
+
+	InfobipPush.SetBuilderData(builder);
+
+![alt tag](https://push.infobip.com/images/content/notificationlayout.jpg)
+
+Example if usage:
+
+	 {
+            ScreenPrinter.Print("Push Notification Builder");
+            InfobipPushBuilder builder = new InfobipPushBuilder();
+                        builder.SetLayoutId("notification_layout","layout","com.infobip.unity.demo");
+            builder.SetTextId("text","id","com.infobip.unity.demo");
+            builder.SetImageId("image", "id","com.infobip.unity.demo");
+            builder.SetImageDrawableId("ic_launcher","drawable","com.infobip.unity.demo");
+            builder.SetTitleId("title", "id","com.infobip.unity.demo");
+            builder.SetDateId("date", "id", "com.infobip.unity.demo");
+            InfobipPush.SetBuilderData(builder);
+        }
+
+
+##### Notification title and text style
+
+Since API level 9, Android introduced built-in styles for notification layout text styling. However, if you're building your application for minimum Android version 8, you will have to implement your own styles.
+
+For our remote view layout example, we used NotificationTitle and NotificationText styles.
+
+In the `res` folder create `values` and `values-v9` folders if you already don't have them in your application. Create `styles.xml` file in each folder.
+
+Copy these two styles to your styles.xml file located in values folder (OS version 2.3-):
+
+	<resources>
+    
+    <!--
+     Base application theme, dependent on API level. This theme is replaced
+     by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+     -->
+    <style name="NotificationText">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+    </style>
+    
+    <style name="NotificationTitle">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+	</resources>
+ 
+	
+Copy these two styles to your styles.xml located in values-v9 folder (OS version 2.3+):
+
+	<resources>
+
+    <!--
+        Base application theme for API 11+. This theme completely replaces
+        AppBaseTheme from res/values/styles.xml on API 11+ devices.
+    -->
+    <style name="NotificationText" parent="android:TextAppearance.StatusBar.EventContent" />
+    <style name="NotificationTitle" parent="android:TextAppearance.StatusBar.EventContent.Title" />
+
+	</resources>
+
+
 #### Badge Number (IOS only)
 
 iOS will automatically set the application badge to the badge number received in the push notification. Your responsibility is to handle the badge number within the app according to unread notifications count. Use this code anywhere in the app to set the badge number:
