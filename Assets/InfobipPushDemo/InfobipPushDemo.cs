@@ -42,19 +42,21 @@ public class InfobipPushDemo : MonoBehaviour
             ScreenPrinter.Print("Notif: " + notif.Message + " #" + UnityEngine.Random.value);
             // ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
             //            Dictionary<string,object> addInfo = (Dictionary<string,object>)notif.AdditionalInfo;
-            string mediaContent = notif.MediaData;
-            ScreenPrinter.Print("IBPush -  Media content: " + mediaContent);
             if (InfobipPush.IsDefaultMessageHandlingOverriden())
             {
                 ScreenPrinter.Print("IBPush - Default message handling overriden, notifying notif opened w/ id: " + notif.NotificationId);
                 InfobipPush.NotifyNotificationOpened(notif.NotificationId);
             }
-            #if UNITY_IPHONE
+          
+        };
+
+        InfobipPush.OnNotificationOpened = (notif) => {
+            ScreenPrinter.Print("Notification OPENED: " + notif.Message);
             bool isMediaNotification = notif.isMediaNotification();
-            ScreenPrinter.Print("IBPush - Is Media notification: " + isMediaNotification);
             if (isMediaNotification)
             {
-                ScreenPrinter.Print("IBPush -  Media content: " + mediaContent);
+                ScreenPrinter.Print("IBPush - Is Media notification: " + isMediaNotification);
+                #if UNITY_IPHONE
                 customiz = new InfobipPushMediaViewCustomization 
                 {
                     X = 20,
@@ -63,25 +65,19 @@ public class InfobipPushDemo : MonoBehaviour
                     Height = 350,
                     Shadow = false,
                     Radius = 50,
-                    DismissButtonSize = 25,
+                    DismissButtonSize = 40,
                     ForegroundColor = new Color(1.0f, 0, 0, 1.0f),
                     BackgroundColor = new Color(0, 1.0f, 0, 1.0f)
                 };
                 InfobipPush.AddMediaView(notif, customiz);
-            }
-               #endif
-        };
+            #endif
 
-        InfobipPush.OnNotificationOpened = (notif) => {
-            ScreenPrinter.Print("Notif OPENED: " + notif.Message);
-            bool isMediaNotification = notif.isMediaNotification();
-            ScreenPrinter.Print("IBPush - Is Media notification: " + isMediaNotification);
             #if UNITY_ANDROID
             if (isMediaNotification){
                  InfobipPush.AddMediaView(notif, customiz);
             }
             #endif
-            ScreenPrinter.Print("Notify notification opened, with id: " + notif.NotificationId);
+            }
         };
 
         InfobipPush.OnRegistered = () => {

@@ -10,8 +10,9 @@
 #import <objc/runtime.h>
 
 
-NSString *const PUSH_REGISTER_WITH_DEVICE_TOKEN = @"IBPushDidRegisterForRemoteNotificationsWithDeviceToken";
-NSString *const PUSH_RECEIVE_REMOTE_NOTIFICATION = @"IBPushDidReceiveRemoteNotification";
+NSString *const PUSH_REGISTER_WITH_DEVICE_TOKEN     = @"IBPushDidRegisterForRemoteNotificationsWithDeviceToken";
+NSString *const PUSH_RECEIVE_REMOTE_NOTIFICATION    = @"IBPushDidReceiveRemoteNotification";
+NSString *const PUSH_OPEN_REMOTE_NOTIFICATION       = @"IBPushDidOpenRemoteNotification";
 
 IPPushNotificationInfoBlock didReceiveRemoteNotificationBlock = ^void(BOOL succeeded, InfobipPushNotification *notification, NSError *error) {
     if (succeeded) {
@@ -174,10 +175,37 @@ typedef void (^OurCompHandler)(UIBackgroundFetchResult);
 
 void IBPushDidReceiveRemoteNotificationFetchCompletionHandler(id self, SEL _cmd, id application, id notif, id handler) {
     NSLog(@"%s", __FUNCTION__);
-    [InfobipPush didReceiveRemoteNotification:notif withAdditionalInformationAndCompletion:didReceiveRemoteNotificationBlock];
+    UIApplication * app = (UIApplication *) application;
+    InfobipPushNotification * notification = [InfobipPush pushNotificationFromUserInfo:notif];
+    [InfobipPush confirmPushNotificationWasReceived:notification];
+    
+    NSString * event;
+    if((app.applicationState == UIApplicationStateActive) || (app.applicationState == UIApplicationStateInactive)) {
+        event = PUSH_OPEN_REMOTE_NOTIFICATION;
+        [InfobipPush confirmPushNotificationWasOpened:notification];
+    } else {
+        event = PUSH_RECEIVE_REMOTE_NOTIFICATION ;
+    }
+    
+    [InfobipPush pushNotificationFromUserInfo:notif getAdditionalInfo:^void(BOOL succeeded, InfobipPushNotification *notification, NSError *error) {
+        if (succeeded) {
+            NSDictionary * notificationAndroidStyle = [IBPushUtil convertNotificationToAndroidFormat:notification];
+            NSError * err = 0;
+            NSData *notificationData = [NSJSONSerialization dataWithJSONObject:notificationAndroidStyle options:0 error:&err];
+            NSString *notificationJson = [[NSString alloc] initWithData:notificationData encoding:NSUTF8StringEncoding];
+            
+            UnitySendMessage([PUSH_SINGLETON UTF8String], [event UTF8String], [notificationJson UTF8String]);
+        } else {
+            [IBPushUtil passErrorCodeToUnity:error];
+        }
+    }];
+    
+    
+    
     
     OurCompHandler completionHandler = (OurCompHandler) handler;
     completionHandler(UIBackgroundFetchResultNewData);
+    
 }
 
 @end
