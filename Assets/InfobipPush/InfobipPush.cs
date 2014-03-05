@@ -11,6 +11,8 @@ public delegate void InfobipPushDelegateWithStringArg(string argument);
 
 public delegate void InfobipPushDelegate();
 
+#pragma warning disable 0162
+
 public class InfobipPush : MonoBehaviour
 {
     #region declaration of methods
@@ -473,3 +475,4 @@ public class InfobipPush : MonoBehaviour
     }
 
 }
+#pragma warning restore 0162

@@ -97,7 +97,6 @@ public class InfobipPushInternal : MonoBehaviour
         var list = MiniJSON.Json.DeserializeArrayNoRecursion(notificationsList);
         foreach (var notifJson in list)
         {
-            string notifJsonString = (notifJson as String);
             InfobipPushNotification notification = new InfobipPushNotification(notifJson as String);
             InfobipPush.OnUnreceivedNotificationReceived(notification);
         }

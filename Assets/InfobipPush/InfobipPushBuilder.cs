@@ -68,8 +68,8 @@ public class InfobipPushBuilder
         set { this.myVibrationPattern = value; }
     }
     
-    private Color myLightsColor;
-    public Color LightsColor
+    private Color? myLightsColor;
+    public Color? LightsColor
     {
         get { return this.myLightsColor; }
         set { this.myLightsColor = value; }

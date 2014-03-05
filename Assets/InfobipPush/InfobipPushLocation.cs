@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Collections;
 
 
-
+#pragma warning disable 0162
 public class InfobipPushLocation : MonoBehaviour
 {
 
@@ -380,5 +380,5 @@ public class InfobipPushLocation : MonoBehaviour
   }
 
 }
-
+#pragma warning restore 0162
 

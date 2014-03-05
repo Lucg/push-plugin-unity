@@ -143,7 +143,7 @@ public class InfobipPushNotification
         }
         if (dictNotif.TryGetValue("additionalInfo", out varObj))
         {
-            string additionalInfo = MiniJSON.Json.Serialize(varObj);
+            // string additionalInfo = MiniJSON.Json.Serialize(varObj);
             //            ScreenPrinter.Print("additionalInfo real: " + additionalInfo);
             AdditionalInfo = varObj;
             //            ScreenPrinter.Print("additionalInfo real: " + MiniJSON.Json.Serialize(AdditionalInfo));
