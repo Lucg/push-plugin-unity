@@ -18,12 +18,6 @@ public class InfobipPushDemo : MonoBehaviour
     private float[] rowY = new float[rowNumber];
     private LocationService locationService = new LocationService();
 
-    void OnApplicationFocus()
-    {
-        // TODO fix problems with double trigering of this method
-//        ScreenPrinter.Print(InfobipPushInternal.Instance.GetNotificationFromExtras());
-    }
-
     void Start()
     {   
         InfobipPush.Initialize();
@@ -40,7 +34,6 @@ public class InfobipPushDemo : MonoBehaviour
 
         InfobipPush.OnNotificationReceived = (notif) => {
             ScreenPrinter.Print("Notif: " + notif.Message + " #" + UnityEngine.Random.value);
-            // ScreenPrinter.Print(("IBPush - Notification received: " + notif.ToString()));
             //            Dictionary<string,object> addInfo = (Dictionary<string,object>)notif.AdditionalInfo;
             if (InfobipPush.IsDefaultMessageHandlingOverriden())
             {

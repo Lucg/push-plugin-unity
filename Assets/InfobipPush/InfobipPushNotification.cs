@@ -115,7 +115,6 @@ public class InfobipPushNotification
         //IDictionary<string, int> dictNotifInt = dictNotif as Dictionary<string, int>;
         if (dictNotif.TryGetValue("badge", out varObj))
         {
-            // TODO: fix 'badge' (string "" if it is 0, and int if not)
             if (varObj == null || "".Equals(varObj as string))
             {
                 Badge = null;
@@ -124,7 +123,6 @@ public class InfobipPushNotification
                 varInt = Convert.ToInt32(varObj);
                 Badge = varInt;
             }
-            //            ScreenPrinter.Print("BADGE: " + (Badge ?? (int)-1).ToString());
         }
         if (dictNotif.TryGetValue("sound", out varObj))
         {
@@ -144,10 +142,7 @@ public class InfobipPushNotification
         if (dictNotif.TryGetValue("additionalInfo", out varObj))
         {
             // string additionalInfo = MiniJSON.Json.Serialize(varObj);
-            //            ScreenPrinter.Print("additionalInfo real: " + additionalInfo);
             AdditionalInfo = varObj;
-            //            ScreenPrinter.Print("additionalInfo real: " + MiniJSON.Json.Serialize(AdditionalInfo));
-            // TODO: store this value in this.AdditionalInfo
         }
         if (dictNotif.TryGetValue("mediaData", out varObj))
         {

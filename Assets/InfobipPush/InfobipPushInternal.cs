@@ -205,8 +205,6 @@ public class InfobipPushInternal : MonoBehaviour
     {
         string json = GetCurrentActivity().Call<string>("builderGetData", new object[] {});
         InfobipPushBuilder builder = new InfobipPushBuilder(json);
-        // TODO remove this - testing
-        ScreenPrinter.Print(json);
         return builder;
     }
 
