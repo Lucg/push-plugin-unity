@@ -19,9 +19,19 @@ Requirements
 
 Basic Usage
 -----------
-
+TODO
 ### Initialization
+
+To setup plugin for push notifications, you should call `InfobipPush.Initialize()` in `Start()` method of your `MonoBehaviour` implementation, ie. on scene startup (to properly handle going back and forth from foreground to background (and closed) state of application).
+Plugin's initialization prevents GCM registration expiry, since Google stated that it could be invalidated when your application version changes.
+
 ### Registration
+
+User registration is required to receive push notifications (otherwise, no notification will be received) via the following method:
+
+	InfobipPush.Register(applicationId, applicationSecret, registrationData)
+	
+You may find your application id and secret on [Infobip Push Portal](http://push.infobip.com).
 
 On android, you need to set your sender id (project number from google cloud console) in AndroidManifest.xml, in meta-data element `"IB_PROJECT_ID"`, like this:
 
@@ -64,12 +74,18 @@ To find out if the log is enabled or disabled (only on `iOS`), you can read `Inf
 
 ### Registering/Unregistering from Infobip push
 
+User registration is required to receive push notifications (otherwise, no notification will be received):
+
+	InfobipPush.Register(applicationId, applicationSecret, registrationData)
+	
+After successful registration, `InfobipPush.OnRegistered()` delegate will be called. If an error occurs, `InfobipPush.OnError(errorCode)` will be called.
+To register for push notifications use the application ID and application secret obtained from [Infobip Push Portal](http://push.infobip.com).
+
 #### Is Registered
 
 To retrieve the information if user is registered to Infobip Push or not, use the following method call which returns boolean value `true` if the user is registered to Infobip Push, otherwise the boolean value `false` is returned:
 
 	InfobipPush.IsRegistered();	
-
 
 #### Unregistration
 
@@ -86,15 +102,13 @@ Upon unregistering, one of two following delegates will be invoked `InfobipPush.
       InfobipPush.OnError = (errorCode) => {
             ScreenPrinter.Print(("IBPush - ERROR: " + errorCode));
         };
-        
  
 ### User management
 
 There are two ways of providing user related data to the Infobip Push service:
 
-1. When registering for push, you can provide a user ID and the channel list in `RegistrationData` for distinguishing your users. Timezone offset and device ID will also be transmitted to Infobip Push. After unregistration, user related data you provided are deleted from the library.
+1. When registering for push, you can provide a user ID and the channel names array in `RegistrationData` for distinguishing your users. Timezone offset and device ID will also be transmitted to Infobip Push. After unregistration, user related data you provided are deleted from the library.
 2. When your user is already registered for push, you can change his data from your code at any time.
-
 
 #### User Id
 
@@ -128,7 +142,6 @@ Device Id is an unique device identifier in the Infobip Push system. It can be u
 To get it, use the following property: 
  
 	string deviceId = InfobipPush.DeviceId;
-
     
 #### Timezone offset
 
@@ -144,7 +157,8 @@ If you manually set timezone offset, then the default automatic timezone offset 
     
 ###Channels
  
- TODO description
+ Infobip Push library offers the way of connecting your user to corresponding channels (UTF-8 encoding supported).
+	If the user is not yet registered for push notifications, subscribe him/her to channels providing user related data during the registration.
  
 #### Subscribe to channels
 
@@ -162,10 +176,16 @@ Upon successfully completing this operation, `InfobipPush.OnRegisteredToChannels
 
 If there is an error during this operation, delegate `InfobipPush.OnError(errorCode)` will be invoked with error code integer as the only argument.
 
+User will be registered to provided channels, with the new channels created on Infobip Push service if you haven't already created them per application. Once you set `removeExistingChannels` variable to true, existing channels on the Push service will be deleted, and a list of new channels will replace them. If false, existing channels will stay intact and user will be registered to newly provided list of channels.
+
 #### Get registered channels
 
+Channels that you registered your user to are saved on the Infobip Push service.
 Getting registered channels is done via async getter `InfobipPush.BeginGetRegisteredChannels()`. Result will be provided on `InfobipPush.OnGetChannelsFinished(channels)`, where the only parameter is JSON array of strings which represent channel names. Otherwise, if something goes wrong, `InfobipPush.OnError(errorCode)` will be invoked.
 
+#### Unsubscribe from channels
+
+If your user is registered to some channels, unsubscribe him/her from all the channels using `InfobipPush.RegisterToChannels(channels, removeExistingChannels)` method with an empty list of channels and `removeExistingChannels` argument set to true.
 
 ### Notification handling
 
@@ -892,6 +912,5 @@ Framework Integration Team @ Belgrade, Serbia
 *Android is a trademark of Google Inc.*
 
 *IOS is a trademark of Cisco in the U.S. and other countries and is used under license.*
-
 
 © 2013-2014, Infobip Ltd.
