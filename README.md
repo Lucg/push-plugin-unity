@@ -19,7 +19,7 @@ Requirements
 
 Basic Usage
 -----------
-TODO
+
 ### Initialization
 
 To setup plugin for push notifications, you should call `InfobipPush.Initialize()` in `Start()` method of your `MonoBehaviour` implementation, ie. on scene startup (to properly handle going back and forth from foreground to background (and closed) state of application).
@@ -189,18 +189,58 @@ If your user is registered to some channels, unsubscribe him/her from all the ch
 
 ### Notification handling
 
-TODO
+Once the notification is received, default action is invoked. Default action means that the plugin takes care about displaying the notification and it will be displayed like this:
 
-#### Builder (Android only)
 
 Notification in status bar:
+
 ![Notification in status bar](https://push.infobip.com/images/content/statusbar.png)
 
 Notification in drawer:
+
 ![Push notification displayed in expanded notification drawer](https://push.infobip.com/images/content/drawer.png)
 
-
+#### Builder (Android only)
 ##### Customize status bar notification
+
+Notification in the status bar consists of the icon and the ticker text to be displayed. Also, corresponding actions can be performed while displaying the notification: sound, vibration, flashing lights.
+
+To change default outlook of the notification follow code below:
+	
+	InfobipPushBuilder builder = new InfobipPushBuilder();
+	
+To set ticker text use `TickerText` property of `InfobipPushBuilder` class
+
+	builder.TickerText = "New ticker text";
+
+Provide your user the time when sound, vibration and flashing lights won't perform by implementing the quiet time. Quiet time interval is set with the start and end `TimeSpan` parameters.
+	
+	TimeSpan startTime = new TimeSpan(12,0,0);
+	TimeSpan endTime = new TimeSpan(8,45,0);
+	builder.SetQuietTime(startTime, endTime);
+
+To customize light, when notification is received, use next methods and properties:
+`SetLightsOnOffDurationsMs` accepts time in [ms] where first argument is light on time and second is light off time in milliseconds.
+
+	builder.SetLightsOnOffDurationsMs(2000, 200);
+	builder.Lights = 1;
+	builder.LightsColor = Color.red;
+	
+Customizing vibration pattern is possible throw `VibrationPattern` property that accepts array of on/off time lengths (in ms) 
+Also you need to enable vibration setting `Vibrate` property to `1`
+
+	builder.VibrationPattern = new int[2] {1000, 100};
+	builder.Vibrate = 1;
+	
+To enable sound, set `Sound` property to `1`;
+
+	builder.Sound = 1;
+	
+Finally, pass instance of `InfobipPushBuilder` class  to InfobipPush plugin calling following method
+
+	InfobipPush.SetBuilderData(builder);
+
+
 ##### Customize notification display in the notification drawer (Android only)
 
 For the notification drawer customization you will need to create your own layout to be used as a remote view. In your Unity project's `Assets/Plugins/Android/res` folder, add `layout` folder and create new XML layout file in it.
@@ -323,6 +363,18 @@ Copy these two styles to your styles.xml located in values-v9 folder (OS version
 iOS will automatically set the application badge to the badge number received in the push notification. Your responsibility is to handle the badge number within the app according to unread notifications count. Use this code anywhere in the app to set the badge number:
    
     InfobipPush.SetBadgeNumber(int number);
+    
+#### Unreceived Notifications
+To get list of unreceived notifications form Infobip server call this method
+	
+	InfobipPush.GetListOfUnreceivedNotifications();
+	
+callback function will be triggered. Delegate implementation looks like following
+        
+	InfobipPush.OnUnreceivedNotificationReceived = (notification) => {
+	   // some code here 
+	};
+
     
 ### Location
 
