@@ -4,6 +4,7 @@
 /*/
 !/Assets/
 !README.md
+!*.unitypackage
 *.meta
 .DS_Store
 *.dll
