@@ -3,7 +3,7 @@
 /*
 /*/
 !/Assets/
-!README.md
+!README*.md
 !*.unitypackage
 *.meta
 .DS_Store
