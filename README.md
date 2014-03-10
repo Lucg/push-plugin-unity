@@ -6,7 +6,7 @@ Infobip Push is a service by Infobip Ltd. ([Infobip Push](https://push.infobip.c
 Installation
 ------------
 
-To install plugin to your Unity3D project, just double click (import) TODO [Unity3D package](https://push.infobip.com/manual/unity3d/CentiliUnity.unitypackage "Download Infobip Push for Unity3D").
+To install plugin to your Unity3D project, just double click (import) [Unity3D package](https://raw.github.com/infobip/push-plugin-unity/master/InfobipPush.unitypackage "Download Infobip Push for Unity3D").
 
 Requirements
 ------------
