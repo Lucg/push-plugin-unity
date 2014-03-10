@@ -1,8 +1,0 @@
-*.meta
-.DS_Store
-*.dll
-*.dll.mdb
-*.userprefs
-.settings
-bin
-*.class
