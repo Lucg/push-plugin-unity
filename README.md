@@ -1,12 +1,12 @@
-Infobip Push Notification Plugin for Unity3D
+﻿Infobip Push Notification Plugin for Unity3D
 ============================================
 
-Infobip Push is a service by Infobip Ltd. ([Infobip Push](https://push.infobip.com)) providing it's users ability to send push notifications to various device types with possibilities of rich media push, geographical targeting areas, delivery report, and many more.
+Infobip Push is a service by Infobip Ltd. ([Infobip Push](https://push.infobip.com)) providing its users with the ability to send push notifications to various device types with possibilities of sending rich media push, geographical targeting areas, delivery report, and much more.
 
 Installation
 ------------
 
-To install plugin to your Unity3D project, just double click (import) [Unity3D package](https://raw.github.com/infobip/push-plugin-unity/master/InfobipPush.unitypackage "Download Infobip Push for Unity3D").
+To install the plugin to your Unity3D project, just double click (import) [Unity3D package](https://raw.github.com/infobip/push-plugin-unity/master/InfobipPush.unitypackage "Download Infobip Push for Unity3D").
 
 Requirements
 ------------
@@ -15,21 +15,21 @@ Requirements
 	* Set minimal required Android SDK version to 9 at least (if you have other plugins set it, else it is already set to 9 in AndroidManifest.xml).
 * `iOS™`
 	* Tested on iOS 6 and 7.
-	* For running PostprocessBuildPlayer (after-build script) you should have Ruby installed, and it's packages: 'rubygems', 'pathname', 'xcoder', 'rexml'. This script is used to automatize adding remote-notifications feature to your .plist file and for including additional frameworks needed by our plugin.
+	* For running PostprocessBuildPlayer (after-build script) you should have Ruby installed, and its packages: 'rubygems', 'pathname', 'xcoder', 'rexml'. This script is used to automatize adding remote-notifications feature to your .plist file and for including additional frameworks needed by our plugin.
 
 Basic Usage
 -----------
 
 ### Initialization
 
-To setup plugin for push notifications, you should call `InfobipPush.Initialize()` in `Start()` method of your `MonoBehaviour` implementation, ie. on scene startup (to properly handle going back and forth from foreground to background (and closed) state of application).
-Plugin's initialization prevents GCM registration expiry, since Google stated that it could be invalidated when your application version changes.
+To set up the plugin for push notifications, you should call `InfobipPush.Initialize()` in `Start()` method of your `MonoBehaviour` implementation, ie. on scene startup (to properly handle going back and forth from foreground to background (and closed) state of application).
+The plugin's initialization prevents GCM registration expiry, since Google stated that it could be invalidated when your application version changes.
 
 ### Registration
 
 User registration is required to receive push notifications (otherwise, no notification will be received) via the following method:
 
-	InfobipPush.Register(applicationId, applicationSecret, registrationData)
+InfobipPush.Register(applicationId, applicationSecret, registrationData)
 	
 You may find your application id and secret on [Infobip Push Portal](http://push.infobip.com).
 
@@ -39,7 +39,7 @@ On android, you need to set your sender id (project number from google cloud con
 	    	android:name="IB_PROJECT_ID"
 	    	android:value="S396503387923" />
 
-Value of project number should be preceeded with a single letter, ie. `android:value="p<PROJECT-NUMBER>"`.
+Value of project number should be preceded with a single letter, ie. `android:value="p<PROJECT-NUMBER>"`.
 
 Advanced Usage
 --------------
@@ -53,13 +53,13 @@ If you want to disable log mode set this property to false, like this:
 
 	InfobipPush.LogMode = false;
 	
-Once you enable the debug mode, you will see all the logging performed by the library in your LogCat. You can filter it by "Push library" tag.
+Once you enable the debug mode, you will see all the logging performed by the library in your LogCat. You can filter it according to the "Push library" tag.
 
-For `iOS` log output is available in our plugin and it is disabled by default. Log can be enabled or disabled using the same property as for android - `InfobipPush.LogMode`.
+For the `iOS` log the output is available in our plugin and it is disabled by default.Log can be enabled or disabled using the same property as for android - `InfobipPush.LogMode`.
 
-With the above method, logging will be enabled with the log level INFO, so there will be visible logs for Info, Warn and Error messages. You can set whatever log level you want with the method: 
+With the above method, logging will be enabled with the log level INFO, so there will be visible logs for Info, Warning and Error messages. You can set whichever log level you want with: 
 
-	InfobipPush.SetLogModeEnabled(bool isEnabled, int logLevel);
+InfobipPush.SetLogModeEnabled(bool isEnabled, int logLevel);
 	
 Parameter `isEnabled` should be set to true if you want to enable debug mode, or to false if you want to disable it.
 Parameter `logLevel` is an integer that can take values from 0 to 3 (0 is for all levels, 1 for Info level, 2 for Warn and 3 for Error level). This works only on `iOS`.
@@ -74,7 +74,7 @@ To find out if the log is enabled or disabled (only on `iOS`), you can read `Inf
 
 ### Registering/Unregistering from Infobip push
 
-User registration is required to receive push notifications (otherwise, no notification will be received):
+User registration is required to receive push notifications (otherwise, notifications will not  be received):
 
 	InfobipPush.Register(applicationId, applicationSecret, registrationData)
 	
@@ -89,7 +89,7 @@ To retrieve the information if user is registered to Infobip Push or not, use th
 
 #### Unregistration
 
-To unregister user from Infobip Push use the folowing method:
+To unregister user from Infobip Push use the following method:
 
 	InfobipPush.Unregister();
 	
@@ -157,8 +157,8 @@ If you manually set timezone offset, then the default automatic timezone offset 
     
 ###Channels
  
- Infobip Push library offers the way of connecting your user to corresponding channels (UTF-8 encoding supported).
-	If the user is not yet registered for push notifications, subscribe him/her to channels providing user related data during the registration.
+ Infobip Push library offers a way of connecting your user to corresponding channels (UTF-8 encoding supported).
+	If the user is not yet registered for push notifications, subscribe him/her to channels by providing user related data during the registration.
  
 #### Subscribe to channels
 
@@ -166,7 +166,7 @@ You may subscribe to channels using the following method:
 
 	InfobipPush.RegisterToChannels(channels, removeExistingChannels)
 	
-First parameter is `string[]` and represents an array of channel names to which you wish to subscribe. Second parameter tells us whether to replace users channels (that he is already registered to) with new ones or to just unite old and newly provided channels. 
+First parameter is `string[]` and represents an array of channel names to which you wish to subscribe. Second parameter tells us whether to replace user channels (that he is already registered to) with new ones or to just unite old and newly provided channels. 
 
 Upon successfully completing this operation, `InfobipPush.OnRegisteredToChannels()` delegate will be called. You can implement or combine your code to it, like the following:
 
@@ -176,11 +176,11 @@ Upon successfully completing this operation, `InfobipPush.OnRegisteredToChannels
 
 If there is an error during this operation, delegate `InfobipPush.OnError(errorCode)` will be invoked with error code integer as the only argument.
 
-User will be registered to provided channels, with the new channels created on Infobip Push service if you haven't already created them per application. Once you set `removeExistingChannels` variable to true, existing channels on the Push service will be deleted, and a list of new channels will replace them. If false, existing channels will stay intact and user will be registered to newly provided list of channels.
+User will be registered to channels provided, with the new channels created on Infobip Push service if you haven't already created them per application. Once you set `removeExistingChannels` variable to true, existing channels on the Push service will be deleted, and a list of new channels will replace them. If false, existing channels will stay intact and user will be registered to newly provided list of channels.
 
 #### Get registered channels
 
-Channels that you registered your user to are saved on the Infobip Push service.
+ Channels which you registered your user to are saved on the Infobip Push service.
 Getting registered channels is done via async getter `InfobipPush.BeginGetRegisteredChannels()`. Result will be provided on `InfobipPush.OnGetChannelsFinished(channels)`, where the only parameter is JSON array of strings which represent channel names. Otherwise, if something goes wrong, `InfobipPush.OnError(errorCode)` will be invoked.
 
 #### Unsubscribe from channels
@@ -189,7 +189,7 @@ If your user is registered to some channels, unsubscribe him/her from all the ch
 
 ### Notification handling
 
-Once the notification is received, default action is invoked. Default action means that the plugin takes care about displaying the notification and it will be displayed like this:
+Once the notification is received, default action is invoked. Default action means that the plugin takes care of displaying the notification and it will be displayed like this:
 
 
 Notification in status bar:
@@ -219,7 +219,7 @@ Provide your user the time when sound, vibration and flashing lights won't perfo
 	TimeSpan endTime = new TimeSpan(8,45,0);
 	builder.SetQuietTime(startTime, endTime);
 
-To customize light, when notification is received, use next methods and properties:
+To customize light, when notification is received, use the following  methods and properties:
 `SetLightsOnOffDurationsMs` accepts time in [ms] where first argument is light on time and second is light off time in milliseconds.
 
 	builder.SetLightsOnOffDurationsMs(2000, 200);
@@ -307,7 +307,7 @@ Here's an example of one:
 
 	</RelativeLayout>
 
-What you need to provide to `InfobipPushBuilder` instance are the resource IDs correlated with your remote view:
+What you need to provide to the `InfobipPushBuilder` instance are the resource IDs correlated with your remote view:
 
 	InfobipPushBuilder builder = new InfobipPushBuilder();
 	
@@ -319,7 +319,7 @@ What you need to provide to `InfobipPushBuilder` instance are the resource IDs c
 6. the resource ID of the 'date' view – `builder.setDateId("date_name","folder_name","your_package_name")`
 
 
-The only ID that you must provide is the layout ID. If you don't want to display some of these views, don't provide their IDs, and their values won't be set to your remote view. When you have provided all IDs that you want, use the following method: 
+The only ID that you must provide is the layout ID. If you don't want to display some of these views, don't provide their IDs, and their values won't be set to your remote view. When you provide all IDs that you want, use the following method: 
 
 	InfobipPush.SetBuilderData(builder);
 
@@ -390,7 +390,7 @@ If you want to stop location service, you shoud use method:
 
 	InfobipPushLocation.DisableLocation();
 
-To check if Infobip's Push location service is enabled, use the following method:
+To check if the Infobip's Push location service is enabled, use the following method:
 
 	InfobipPushLocation.IsLocationEnabled();
 	
@@ -451,7 +451,7 @@ To check the status of custom location (only for android) there is a method `Inf
 
 ### Live Geo
  
-Live geo support is disabled by default. Live geo can be enabled using a property:
+Live geo support is disabled by default. Live geo can be enabled using the property:
 
 		InfobipPushLocation.LiveGeo = true;
 	
@@ -464,18 +464,18 @@ If you want to disable live geo or even check the current status for live geo su
 When you disable live geo, then all active live geo regions will be stopped. At any time you can check how many active live geo regions are there for particular user by calling the method:
 
 	 int regions = InfobipPushLocation.NumberOfCurrentLiveGeoRegions();	
-To stop all active live geo regions you need to call method `InfobipPushLocation.StopLiveGeoMonitoringForAllRegions()`. Method returns the number of stopped live geo regions:
+To stop all active live geo regions you need to call the method `InfobipPushLocation.StopLiveGeoMonitoringForAllRegions()`. Method returns the number of stopped live geo regions:
 
 	int regions = InfobipPushLocation.StopLiveGeoMonitoringForAllRegions();
 	
-Only on `iOS` you can use live geo accuracy. Live geo monitoring accuracy is set to hundred meters by default. You can change the accuracy by setting  `InfobipPushLocation.LiveGeoAccuracy` field and check the current live geo accuracy by getting the same field (type double). Be careful when setting accuracy because of Apple's restrictions regarding location accuracy and usage in mobile applications.
+Only on `iOS` can you use the live geo accuracy. Live geo monitoring accuracy is set to hundred meters by default. You can change the accuracy by setting  `InfobipPushLocation.LiveGeoAccuracy` field and check the current live geo accuracy by getting the same field (type double). Be careful when setting accuracy because of Apple's restrictions regarding location accuracy and usage in mobile applications.
 
 ### Media Notifications
 
 From Infobip Push service you can send Media notification with media content.
 Media content refers to multimedia content (image, video, audio) wrapped inside HTML tags. 
 
-#### Media Content from Media Notifcation
+#### Media Content from Media Notification 
 
 To check if notification has media content you can use  `notification.isMediaNotification()`, where the `notification` is media notification received from Infobip Push server.
 
@@ -519,9 +519,9 @@ the `notification` is media notification received from Infobip Push server and t
  
 By default the size of the dismiss button is 30 (pixels in diameter). Size can be changed with the `DismissButtonSize` field.
 
-Along with the size, if background color of black and foreground color of white not suits you the best, you can change the colors as well with the BackgroundColor and and ForegroundColor field.
+Along with the size, if the background color 'black' and foreground color 'white' doesn't suit you best, you can change the colors as well with the BackgroundColor and and ForegroundColor field.
 
-Shadow is enabled as default because the initial idea of Infobip Media View is not to be shown in the full screen, so the shadow is by default shown around the view. Therefore, shadow can be disabled with `Shadow = false`. To get back shadow just set `Shadow` field to `true`.
+Shadow is enabled as default because the initial idea of Infobip Media View is not to be shown on full screen, so the shadow is shown around the view by default.The therefore, shadow can be disabled with `Shadow = false`. To get back shadow just set `Shadow` field to `true`.
 
 Infobip Media View has a corner radius of size 15 by default. If you want to change the corner radius of the view you should set field `Radius`.
 
