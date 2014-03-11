@@ -3,6 +3,7 @@
 /*
 /*/
 !/Assets/
+/Assets/AssetStoreTools
 !README*.md
 !*.unitypackage
 *.meta
