@@ -108,7 +108,7 @@ public class InfobipPushDemo : MonoBehaviour
     {
 
         // Title
-        GUI.Label(new Rect(centerX - buttonWidth * 2, 0, Screen.width, buttonHeight), "Infobip Push Demo TWO", labelStyle);
+        GUI.Label(new Rect(centerX - buttonWidth * 2, 0, Screen.width, buttonHeight), "Infobip Push Demo", labelStyle);
 
         // First row
         if (GUI.Button(new Rect(centerX - buttonWidth - buttonSpace, rowY [1], buttonWidth, buttonHeight), "Enable Debug Mode"))
