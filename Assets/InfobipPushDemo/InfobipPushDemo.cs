@@ -9,7 +9,7 @@ public class InfobipPushDemo : MonoBehaviour
     private const string applicationSecret = "a5cf819f36e2";
     InfobipPushMediaViewCustomization customiz=null;
         
-        private const int rowNumber = 15;
+    private const int rowNumber = 16;
     private GUIStyle labelStyle = new GUIStyle();
     private float centerX = Screen.width / 2;
     private float buttonWidth = Screen.width / 4;
@@ -344,6 +344,19 @@ public class InfobipPushDemo : MonoBehaviour
             InfobipPush.SetBuilderQuietTimeEnabled(true);
             ScreenPrinter.Print("Set Builder Quiet Time Enabled");
         }
+
+		// Fiftheenth row
+		if (GUI.Button(new Rect(buttonSpace, rowY [15], buttonWidth, buttonHeight), "Toggle rotation"))
+		{
+			if (Screen.orientation == ScreenOrientation.Portrait)
+			{
+				Screen.orientation = ScreenOrientation.Landscape;
+			}
+			else
+			{
+				Screen.orientation = ScreenOrientation.Portrait;
+			}
+		}
         #endif
 
     }
