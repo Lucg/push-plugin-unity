@@ -260,6 +260,7 @@ public class InfobipPushLocation : MonoBehaviour
     IBShareLocation(locationString);
     yield return true;
   }
+
   public static void ShareLocation(LocationInfo location)
   {
     #if UNITY_IPHONE
