@@ -3,7 +3,7 @@
  File: InfobipPush.h
  Abstract: Infobip Push iOS library for handling push notifications and push services.
  
- Version: 1.2.0
+ Version: 1.3.1
  
  Minimum iOS version: 5.0
  
@@ -322,6 +322,27 @@ typedef void (^IPPushNotificationInfoBlock)(BOOL succeeded, InfobipPushNotificat
 
 #pragma mark -
 #pragma mark User Information Management methods
+
+/**
+ * Set the phone number of the user. Phone number will be used for SMS fallback.
+ * @param phoneNumber Phone number of the device
+ * @since 1.3.0
+ */
++ (void)setPhoneNumber:(NSString *)phoneNumber;
+
+/**
+ * Set the phone number of the user. Phone number will be used for SMS fallback. Block can be used to check if the update operation was successful.
+ * @param phoneNumber Phone number of the device
+ * @since 1.3.0
+ */
++ (void)setPhoneNumber:(NSString *)phoneNumber usingBlock:(IPResponseBlock)block;
+
+/**
+ * Get the value of phone number
+ * @return Phone number
+ * @since 1.3.0
+ */
++ (NSString *)phoneNumber;
 
 /**
  * Set the vaue of user ID. If user ID is not set, an UUID is created and set as user ID.

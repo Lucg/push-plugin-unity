@@ -16,9 +16,11 @@ public class InfobipPushDemo : MonoBehaviour
 		private float buttonSpace = Screen.width / 20;
 		private float[] rowY = new float[rowNumber];
 		private LocationService locationService = new LocationService ();
+	private ScreenOrientation lastScreenOrientation;
 
 		void Start ()
 		{   
+		lastScreenOrientation = Screen.orientation;
 				InfobipPush.Initialize ();
 
 				for (int i = 0; i < rowNumber; i++) {
@@ -102,6 +104,13 @@ public class InfobipPushDemo : MonoBehaviour
 
 		void OnGUI ()
 		{
+				if (!Screen.orientation.Equals (lastScreenOrientation)) {
+						centerX = Screen.width / 2;
+						buttonWidth = Screen.width / 4;
+						buttonHeight = Screen.height / 24;
+						buttonSpace = Screen.width / 20;
+						lastScreenOrientation =  Screen.orientation;
+				}
 
 				// Title
 				GUI.Label (new Rect (centerX - buttonWidth * 2, 0, Screen.width, buttonHeight), "Infobip Push Demo", labelStyle);
@@ -117,9 +126,9 @@ public class InfobipPushDemo : MonoBehaviour
 				// Second row
 				if (GUI.Button (new Rect (buttonSpace, rowY [2], buttonWidth, buttonHeight), "Initialize Push")) {
 						InfobipPushRegistrationData regData = new InfobipPushRegistrationData {
-                UserId = "test New User", 
-                Channels = new string[] {"a", "b", "c", "d", "News"}
-            };
+	                UserId = "test New User", 
+	                Channels = new string[] {"a", "b", "c", "d", "News"}
+	            };
 						InfobipPush.Register (applicationID, applicationSecret, regData);
 				}
 				if (GUI.Button (new Rect (centerX - buttonWidth / 2.0f, rowY [2], buttonWidth, buttonHeight), "Is Registered")) {
