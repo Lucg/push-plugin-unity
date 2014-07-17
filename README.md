@@ -1,4 +1,4 @@
-﻿Infobip Push Notification Plugin for Unity3D
+Infobip Push Notification Plugin for Unity3D
 ============================================
 
 Infobip Push is a service by Infobip Ltd. ([Infobip Push](https://push.infobip.com)) providing its users with the ability to send push notifications to various device types with possibilities of sending rich media push, geographical targeting areas, delivery report, and much more.
@@ -470,6 +470,8 @@ To stop all active live geo regions you need to call the method `InfobipPushLoca
 	
 Only on `iOS` can you use the live geo accuracy. Live geo monitoring accuracy is set to hundred meters by default. You can change the accuracy by setting  `InfobipPushLocation.LiveGeoAccuracy` field and check the current live geo accuracy by getting the same field (type double). Be careful when setting accuracy because of Apple's restrictions regarding location accuracy and usage in mobile applications.
 
+When you create a Live Geo push notification on Infobip's platform, a device will receive an invisible (silent) notification which is used to inform our library of new Live Geo region. You may catch this event - it will be demonstrated as an error with error code = 7.
+
 ### Media Notifications
 
 From Infobip Push service you can send Media notification with media content.
@@ -889,7 +891,7 @@ Error Codes
         IPPushSilentNotification 
     </td>
         <td>
-        An silent notification was used.    
+        A silent notification was used. This is not really an error, so you may usually disregard it's appearance.
         </td>
     <td>
         7
@@ -901,7 +903,6 @@ Error Codes
      </td>
         <td>
         An error when user is not registered to Infobip Push.
-
     </td>
     <td>
         8
