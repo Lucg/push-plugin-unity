@@ -16,11 +16,12 @@ public class InfobipPushDemo : MonoBehaviour
 		private float buttonSpace = Screen.width / 20;
 		private float[] rowY = new float[rowNumber];
 		private LocationService locationService = new LocationService ();
-	private ScreenOrientation lastScreenOrientation;
+		private ScreenOrientation lastScreenOrientation;
+		private float lastScreenWidth = Screen.width;
 
 		void Start ()
 		{   
-		lastScreenOrientation = Screen.orientation;
+				lastScreenOrientation = Screen.orientation;
 				InfobipPush.Initialize ();
 
 				for (int i = 0; i < rowNumber; i++) {
@@ -72,12 +73,19 @@ public class InfobipPushDemo : MonoBehaviour
 				};
 
 				InfobipPush.OnRegistered = () => {
+						InfobipPushLocation.BackgroundLocationUpdateModeEnabled = true;
+						InfobipPushLocation.IBSetLiveGeoAccuracy (1.0);
+						InfobipPushLocation.IBEnableLocation ();
+						InfobipPushLocation.IBEnableLiveGeo ();
 						ScreenPrinter.Print (("IBPush - Successfully registered!"));
 				};
 				InfobipPush.OnUnregistered = () => {
 						ScreenPrinter.Print (("IBPush - Successfully unregistered!"));
 				};
 				InfobipPush.OnError = (errorCode) => {
+						if (errorCode == "7") {
+								ScreenPrinter.Print (("IBPush - Received silent notification..."));
+						}
 						ScreenPrinter.Print (("IBPush - ERROR: " + errorCode));
 				};
 				InfobipPush.OnUserDataSaved = () => {
@@ -104,12 +112,13 @@ public class InfobipPushDemo : MonoBehaviour
 
 		void OnGUI ()
 		{
-				if (!Screen.orientation.Equals (lastScreenOrientation)) {
+				if (!Screen.orientation.Equals (lastScreenOrientation) && lastScreenWidth != Screen.width) {
 						centerX = Screen.width / 2;
 						buttonWidth = Screen.width / 4;
 						buttonHeight = Screen.height / 24;
 						buttonSpace = Screen.width / 20;
-						lastScreenOrientation =  Screen.orientation;
+						lastScreenOrientation = Screen.orientation;
+						lastScreenWidth = Screen.width;
 				}
 
 				// Title
@@ -118,6 +127,7 @@ public class InfobipPushDemo : MonoBehaviour
 				// First row
 				if (GUI.Button (new Rect (centerX - buttonWidth - buttonSpace, rowY [1], buttonWidth, buttonHeight), "Enable Debug Mode")) {
 						InfobipPush.LogMode = true;
+						InfobipPush.SetLogModeEnabled(true, 0);
 				}
 				if (GUI.Button (new Rect (centerX + buttonSpace, rowY [1], buttonWidth, buttonHeight), "Disable Debug Mode")) {
 						InfobipPush.LogMode = false;

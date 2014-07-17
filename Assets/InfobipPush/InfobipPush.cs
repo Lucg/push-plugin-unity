@@ -18,6 +18,9 @@ public class InfobipPush : MonoBehaviour
     #region declaration of methods
     [DllImport ("__Internal")]
     private static extern void IBSetLogModeEnabled(bool isEnabled, int lLevel = 0);
+	
+	[DllImport ("__Internal")]
+	private static extern void IBSetLogModeEnabledInt(int lLevel);
 
     [DllImport ("__Internal")]
     private static extern bool IBIsLogModeEnabled();
@@ -142,7 +145,7 @@ public class InfobipPush : MonoBehaviour
             #if UNITY_IPHONE
             if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
-                IBSetLogModeEnabled(value);
+                IBSetLogModeEnabledInt(value ? 0 : 4);
             }
             #elif UNITY_ANDROID
                 InfobipPushInternal.Instance.SetLogModeEnabled(value);
@@ -152,7 +155,11 @@ public class InfobipPush : MonoBehaviour
 
     static IEnumerator SetLogModeEnabled_C(bool isEnabled, int logLevel)
     {
-        IBSetLogModeEnabled(isEnabled, logLevel);
+		if (!isEnabled) {
+			logLevel = 4;
+		}
+
+        IBSetLogModeEnabledInt(logLevel);
         yield return true;
     }
 
