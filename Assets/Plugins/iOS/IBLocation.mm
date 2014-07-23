@@ -80,6 +80,8 @@ void IBShareLocation(const char *locationCharArray) {
 	        [IBPushUtil passErrorCodeToUnity:error];
 		}
 	}];
+    
+    [location release];
 }
 
 void IBEnableLiveGeo() {

@@ -49,6 +49,7 @@ void IBSetTimezoneOffsetAutomaticUpdateEnabled(bool isEnabled) {
 
 void IBInitialization(char *appId, char *appSecret) {
 	NSLog(@"IBInitialization");
+    [IBPushUtil setUserId:@""];
 	NSString *applicationId = [NSString stringWithFormat:@"%s", appId];
 	NSString *applicationSecret = [NSString stringWithFormat:@"%s", appSecret];
 
@@ -80,7 +81,6 @@ void IBSetUserId(const char *userId) {
 
 void IBInitializationWithRegistrationData(char *appId, char *appSecret, char *registrationData) {
 	IBInitialization(appId, appSecret);
-	//    NSLog(@"RegistrationData: %@", registrationData);
 
 	NSError *e;
 	NSString *regDataString = [NSString stringWithFormat:@"%s", registrationData];
@@ -145,8 +145,8 @@ void IBGetRegisteredChannels() {
 	[InfobipPush getListOfChannelsInBackgroundUsingBlock: ^(BOOL succeeded, NSArray *channels, NSError *error) {
 	    if (succeeded) {
 	        //convert channels to json
-	        NSError *error = 0;
-	        NSData *channelsJson = [NSJSONSerialization dataWithJSONObject:channels options:0 error:&error];
+	        NSError *err = nil;
+	        NSData *channelsJson = [NSJSONSerialization dataWithJSONObject:channels options:0 error:&err];
 	        NSString *jsonString = [[NSString alloc] initWithData:channelsJson encoding:NSUTF8StringEncoding];
 
 	        UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_GET_CHANNELS UTF8String], [jsonString UTF8String]);
@@ -190,8 +190,8 @@ void IBGetUnreceivedNotifications() {
 	            [notificationsArray addObject:[IBPushUtil convertNotificationToAndroidFormat:notification]];
 			}
 
-	        NSError *error = 0;
-	        NSData *notificationsData = [NSJSONSerialization dataWithJSONObject:notificationsArray options:0 error:&error];
+	        NSError *err = nil;
+	        NSData *notificationsData = [NSJSONSerialization dataWithJSONObject:notificationsArray options:0 error:&err];
 	        NSString *notificationJson = [[NSString alloc] initWithData:notificationsData encoding:NSUTF8StringEncoding];
 
 	        UnitySendMessage([PUSH_SINGLETON UTF8String], [PUSH_GET_UNRECEIVED_NOTIFICATION UTF8String], [notificationJson UTF8String]);
@@ -202,8 +202,8 @@ void IBGetUnreceivedNotifications() {
 	}];
 }
 
-void IBAddMediaView(const char *notif, const char *customiz) {
-	NSString *notificationJson = [NSString stringWithFormat:@"%s", notif];
-	NSString *customizationJson = [NSString stringWithFormat:@"%s", customiz];
+void IBAddMediaView(const char *notification, const char *customization) {
+	NSString *notificationJson = [NSString stringWithFormat:@"%s", notification];
+	NSString *customizationJson = [NSString stringWithFormat:@"%s", customization];
 	[IBMediaView addMediaViewWithNotification:notificationJson andCustomization:customizationJson];
 }

@@ -17,7 +17,7 @@ NSString *const PUSH_OPEN_REMOTE_NOTIFICATION       = @"IBPushDidOpenRemoteNotif
 IPPushNotificationInfoBlock didReceiveRemoteNotificationBlock = ^void (BOOL succeeded, InfobipPushNotification *notification, NSError *error) {
 	if (succeeded) {
 		NSDictionary *notificationAndroidStyle = [IBPushUtil convertNotificationToAndroidFormat:notification];
-		NSError *err = 0;
+		NSError *err = nil;
 		NSData *notificationData = [NSJSONSerialization dataWithJSONObject:notificationAndroidStyle options:0 error:&err];
 		NSString *notificationJson = [[NSString alloc] initWithData:notificationData encoding:NSUTF8StringEncoding];
 
@@ -27,6 +27,32 @@ IPPushNotificationInfoBlock didReceiveRemoteNotificationBlock = ^void (BOOL succ
 		[IBPushUtil passErrorCodeToUnity:error];
 	}
 };
+
+void IBPushDidReceiveRemoteNotification(id self, SEL _cmd, id application, id userInfo);
+
+void IBPushDidFailToRegisterForRemoteNotificationsWithError(id self, SEL _cmd, id application, id error);
+
+BOOL IBPushDidFinishLaunchingWithOptions(id self, SEL _cmd, id application, id launchOptions);
+
+void IBPushDidReceiveRemoteNotificationFetchCompletionHandler(id self, SEL _cmd, id application, id notif, id handler);
+
+void IBPushDidReceiveLocalNotification(id self, SEL _cmd, id application, id localNotification);
+
+void IBPushDidRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, id application, id devToken);
+
+static void exchangeMethodImplementations(Class class, SEL oldMethod, SEL newMethod, IMP impl, const char *signature) {
+	// Check whether method exists in the class
+	Method method = class_getInstanceMethod(class, oldMethod);
+	if (method) {
+		// if method exists add a new method and exchange it with current
+		class_addMethod(class, newMethod, impl, signature);
+		method_exchangeImplementations(class_getInstanceMethod(class, oldMethod), class_getInstanceMethod(class, newMethod));
+	}
+	else {
+		// if method does not exist, simply add as original method
+		class_addMethod(class, oldMethod, impl, signature);
+	}
+}
 
 @implementation UIApplication (IBPush)
 
@@ -81,20 +107,6 @@ IPPushNotificationInfoBlock didReceiveRemoteNotificationBlock = ^void (BOOL succ
 	[self setIBPushDelegate:delegate];
 }
 
-static void exchangeMethodImplementations(Class class, SEL oldMethod, SEL newMethod, IMP impl, const char *signature) {
-	// Check whether method exists in the class
-	Method method = class_getInstanceMethod(class, oldMethod);
-	if (method) {
-		// if method exists add a new method and exchange it with current
-		class_addMethod(class, newMethod, impl, signature);
-		method_exchangeImplementations(class_getInstanceMethod(class, oldMethod), class_getInstanceMethod(class, newMethod));
-	}
-	else {
-		// if method does not exist, simply add as original method
-		class_addMethod(class, oldMethod, impl, signature);
-	}
-}
-
 void IBPushDidRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, id application, id devToken) {
 	NSLog(@"%s", __FUNCTION__);
 	if ([self respondsToSelector:@selector(application:IBPushDidRegisterForRemoteNotificationsWithDeviceToken:)]) {
@@ -112,7 +124,7 @@ void IBPushDidRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, i
 		}
 	};
 
-	NSArray *channels = [[IBPushUtil channels] copy];
+	NSArray *channels = [[[IBPushUtil channels] copy] autorelease];
 	if (!channels) {
 		[InfobipPush registerWithDeviceToken:devToken usingBlock:block];
 	}
@@ -120,7 +132,9 @@ void IBPushDidRegisterForRemoteNotificationsWithDeviceToken(id self, SEL _cmd, i
 		[InfobipPush registerWithDeviceToken:devToken toChannels:[channels copy] usingBlock:block];
 	}
 
-	[InfobipPush setUserID:[IBPushUtil userId]];
+	if ([IBPushUtil userId] && ![[IBPushUtil userId] isKindOfClass:[NSNull class]] && [[IBPushUtil userId] length] > 0) {
+		IBSetUserId([[IBPushUtil userId] UTF8String]);
+	}
 }
 
 void IBPushDidFailToRegisterForRemoteNotificationsWithError(id self, SEL _cmd, id application, id error) {
@@ -183,7 +197,7 @@ void IBPushDidReceiveRemoteNotificationFetchCompletionHandler(id self, SEL _cmd,
 	[InfobipPush didReceiveRemoteNotification:notif withAdditionalInformationAndCompletion: ^(BOOL succeeded, InfobipPushNotification *notification, NSError *error) {
 	    if (succeeded) {
 	        NSDictionary *notificationAndroidStyle = [IBPushUtil convertNotificationToAndroidFormat:notification];
-	        NSError *err = 0;
+	        NSError *err = nil;
 	        NSData *notificationData = [NSJSONSerialization dataWithJSONObject:notificationAndroidStyle options:0 error:&err];
 	        NSString *notificationJson = [[NSString alloc] initWithData:notificationData encoding:NSUTF8StringEncoding];
 
