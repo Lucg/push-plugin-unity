@@ -4,6 +4,11 @@ using System;
 
 public class InfobipPushNotification
 {
+    public string OriginalNotification
+    {
+        get;
+        set;
+    }
     public string NotificationId
     { 
         get; 
@@ -94,7 +99,7 @@ public class InfobipPushNotification
         notif ["title"] = Title;
         notif ["message"] = Message; 
         notif ["mimeType"] = MimeType;
-        notif ["badge"] = Badge; 
+        notif ["badge"] = Badge;
         return MiniJSON.Json.Serialize(notif);
     }
     
@@ -104,7 +109,12 @@ public class InfobipPushNotification
         IDictionary<string, object> dictNotif = MiniJSON.Json.Deserialize(notif) as Dictionary<string,object>;
         object varObj = null;
         int varInt;
+        OriginalNotification = notif;
         if (dictNotif.TryGetValue("id", out varObj))
+        {
+            NotificationId = (string)varObj;
+        }
+        if (dictNotif.TryGetValue("notificationId", out varObj))
         {
             NotificationId = (string)varObj;
         }
